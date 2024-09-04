@@ -258,7 +258,7 @@ Page({
       }
     }
     // 达达配送
-    if (this.data.shopInfo && this.data.shopInfo.number && this.data.shopInfo.expressType == 'dada' && postData.peisongType == 'kd') {
+    if (this.data.shopInfo && this.data.shopInfo.number && (this.data.shopInfo.expressType == 'dada'|| this.data.shopInfo.expressType == 'yunlaba') && postData.peisongType == 'kd') {
       if (!that.data.curAddressData) {
         wx.hideLoading();
         wx.showToast({
@@ -303,8 +303,8 @@ Page({
       console.log(res.data) 
       if (res.code != 0) {
         wx.showModal({
-          confirmText: this.data.$t.common.confirm,
-          cancelText: this.data.$t.common.cancel,
+          confirmText: that.data.$t.common.confirm,
+          cancelText: that.data.$t.common.cancel,
           content: res.msg,
           showCancel: false
         })

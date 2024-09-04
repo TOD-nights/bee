@@ -4,10 +4,12 @@ const AUTH = require('utils/auth')
 const i18n = require("i18n/index")
 App({
   onLaunch: function() {
+    this.initUtil()
     i18n.getLanguage()
     this.setTabBarLanguage()
     const $t = i18n.$t()
-    WXAPI.init(CONFIG.subDomain)
+    WXAPI.init2(CONFIG.apiHost, CONFIG.subDomain)
+    WXAPI.setMerchantId(CONFIG.merchantId)
     const that = this;
     // 检测新版本
     const updateManager = wx.getUpdateManager()
@@ -162,6 +164,15 @@ App({
   },
   setTabBarLanguage() {
     i18n.setTabBarLanguage()
+  },
+  initUtil() {
+    String.prototype.toFixed = function (decimalPlaces) {
+      const num = parseFloat(this)
+      if (isNaN(num)) {
+        throw new Error("not a valid num")
+      }
+      return num.toFixed(decimalPlaces)
+    }
   },
   globalData: {
     isConnected: true
