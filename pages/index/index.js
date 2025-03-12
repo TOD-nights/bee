@@ -83,6 +83,11 @@ Page({
         mallName
       })
     }
+    const isVip = wx.getStorageSync('isVip')
+    this.setData({
+      isVip
+    })
+    
     APP.configLoadOK = () => {
       const mallName = wx.getStorageSync('mallName')
       if (mallName) {
@@ -407,6 +412,9 @@ Page({
         price = res.data.price
         if (this.data.shopType == 'toPingtuan') {
           price = res.data.pingtuanPrice
+        } else if (wx.getStorageSync('isVip')) {
+          console.log('isVip')
+          price = res.data.vipPrice
         }
         originalPrice = res.data.originalPrice
         totalScoreToPay = res.data.score
@@ -669,6 +677,7 @@ Page({
     }
     wx.hideTabBar()
     res.data.price = res.data.basicInfo.minPrice
+    res.data.vipPrice = res.data.basicInfo.vipPrice
     res.data.number = res.data.basicInfo.minBuyNumber
     const _data = {
       curGoodsMap: res.data,
