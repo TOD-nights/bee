@@ -239,7 +239,7 @@ module.exports = {
     title: '会员',
     consumption: '累计消费',
     notVIP: '非会员',
-    tip: '消费达到金额可自动成为会员',
+    tip: '余额达到金额可自动成为会员',
     growth: '会员成长体系',
     growthName: '级别名称',
     growthDiscount: '购物折扣',
