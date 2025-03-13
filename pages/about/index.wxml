@@ -1,3 +1,0 @@
-<view class="content">
-  <parser html="{{cmsPage.info.content}}" />
-</view>
