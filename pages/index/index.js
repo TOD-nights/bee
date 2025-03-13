@@ -414,7 +414,7 @@ Page({
           price = res.data.pingtuanPrice
         } else if (wx.getStorageSync('isVip')) {
           console.log('isVip')
-          price = res.data.vipPrice
+          price = res.data.vipPrice > 0?res.data.vipPrice:res.data.price
         }
         originalPrice = res.data.originalPrice
         totalScoreToPay = res.data.score
