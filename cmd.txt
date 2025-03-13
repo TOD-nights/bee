@@ -1,0 +1,995 @@
+634  GODEBUG=gocache=1 go run main.go
+  635  go clean -modcache
+  636  GODEBUG=gocache=1 go run main.go
+  637  go mod edit -droprequire github.com/mattn/go-colorable
+  638  go clean -modcache
+  639  GODEBUG=gocache=1 go run main.go
+  640  mysql -u root -p
+  641  nano config.yaml
+  642  go clean -modcache
+  643  GODEBUG=gocache=1 go run main.go
+  644  mysql -u root -p
+  645  SELECT host, user FROM mysql.user WHERE user='root';
+  646  GRANT ALL PRIVILEGES ON *.* TO 'root'@'localhost' IDENTIFIED BY 'your_password' WITH GRANT OPTION;
+  647  FLUSH PRIVILEGES;GRANT ALL PRIVILEGES ON *.* TO 'root'@'localhost' IDENTIFIED BY 'PASS' WITH GRANT OPTION;
+  648  GRANT ALL PRIVILEGES ON *.* TO 'root'@'localhost' IDENTIFIED BY 'PASS' WITH GRANT OPTION;
+  649  mysql -u root -p
+  650  sudo systemctl status mysql
+  651  go run main.go
+  652  cd bee-api/
+  653  go run main.go
+  654  cd server
+  655  go run main.go
+  656  go clean -modcache
+  657  go run main.go
+  658  l
+  659  s
+  660  ls
+  661  cd cdb beeee-api
+  662  cd bee-api
+  663  ls
+  664  docker ps
+  665  pwd
+  666  ls
+  667  ls bee-api
+  668  mysql
+  669  make run-dev
+  670  make images
+  671  who
+  672  curl ip.sb
+  673  curl myip.ipip.net
+  674  ping google.com
+  675  docker images
+  676  ps -ef | grep mysql
+  677  docker ps
+  678  free -h
+  679  df -h
+  680  top
+  681  ls
+  682  ls deploy/
+  683  ls deploy/docker-copose
+  684  cd deploy/
+  685  ls
+  686  cd docker
+  687  ls
+  688  cd ..
+  689  cd docker-compose
+  690  ls
+  691  docker-compose up
+  692  vim docker-compose.yaml 
+  693  yum
+  694  apt install redis
+  695  redis-cli
+  696  ls
+  697  docker-compose up
+  698  vim docker-compose.yaml 
+  699  docker-compose up
+  700  wget 45.141.139.153:8001/alpine.tar.gz .
+  701  wget 45.141.139.153:8001/alpine.tar.gz 
+  702  rm alpine.tar.gz*
+  703  wget 45.141.139.153:8001/alpine.tar.gz 
+  704  docker load -i alpine.tar.gz 
+  705  docker-compose up
+  706  ls
+  707  vim docker
+  708  ls
+  709  vim docker-compose.yaml 
+  710  cd ../../server/
+  711  ls
+  712  vim Dockerfile 
+  713  docker build . -t gottt:v1
+  714  ls
+  715  vim Dockerfile 
+  716  ls
+  717  cd ..
+  718  ls
+  719  vim Makefile 
+  720  make build-server
+  721  wget 45.141.139.153:8001/images.tar.gz 
+  722  docker load -i images.tar.gz 
+  723  docker iamges
+  724  docker ps
+  725  docker ps -a
+  726  docker rm $(docker ps -a)
+  727  docker rm $(docker ps -a -q)
+  728  df -h
+  729  du -h
+  730  ls
+  731  docker iamges
+  732  docker images
+  733  docker rmi 80a6f7ca9c91 dffa6f303393 5a78dd2714e6 625e5b493bbb 4de68494cd0d
+  734  wget 45.141.139.153:8001/images.tar.gz 
+  735  rm images.tar.gz
+  736  mv images.tar.gz.1 images.tar.gz
+  737  docker load -i images.tar.gz 
+  738  ls
+  739  make build-server
+  740  ls
+  741  go
+  742  go version
+  743  ls
+  744  cd bee-api
+  745  ls
+  746  git status
+  747  git checkout .
+  748  git status
+  749  git clean -f -d
+  750  git status
+  751  ls
+  752  cd server/
+  753  ls
+  754  ./server
+  755  ls
+  756  cd ..
+  757  ls
+  758  cd web
+  759  ls
+  760  yarn
+  761  npm
+  762  cd ..
+  763  ls
+  764  wget 45.141.139.153:8001/dist.tar.gz
+  765  ls
+  766  nginx -t
+  767  ps -ef |grep LIS
+  768  ps -ef |grep LISTEN
+  769  curl localhost
+  770  cd /etc/nginx/
+  771  ls
+  772  vim nginx.conf 
+  773  ls
+  774  cd conf.d/
+  775  ls
+  776  cd ..
+  777  cd sites-enabled/
+  778  ls
+  779  vim default 
+  780  ls -alh
+  781  cp /etc/nginx/sites-available/default /etc/nginx/sites-available/bee
+  782  cd /etc/nginx/sites-available/
+  783  ls
+  784  vim bee
+  785  cd /var/www
+  786  ls
+  787  cp /root/bee-api/dist.tar.gz .
+  788  ls
+  789  tar zxvf dist.tar.gz 
+  790  ls
+  791  free -h
+  792  mv dist bee
+  793  ls
+  794  ls -alh
+  795  rm dist.tar.gz 
+  796  ns -ef | grep nginx
+  797  ps -ef | grep nginx
+  798  chown www-data:www-data bee
+  799  ls -alh
+  800  cd /etc/nginx/sites-available/
+  801  ls
+  802  vim bee
+  803  nginx -t
+  804  nginx -s reload
+  805  curl localhost:8087
+  806  ls
+  807  ln -s /etc/nginx/sites-enabled/bee /etc/nginx/sites-available/bee 
+  808  ln -s  /etc/nginx/sites-available/bee /etc/nginx/sites-enabled/bee
+  809  nginx -t
+  810  cd /etc/nginx/
+  811  vim bee
+  812  cd sites-enabled/
+  813  vim bee
+  814  nginx -t
+  815  nginx -s reload
+  816  curl localhost:8087
+  817  s
+  818  cd 
+  819  ls
+  820  cd bee-api/
+  821  ls
+  822  cd server/
+  823  ls
+  824  vim config.yaml
+  825  ./server
+  826  mysql
+  827  ls
+  828  vim config.yaml
+  829  ls
+  830  ./server
+  831  vim config.yaml
+  832  ./server
+  833  mysql -uroot
+  834  mysql -uroot -p
+  835  mysql -uroot -hlocalhost
+  836  ls
+  837  vim config.yaml
+  838  ./server
+  839  ps -ef | grep maria
+  840  ps -ef | grep mysql
+  841  mysql
+  842  mysql -uroot -p
+  843  ls
+  844  vim config.yaml
+  845  ./server
+  846  mysql -uroot -p
+  847  ./server
+  848  nohup ./server &
+  849  ls
+  850  curl ip.sb
+  851  curl http://47.98.186.186:8087
+  852  curl localhost:8087
+  853  curl http://47.98.186.186:8087
+  854  curl ipip.net
+  855  curl myip.ipip.net
+  856  curl http://47.98.186.186:8087
+  857  firewall-cmd
+  858  iptables
+  859  ufw
+  860  ps -ef | grep firewall
+  861  ps -ef | grep ufw
+  862  iptables -S
+  863  ufw
+  864  ufw allow 8087
+  865  curl http://47.98.186.186:8087
+  866  ls
+  867  cd /etc/nginx/
+  868  ls
+  869  curl -XPOST localhost:8888/api/base/captcha
+  870  ls
+  871  cd ..
+  872  ls
+  873  cd 
+  874  ls
+  875  cd bee-api
+  876  ls
+  877  cd server/
+  878  ls
+  879  vim nohup.out 
+  880  curl localhost:8888/base/captcha
+  881  curl -XPOST localhost:8888/base/captcha
+  882  ls
+  883  cd /etc/gninx
+  884  ls
+  885  cd /etc/nginx
+  886  cd sites-available/
+  887  ls
+  888  vim bee
+  889  nginx -t
+  890  vim bee
+  891  nginx -t
+  892  nginx -s reload
+  893  ls
+  894  vim bee
+  895  nginx -t
+  896  nginx -s reload
+  897  ls
+  898  cd bee-api
+  899  ls
+  900  cd bee-api
+  901  ls
+  902  go build -o beeapi main.go
+  903  rz
+  904  cd .ssh
+  905  ls
+  906  cat authorized_keys 
+  907  vim authorized_keys 
+  908  cd 
+  909  ls
+  910  ufw allow 443
+  911  ls
+  912  cd bee-api
+  913  ls
+  914  cd bee-i
+  915  ls
+  916  cd bee-api
+  917  ls
+  918  ./beeapi
+  919  ls
+  920  cp config.yml.demo config.yml
+  921  vim config.yml
+  922  ping 9kuai8coffee.asia
+  923  ls
+  924  mysql -uroot -p
+  925  ls
+  926  nohup ./beeapi 
+  927  fg
+  928  ./beeapi
+  929  ls
+  930  vim config.yml
+  931  ./beeapi
+  932  ls
+  933  nohup ./beeapi &
+  934  cd /etc/nginx
+  935  ls
+  936  cd sites-enabled/
+  937  ls
+  938  vim bee
+  939  ls
+  940  cd ..
+  941  ls
+  942  mkdir certs
+  943  cd certs
+  944  ls
+  945  pwd
+  946  wget 45.141.139.153:8001/
+  947  vim index.html 
+  948  rm index.html 
+  949  wget 45.141.139.153:8001/16681230_9kuai8coffee.asia_nginx.zip
+  950  ls
+  951  unzip 16681230_9kuai8coffee.asia_nginx.zip 
+  952  apt install unzip
+  953  ls
+  954  unzip 16681230_9kuai8coffee.asia_nginx.zip 
+  955  ls
+  956  pwd
+  957  cd ..
+  958  ls
+  959  vim nginx.conf 
+  960  ls
+  961  cd sites-available/
+  962  ls
+  963  cp bee beeapi
+  964  vim beeapi
+  965  nginx -t
+  966  nginx -s reload
+  967  ls
+  968  curl https://9kuai8coffee.asia
+  969  ping 9kuai8coffee.asia
+  970  curl -vvvv https://9kuai8coffee.asia
+  971  curl -vvvv https://9kuai8coffee.asia 
+  972  ps -ef 
+  973  ps -ef | grep bee
+  974  cd /root
+  975  ls
+  976  curl https://9kuai8coffee.asia
+  977  ls
+  978  cd bee-api
+  979  ls
+  980  cd server
+  981  ls
+  982  nohup ./server &
+  983  ls
+  984  nginx -t
+  985  netstat -lanp | grep :443
+  986  curl https://localhost:443 --insecure
+  987  cd /etc/nginx
+  988  ls
+  989  cd /var/log/nginx
+  990  ls
+  991  tail error.log
+  992  ls
+  993  tail access.log
+  994  tail *.log
+  995  curl http://9kuai8coffee.asia:8087
+  996  curl https://9kuai8coffee.asia
+  997  ls
+  998  cd root
+  999  ls
+ 1000  cd /root
+ 1001  ls
+ 1002  cd bee-api/
+ 1003  ls
+ 1004  cd bee-api
+ 1005  ls
+ 1006  ps -ef | grep beeapi
+ 1007  kill -9 159818
+ 1008  ls
+ 1009  nohup ./beeapi &
+ 1010  ls
+ 1011  tail nohup.out 
+ 1012  cd /etc/nginx
+ 1013  ls
+ 1014  cd sites-enabled/
+ 1015  ls
+ 1016  cd ..
+ 1017  cd sites-available/
+ 1018  ls
+ 1019  vim beeapi
+ 1020  ln -s  /etc/nginx/sites-available/beeapi /etc/nginx/sites-enabled/beeapi
+ 1021  nginx -t
+ 1022  ls
+ 1023  vim beeapi
+ 1024  cd ..
+ 1025  ls
+ 1026  cd certs
+ 1027  ls
+ 1028  openssl x509 -in 9kuai8coffee.asia.pem -out 9kuai8coffee.asia.crt
+ 1029  ls
+ 1030  cat *.crt
+ 1031  ls
+ 1032  cat *.pem
+ 1033  ls
+ 1034  cd ..
+ 1035  ls
+ 1036  cd sites-available/
+ 1037  ls
+ 1038  vim beeapi
+ 1039  nginx -t
+ 1040  vim beeapi
+ 1041  nginx -t
+ 1042  vim beeapi
+ 1043  nginx -t
+ 1044  nginx -s reload
+ 1045  curl https://9kuai8coffee.asia
+ 1046  curl https://9kuai8coffee.asia --insecure
+ 1047  vim beeapi
+ 1048  nginx -t
+ 1049  nginx -s reload
+ 1050  curl https://9kuai8coffee.asia
+ 1051  history
+ 1052  ps -ef |
+ 1053  ls
+ 1054  cd bee-api/
+ 1055  ls
+ 1056  who
+ 1057  cd shouke
+ 1058  ls
+ 1059  cd shouke
+ 1060  ls
+ 1061  cd apis
+ 1062  ls
+ 1063  cd ..
+ 1064  ls
+ 1065  vim main.py 
+ 1066  cd ..
+ 1067  ls
+ 1068  cd ..
+ 1069  ls
+ 1070  vim install.sh 
+ 1071  ls
+ 1072  shouke
+ 1073  cd shouke
+ 1074  ls
+ 1075  cd ..
+ 1076  ls go
+ 1077  cd
+ 1078  cd pkg
+ 1079  cd go
+ 1080  ls
+ 1081  cd pkg
+ 1082  ls
+ 1083  cd
+ 1084  ls
+ 1085  who
+ 1086  cd .ssh
+ 1087  ls
+ 1088  vim authorized_keys 
+ 1089  ls
+ 1090  who
+ 1091  ls
+ 1092  ps -ef | grep bee
+ 1093  ls
+ 1094  cd ..
+ 1095  ls
+ 1096  cd bee-api/
+ 1097  ls
+ 1098  cd bee-api/
+ 1099  ls
+ 1100  cd ..
+ 1101  ls
+ 1102  cd server/
+ 1103  ls
+ 1104  tail nohup.out 
+ 1105  nohup ./server &
+ 1106  tail nohup.out 
+ 1107  ls
+ 1108  ./servver
+ 1109  ./server
+ 1110  netstat -lanp | grep :18083
+ 1111  ls
+ 1112  vim config.yaml
+ 1113  ps -ef | grep 18083
+ 1114  ps -ef | grep server
+ 1115  ls
+ 1116  cd ..
+ 1117  ls
+ 1118  cd bee-api/
+ 1119  ls
+ 1120  ps -ef | grep beeapi
+ 1121  ls
+ 1122  ps
+ 1123  ls
+ 1124  tail nohup.out 
+ 1125  ls
+ 1126  vim config.yml
+ 1127  ls
+ 1128  cd 
+ 1129  cd /etc/ssh/
+ 1130  ls
+ 1131  vim sshd_config
+ 1132  service ssh restart
+ 1133  ls
+ 1134  cd /etc/ssh/
+ 1135  ls
+ 1136  vim sshd_config
+ 1137  cd 
+ 1138  ls
+ 1139  cd /var/log/
+ 1140  ls
+ 1141  cd ssh
+ 1142  tail dmesg
+ 1143  ls
+ 1144  tail auth.log
+ 1145  cd 
+ 1146  cd .ssh
+ 1147  ls
+ 1148  vim authorized_keys 
+ 1149  ls
+ 1150  cd /var/log/
+ 1151  ls
+ 1152  tail auth.log
+ 1153  cd 
+ 1154  cd .ssh
+ 1155  ls
+ 1156  ls -alh
+ 1157  cd ..
+ 1158  ls -alh | grep .ssh
+ 1159  chown -R root:root .ssh
+ 1160  ls
+ 1161  service ssh restart
+ 1162  cd .ssh
+ 1163  ls
+ 1164  ls -alh
+ 1165  cd ..
+ 1166  ls
+ 1167  ls -alh | grep .ssh
+ 1168  cd .ssh
+ 1169  ls
+ 1170  cd /var/log/
+ 1171  ls
+ 1172  tail auth.log
+ 1173  tail -f auth.log
+ 1174  ls /root
+ 1175  cd 
+ 1176  ls
+ 1177  ls /
+ 1178  ls -alh / 
+ 1179  chown root:root /root
+ 1180  ls
+ 1181  cd /var/log
+ 1182  ls
+ 1183  wc -l auth.log
+ 1184  >auth.log
+ 1185  ls
+ 1186  tail auth.log.1
+ 1187  >auth.log.1 
+ 1188  ls
+ 1189  tail auth.log.1 
+ 1190  ls
+ 1191  cd 
+ 1192  ls
+ 1193  cd .ssh
+ 1194  ls
+ 1195  vim authorized_keys 
+ 1196  ls
+ 1197  vim known_hosts 
+ 1198  ls
+ 1199  cd 
+ 1200  ls
+ 1201  who
+ 1202  ls
+ 1203  df -h
+ 1204  free -h
+ 1205  who
+ 1206  df -h
+ 1207  ls
+ 1208  ls etc
+ 1209  pwd
+ 1210  cd ..
+ 1211  ls
+ 1212  cd etc
+ 1213  ls
+ 1214  cd nginx
+ 1215  cd sites-
+ 1216  cd sites-enabled/
+ 1217  ls
+ 1218  cd bee
+ 1219  vim bee
+ 1220  cd ..
+ 1221  ls
+ 1222  home
+ 1223  cd home
+ 1224  ls
+ 1225  cd ..
+ 1226  cd root
+ 1227  ls
+ 1228  cd bee-api/
+ 1229  ls
+ 1230  vim config.yml
+ 1231  ls
+ 1232  cd bee-api/
+ 1233  ls
+ 1234  ps -ef | grep beeapi
+ 1235  cd bee-api/
+ 1236  ls
+ 1237  tail nohup.out 
+ 1238  vim nohup.out 
+ 1239  ls
+ 1240  cd api/
+ 1241  ls
+ 1242  cd ..
+ 1243  cd doc
+ 1244  ls
+ 1245  cd api/
+ 1246  ls
+ 1247  vim banner.go 
+ 1248  cd ..
+ 1249  ls
+ 1250  cd router/
+ 1251  ls
+ 1252  vim router.go 
+ 1253  curl https://9kuai8coffee.asia/banner/list
+ 1254  vim router.go 
+ 1255  curl https://9kuai8coffee.asia/banner/list
+ 1256  curl -i https://9kuai8coffee.asia/banner/list
+ 1257  cd /etc/nginx/
+ 1258  ls
+ 1259  cd sites-available/
+ 1260  ls
+ 1261  vim beeapi 
+ 1262  ls
+ 1263  cd /root/bee-api/
+ 1264  ls
+ 1265  cd bee-api/
+ 1266  ls
+ 1267  tail nohup.out 
+ 1268  ls
+ 1269  cd logger/
+ 1270  ls
+ 1271  vim logger.go 
+ 1272  vim REA
+ 1273  cd test
+ 1274  ls
+ 1275  cd ..
+ 1276  cd test
+ 1277  ls
+ 1278  cd ..
+ 1279  ls
+ 1280  vim README.md 
+ 1281  ls
+ 1282  vim main.go 
+ 1283  ls
+ 1284  vim nohup.out 
+ 1285  ls
+ 1286  curl -i https://9kuai8coffee.asia/yunlaba/bind.html
+ 1287  who
+ 1288  ls
+ 1289  cd /var/log/
+ 1290  ls
+ 1291  tail auth.log
+ 1292  wc -l auth.log
+ 1293  vim auth.log
+ 1294  crontab -l
+ 1295  who
+ 1296  ls /home
+ 1297  cd /home/ecs-assist-user/
+ 1298  ls
+ 1299  cd 
+ 1300  ls
+ 1301  cd /var/log/
+ 1302  ls
+ 1303  vim auth.log
+ 1304  ls
+ 1305  cd /etc/cron.d
+ 1306  ls
+ 1307  ls /etc/crontab 
+ 1308  cat /etc/crontab 
+ 1309  run-parts --help
+ 1310  run-parts --list
+ 1311  vim /etc/cron.hourly/.placeholder 
+ 1312  anacron
+ 1313  ls -alh /usr/sbin/anacron
+ 1314  crontab -l
+ 1315  who
+ 1316  ls
+ 1317  ls /etc/passwd
+ 1318  cat /etc/passwd
+ 1319  ls /usr/sbin/nologin 
+ 1320  cd 
+ 1321  ls
+ 1322  who
+ 1323  cd go/
+ 1324  ls
+ 1325  cd 
+ 1326  vim .bashrc 
+ 1327  ls
+ 1328  cd 
+ 1329  curl https://9kuai8coffee.asia/cms/page/info/v2
+ 1330  curl https://9kuai8coffee.asia/cms/page/info/v2/commend
+ 1331  curl -XPOST https://9kuai8coffee.asia/upload2
+ 1332  curl -XPOST https://9kuai8coffee.asia/config/values
+ 1333  curl -XPOST https://9kuai8coffee.asia/9kuai8coffee.asia/config/values
+ 1334  curl -XPOST https://9kuai8coffee.asia/9kuai8coffee/config/values
+ 1335  curl -XPOST https://9kuai8coffee.asia/config/values
+ 1336  ls
+ 1337  curl -XPOST https://9kuai8coffee.asia/config/values
+ 1338  curl -XPOST https://9kuai8coffee.asia/9kuai8coffee.asia/config/values
+ 1339  docker ps
+ 1340  mysql -uroot -p
+ 1341  ls
+ 1342  curl -XPOST https://9kuai8coffee.asia/9kuai8coffee.asia/config/values
+ 1343  ls
+ 1344  cd bee-api/
+ 1345  ls
+ 1346  cd bee-api/
+ 1347  ls
+ 1348  vim router/router.go 
+ 1349  curl -XPOST https://9kuai8coffee.asia/9kuai8coffee.asia/config/values
+ 1350  curl -XPOST https://9kuai8coffee.asia/config/values
+ 1351  vim router/router.go 
+ 1352  curl -XPOST https://9kuai8coffee.asia/config/values
+ 1353  curl https://9kuai8coffee.asia/config/values
+ 1354  curl https://9kuai8coffee.asia/9kuai8coffee.asia/config/values
+ 1355  ls
+ 1356  vim config.yml
+ 1357  ls
+ 1358  cd ..
+ 1359  ls
+ 1360  cd 
+ 1361  who
+ 1362  ls
+ 1363  cd bee-api/
+ 1364  ls
+ 1365  cd bee-api/
+ 1366  ls
+ 1367  vim config.yml
+ 1368  ls
+ 1369  ls
+ 1370  cd bee-api/
+ 1371  ls
+ 1372  cd bee-api/
+ 1373  ls
+ 1374  cd api/
+ 1375  ls
+ 1376  cd ..
+ 1377  ls
+ 1378  vim router/router.go 
+ 1379  ls
+ 1380  vim config.yml
+ 1381  ls
+ 1382  ps -ef | grep beeapi
+ 1383  kill -9 160853
+ 1384  rm .config.yml.swp 
+ 1385  vim config.yml
+ 1386  ls
+ 1387  ./beeapi 
+ 1388  nohup ./beeapi &
+ 1389  ls
+ 1390  tail nohup.out 
+ 1391  ls
+ 1392  ls
+ 1393  bee-api/
+ 1394  cd bee-api/
+ 1395  ls
+ 1396  cd service/
+ 1397  ls
+ 1398  cd ..
+ 1399  vim config.yml
+ 1400  cd bee-api/
+ 1401  ls
+ 1402  vim config
+ 1403  vim config.yml
+ 1404  docker ps
+ 1405  cd
+ 1406  docker ps
+ 1407  cd bee-api/
+ 1408  docker ps
+ 1409  docker ps -a
+ 1410  docker -vdocker -v
+ 1411  docker -v
+ 1412  docker-compose -v
+ 1413  cd server/
+ 1414  vim config.docker.yaml 
+ 1415  who
+ 1416  ls
+ 1417  cd /var/log/
+ 1418  ls
+ 1419  cd 
+ 1420  mysql -uroot -p
+ 1421  ls
+ 1422  vim install.sh 
+ 1423  ps -ef 
+ 1424  ls
+ 1425  cd shouke/
+ 1426  ls
+ 1427  cd shouke/
+ 1428  ls
+ 1429  vim README.md 
+ 1430  ls
+ 1431  cd 
+ 1432  ls
+ 1433  cd /var/log/
+ 1434  ls
+ 1435  tail auth.log
+ 1436  vim auth.log
+ 1437  cd 
+ 1438  ls
+ 1439  who
+ 1440  ls
+ 1441  history
+ 1442  ls
+ 1443  cd bee-api/
+ 1444  ls
+ 1445  cd bee-api/
+ 1446  ls
+ 1447  vim nohup.out 
+ 1448  ls
+ 1449  ps -ef | grep bee
+ 1450  ps -ef | grep backend
+ 1451  ps -ef 
+ 1452  curl 'https://9kuai8coffee.asia/9kuai8coffee.asia/discounts/coupons?token='   -H 'Referer: http://127.0.0.1:29128/'   -H 'User-Agent: wechatdevtools desktopapp appservice port/53480 token/3e413691eaef5e870bd9e954daafc6f1 runtime/2 MicroMessenger'   -H 'content-type: application/x-www-form-urlencoded'   --compressed
+ 1453  cd /var/log/nginx/
+ 1454  ls
+ 1455  tail access.log
+ 1456  tail error.log
+ 1457  ls
+ 1458  ngixn -t
+ 1459  nginx -t
+ 1460  cd /etc/nginx/
+ 1461  ls
+ 1462  cd certs/
+ 1463  ls
+ 1464  ls -alh
+ 1465  ls
+ 1466  cd ..
+ 1467  ls
+ 1468  cd conf.d/
+ 1469  ls
+ 1470  cd ..
+ 1471  ls
+ 1472  cd sites-available/
+ 1473  ls
+ 1474  vim beeapi 
+ 1475  ls
+ 1476  cat cwc
+ 1477  ls
+ 1478  who
+ 1479  curl 'https://9kuai8coffee.asia/9kuai8coffee.asia/discounts/coupons?token='   -H 'Referer: http://127.0.0.1:29128/'   -H 'User-Agent: wechatdevtools desktopapp appservice port/53480 token/3e413691eaef5e870bd9e954daafc6f1 runtime/2 MicroMessenger'   -H 'content-type: application/x-www-form-urlencoded'   --compressed
+ 1480  curl -vvvv 'https://9kuai8coffee.asia/9kuai8coffee.asia/discounts/coupons?token='   -H 'Referer: http://127.0.0.1:29128/'   -H 'User-Agent: wechatdevtools desktopapp appservice port/53480 token/3e413691eaef5e870bd9e954daafc6f1 runtime/2 MicroMessenger'   -H 'content-type: application/x-www-form-urlencoded'   --compressed
+ 1481  cd /var/log/
+ 1482  ls
+ 1483  nginx -t
+ 1484  nginx -s reload
+ 1485  ls
+ 1486  cd /var/log/
+ 1487  ls
+ 1488  cd nginx/
+ 1489  ls
+ 1490  tail error.log
+ 1491  ls
+ 1492  cd /etc/nginx/
+ 1493  ls
+ 1494  cd sites-available/
+ 1495  ls
+ 1496  vim beeapi 
+ 1497  nginx -t
+ 1498  nginx -s reload
+ 1499  ls
+ 1500  nginx -t
+ 1501  cd /etc/nginx/
+ 1502  ls
+ 1503  cd sites-qav
+ 1504  cd sites-available/
+ 1505  ls
+ 1506  vim beeapi 
+ 1507  nginx -t
+ 1508  nginx -s reload
+ 1509  cd /var/log/nginx/
+ 1510  ls
+ 1511  tail error.log
+ 1512  curl -vvvv 'https://9kuai8coffee.asia/9kuai8coffee.asia/discounts/coupons?token='   -H 'Referer: http://127.0.0.1:29128/'   -H 'User-Agent: wechatdevtools desktopapp appservice port/53480 token/3e413691eaef5e870bd9e954daafc6f1 runtime/2 MicroMessenger'   -H 'content-type: application/x-www-form-urlencoded'   --compressed
+ 1513  ls
+ 1514  cd ..
+ 1515  ls dist.tar.gz 
+ 1516  ls -alh dist.tar.gz
+ 1517  cp dist.tar.gz /var/www/html/
+ 1518  cd /var/www/html/
+ 1519  ls
+ 1520  tar zxvf dist.tar.gz 
+ 1521  ls
+ 1522  ls dist
+ 1523  ls
+ 1524  rm dist.tar.gz 
+ 1525  ls
+ 1526  cd ..
+ 1527  ls
+ 1528  cd /etc/nginx/
+ 1529  ls
+ 1530  cd -
+ 1531  ls
+ 1532  cd html/
+ 1533  ls
+ 1534  cd ..
+ 1535  ls
+ 1536  cd bee/
+ 1537  ls
+ 1538  cd 
+ 1539  ls
+ 1540  cd /etc/nginx/
+ 1541  ls
+ 1542  cd sites-available/
+ 1543  ls
+ 1544  vim beeapi 
+ 1545  nginx -t
+ 1546  nginx -s reload
+ 1547  curl https://9kuai8coffee.asia
+ 1548  mv dist.tar.gz /var/www/html/
+ 1549  cd /var/www/html/
+ 1550  ls
+ 1551  rm -rf dist
+ 1552  tar zxvf dist.tar.gz 
+ 1553  cd print/
+ 1554  ls
+ 1555  cd ..
+ 1556  lls
+ 1557  ls
+ 1558  nginx -s reload
+ 1559  curl https://9kuai8coffee.asia
+ 1560  ls
+ 1561  cd /var/log/
+ 1562  ls
+ 1563  cd nginx/
+ 1564  ls
+ 1565  tail error.log
+ 1566  ps -ef |grep nginx
+ 1567  ls
+ 1568  cd /etc/nginx/
+ 1569  ls
+ 1570  cd sites-available/
+ 1571  ls
+ 1572  vim beeapi 
+ 1573  nginx -t
+ 1574  nginx -s reload
+ 1575  ls
+ 1576  cd /var/www/html/
+ 1577  sl
+ 1578  ls
+ 1579  cd dist/
+ 1580  ls
+ 1581  mv index.html ..
+ 1582  rm * -rf
+ 1583  mv ../index.html .
+ 1584  ls
+ 1585  cd ..
+ 1586  ls
+ 1587  rm -rf dist.tar.gz 
+ 1588  cd dist/
+ 1589  ls
+ 1590  wget https://www.sessioncoffeedenver.com/wp-content/uploads/2024/06/Irish-espresso-journey.jpg
+ 1591  ls
+ 1592  vim index.html 
+ 1593  mv Irish-espresso-journey.jpg coffee1.jpg
+ 1594  ls
+ 1595  vim index.html 
+ 1596  ls
+ 1597  wget https://www.nespresso.com/ncp/res/uploads/recipes/nespresso-recipes-Latte-Art-Tulip.jpg
+ 1598  ls
+ 1599  wget https://sumatocoffee.com/cdn/shop/articles/latte-art-what-is-it-and-how-did-it-start-264833.jpg
+ 1600  ls
+ 1601  mv latte-art-what-is-it-and-how-did-it-start-264833.jpg coffee2.jpg
+ 1602  ls
+ 1603  cd /opt/wo
+ 1604  ls
+ 1605  cd /var/www/html/
+ 1606  ls
+ 1607  cd dist/
+ 1608  ls
+ 1609  wget https://upload.wikimedia.org/wikipedia/commons/thumb/c/c5/Roasted_coffee_beans.jpg/1200px-Roasted_coffee_beans.jpg
+ 1610  ls
+ 1611  wget https://daylighthilliard.com/wp-content/uploads/2021/04/great-coffee-bean.jpeg
+ 1612  ls
+ 1613  mv great-coffee-bean.jpeg coffee3.jpeg
+ 1614  ls
+ 1615  wget https://www.fairprice.com.sg/wp-content/uploads/2019/10/pour-over-coffee-970x526.jpg
+ 1616  ls
+ 1617  mv pour-over-coffee-970x526.jpg coffee4.jpg
+ 1618  ls
+ 1619  vim index.html 
+ 1620  ls
+
+ 1625  cd /etc/nginx/
+ 1626  ls
+ 1627  cd sites-available/
+ 1628  ls
+ 1629  vim beeapi 
+ 1630  nginx -t
+ 1631  nginx -s reload
