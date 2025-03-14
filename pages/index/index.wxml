@@ -230,10 +230,11 @@
 </view>
 </van-popup> 
 
-<van-overlay show="{{ !scanDining && showCouponPop }}" bind:click="couponOverlayClick">
+<van-overlay show="{{ showCouponPop }}" bind:click="couponOverlayClick"> 
   <view class="couponOverlay-container">
-    <image src="/images/coupon.png" bindtap="couponImageClick"></image>
+    <image src="/images/coupon.png" mode="widthFix" bindtap="couponImageClick"></image>
   </view>
+
 </van-overlay>
 
 
