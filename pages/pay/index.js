@@ -3,6 +3,7 @@ const AUTH = require('../../utils/auth')
 const wxpay = require('../../utils/pay.js')
 const CONFIG = require('../../config.js')
 const APP = getApp()
+var util = require('../../utils/util.js')
 APP.configLoadOK = () => {
 
 }
@@ -354,6 +355,7 @@ Page({
     })
   },
   async processAfterCreateOrder(res) {
+    var that = this
     const token = wx.getStorageSync('token')
     if (res.data.status != 0) {
       // 待支付状态才需要支付
@@ -377,13 +379,34 @@ Page({
     const money = res.data.amountReal * 1 - res1.data.balance*1
     if (money <= 0) {
       // 使用余额支付
-      await WXAPI.orderPay(token, res.data.id)
+      await WXAPI.orderPay(token, res.data.id).then(r=>{
+        console.log("余额支付：",r)
+        if(r.code==700){
+            //打印的数据
+            console.log("print:" ,that.data.goodsList,that.data.shopInfo,res.data)
+            //小票
+            that.print2(res.data)
+            //标签
+            that.print(res.data)
+
+        }
+   
+      })
       // 跳到订单列表
       wx.redirectTo({
         url: "/pages/all-orders/index"
       })
     } else {
-      wxpay.wxpay('order', money, res.data.id, "/pages/all-orders/index");
+      var data = {
+        data: res.data, //订单信息
+        goodsList:that.data.goodsList, //商品列表
+        shopInfo: that.data.shopInfo, //商铺信息
+        isPrint: true //打印标志
+
+      }
+     wxpay.wxpay('order', money, res.data.id, "/pages/all-orders/index",data)
+        console.log("微信支付：")
+
     }
   },
   async getDistance(curAddressData) {
@@ -641,4 +664,166 @@ Page({
     })
     this.createOrder()
   },
+      //打印标签，参数为支付返回的data数据
+      print(data){
+        var that = this
+        //芯烨云打印接口
+         let url = 'https://open.xpyun.net/api/openapi/xprinter/printLabel'      
+         //开发者密钥
+         let userKey = 'b2e9014204774a058bc7e8640e36e8ed'
+         //开发者id xu1271669848@gmail.com
+         let userId = 'xu1271669848@gmail.com'
+         let timstamp = Math.trunc(new Date().getTime()/1000) + ""
+         let sign = userId + userKey + timstamp
+          //打印机序列号，店铺id对应打印机序列号
+          let sn = ''
+          //紫金店
+          if(that.data.shopInfo.id==2){
+            sn = '32817SCU1VAF54B'
+  
+          }//未来店
+          else if (that.data.shopInfo.id==1){
+            sn = ''
+  
+          }
+          //如果没有打印机，则返回
+          if(!sn){
+            return
+          }
+              //当前日期 时分秒
+        let timeStr = that.getDate()
+        let content = ''
+         
+      for(let i=0;i<that.data.goodsList.length;i++){
+        content+= '<PAGE><SIZE>40,30</SIZE>' + 
+        '<TEXT x="8" y="0" w="1" h="1" r="0"># '+(i+1) +'/' + that.data.goodsList.length + ' 总金额:'+data.amountReal + '</TEXT>'+
+        '<TEXT x="8" y="24" w="1" h="1" r="0">'+ that.data.goodsList[i].name +'</TEXT>'
+        for(let j=0;j<that.data.goodsList[i].sku.length;j++){
+          content+='<TEXT x="8" y="' + (j+2)*24 +'" w="1" h="1" r="0">'+ that.data.goodsList[i].sku[j].optionValueName +'</TEXT>'
+        }
+        content+= '<TEXT x="8" y="'+(that.data.goodsList[i].sku.length+2)*24 +'" w="1" h="1" r="0">'+'单价: ￥'+ that.data.goodsList[i].price +'X'+ that.data.goodsList[i].number+ '</TEXT>'+
+        '<TEXT x="8" y="190" w="1" h="1" r="0">'+ timeStr + '</TEXT>'+ 
+        '<TEXT x="8" y="214" w="1" h="1" r="0">'+ that.data.shopInfo.name + '</TEXT>' +   '</PAGE>'
+  
+      }
+        
+  
+         //请求参数
+         let param = {
+           user: userId,
+           timestamp: timstamp,
+           sign: util.sha1(sign),
+           sn: sn,
+           content: content
+           }
+           console.log(param)
+            
+       let header = {
+         "Content-Type": "application/json;charset=UTF-8"
+       }
+     
+         wx.request({
+           url: url,
+           data: param,
+           method: "post",
+           header:header,
+           success: res=>{
+             console.log("标签打印返回：",res)
+           }
+          
+           
+         })
+      },
+        //打印小票，参数为支付返回的data数据
+        print2(data){
+          var that = this
+       
+          //芯烨云打印接口
+           let url = 'https://open.xpyun.net/api/openapi/xprinter/print'      
+           //开发者密钥
+           let userKey = 'b2e9014204774a058bc7e8640e36e8ed'
+           //开发者id xu1271669848@gmail.com
+           let userId = 'xu1271669848@gmail.com'
+           let timstamp = Math.trunc(new Date().getTime()/1000) + ""
+           let sign = userId + userKey + timstamp
+            //打印机序列号，店铺id对应打印机序列号
+            let sn = ''
+            //紫金店
+            if(that.data.shopInfo.id==2){
+              sn = '74Y4LWMD9R9AF4B'
+    
+            }
+            //未来店
+          else if (that.data.shopInfo.id==1){
+            sn = ''
+  
+          }
+            //如果没有打印机，则返回
+            if(!sn){
+              return
+            }
+                //当前日期 时分秒
+          let timeStr = that.getDate()
+          let content = '<CB>9.8 COFFEE小票<BR><BR><BR></CB>' +'<TABLE col="22,3,7" w=1 h=1 b=0 lh=68> '
+           
+        for(let i=0;i<that.data.goodsList.length;i++){
+          content+=  '<tr>'+ that.data.goodsList[i].name +'<td>' + that.data.goodsList[i].number +'<td>' + that.data.goodsList[i].price + '元</tr>'
+          content+='<tr>|'
+          for(let j=0;j<that.data.goodsList[i].sku.length;j++){
+            content+= that.data.goodsList[i].sku[j].optionValueName + '|' 
+          }
+          content+='<td> <td> </tr>'
+       
+    
+        }
+        content+='</TABLE>'
+        content+='<R>合计：'+ data.amountReal+'元<BR></R><BR>'
+  
+        content+= '<L>下单时间: '+ timeStr + '<BR>'+ 
+        '订单编号: '+ data.orderNumber + '<BR>' +
+        '门店名称: ' + that.data.shopInfo.name +'<BR>'
+        content+= '</L>' 
+          
+    
+           //请求参数
+           let param = {
+             user: userId,
+             timestamp: timstamp,
+             sign: util.sha1(sign),
+             sn: sn,
+             content: content
+             }
+             console.log(param)
+              
+         let header = {
+           "Content-Type": "application/json;charset=UTF-8"
+         }
+       
+           wx.request({
+             url: url,
+             data: param,
+             method: "post",
+             header:header,
+             success: res=>{
+               console.log("小票打印返回：",res)
+             }
+            
+             
+           })
+        },
+         //获取当前年月日时分秒，打印时间
+  getDate(){
+    var now = new Date();
+var year = now.getFullYear(); // 年
+var month = now.getMonth() + 1; // 月
+var day = now.getDate(); // 日
+var hour = now.getHours(); // 时
+var minute = now.getMinutes(); // 分
+var second = now.getSeconds(); // 秒
+
+// 格式化输出
+var timeString = year + "-" + (month < 10 ? "0" + month : month) + "-" + (day < 10 ? "0" + day : day) + " " + (hour < 10 ? "0" + hour : hour) + ":" + (minute < 10 ? "0" + minute : minute) + ":" + (second < 10 ? "0" + second : second);
+ return timeString
+
+  }
 })
