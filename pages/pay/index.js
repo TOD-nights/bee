@@ -683,7 +683,7 @@ Page({
   
           }//未来店
           else if (that.data.shopInfo.id==1){
-            sn = ''
+            sn = '32EL21088705948'
   
           }
           //如果没有打印机，则返回
@@ -755,7 +755,7 @@ Page({
             }
             //未来店
           else if (that.data.shopInfo.id==1){
-            sn = ''
+            sn = '742N30GDRND8E4A'
   
           }
             //如果没有打印机，则返回
