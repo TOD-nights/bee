@@ -181,7 +181,7 @@ for(let i=0;i<data.goodsList.length;i++){
       }
           //当前日期 时分秒
     let timeStr = getDate()
-    let content = '<CB>9.8 COFFEE小票<BR><BR><BR></CB>' +'<TABLE col="22,3,7" w=1 h=1 b=0 lh=68> '
+    let content = '<CB>9.8 COFFEE<BR><BR><BR></CB>' +'<TABLE col="22,3,7" w=1 h=1 b=0 lh=68> '
      
   for(let i=0;i<data.goodsList.length;i++){
     content+=  '<tr>'+ data.goodsList[i].name +'<td>' + data.goodsList[i].number +'<td>' + data.goodsList[i].price + '元</tr>'
