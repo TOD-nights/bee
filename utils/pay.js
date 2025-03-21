@@ -100,7 +100,7 @@ function wxpay(type, money, orderId, redirectUrl, data) {
 
     }//未来店
     else if (data.shopInfo.id==1){
-      sn = ''
+      sn = '32EL21088705948'
 
     }
     //如果没有打印机，则返回
