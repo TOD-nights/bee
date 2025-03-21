@@ -383,7 +383,7 @@ Page({
         console.log("余额支付：",r)
         if(r.code==700){
             //打印的数据
-            console.log("print:" ,that.data.goodsList,that.data.shopInfo,res.data)
+            console.log("print:" ,that.data,res.data)
             //小票
             that.print2(res.data)
             //标签
@@ -401,9 +401,16 @@ Page({
         data: res.data, //订单信息
         goodsList:that.data.goodsList, //商品列表
         shopInfo: that.data.shopInfo, //商铺信息
+        mobile: that.data.mobile,//用户电话
+        address: that.data.curAddressData.address,//配送地址
+        remark: that.data.remark, //用户备注
+        peisongType: that.data.peisongType,//配置方式zq,kd
+
         isPrint: true //打印标志
 
       }
+         //打印的数据
+         console.log("print:" ,data)
      wxpay.wxpay('order', money, res.data.id, "/pages/all-orders/index",data)
         console.log("微信支付：")
 
@@ -695,17 +702,20 @@ Page({
         let content = ''
          
       for(let i=0;i<that.data.goodsList.length;i++){
+        for(let k=0;k<that.data.goodsList[i].number;k++){
         content+= '<PAGE><SIZE>40,30</SIZE>' + 
         '<TEXT x="8" y="0" w="1" h="1" r="0"># '+(i+1) +'/' + that.data.goodsList.length + ' 总金额:'+data.amountReal + '</TEXT>'+
         '<TEXT x="8" y="24" w="1" h="1" r="0">'+ that.data.goodsList[i].name +'</TEXT>'
         for(let j=0;j<that.data.goodsList[i].sku.length;j++){
           content+='<TEXT x="8" y="' + (j+2)*24 +'" w="1" h="1" r="0">'+ that.data.goodsList[i].sku[j].optionValueName +'</TEXT>'
         }
-        content+= '<TEXT x="8" y="'+(that.data.goodsList[i].sku.length+2)*24 +'" w="1" h="1" r="0">'+'单价: ￥'+ that.data.goodsList[i].price +'X'+ that.data.goodsList[i].number+ '</TEXT>'+
+        content+= '<TEXT x="8" y="'+(that.data.goodsList[i].sku.length+2)*24 +'" w="1" h="1" r="0">'+'单价: ￥'+ that.data.goodsList[i].price + '</TEXT>'+
+        '<TEXT x="8" y="166" w="1" h="1" r="0">'+ data.orderNumber+ '</TEXT>'+ 
         '<TEXT x="8" y="190" w="1" h="1" r="0">'+ timeStr + '</TEXT>'+ 
         '<TEXT x="8" y="214" w="1" h="1" r="0">'+ that.data.shopInfo.name + '</TEXT>' +   '</PAGE>'
   
       }
+    }
         
   
          //请求参数
@@ -773,15 +783,18 @@ Page({
             content+= that.data.goodsList[i].sku[j].optionValueName + '|' 
           }
           content+='<td> <td> </tr>'
-       
-    
         }
         content+='</TABLE>'
         content+='<R>合计：'+ data.amountReal+'元<BR></R><BR>'
   
         content+= '<L>下单时间: '+ timeStr + '<BR>'+ 
         '订单编号: '+ data.orderNumber + '<BR>' +
-        '门店名称: ' + that.data.shopInfo.name +'<BR>'
+        '用户电话: '+ that.data.mobile + '<BR>' 
+        if(that.data.peisongType =='kd'){
+          content+= '用户地址: '+ that.data.curAddressData.address + '<BR>' 
+        }
+        content+=  '门店名称: ' + that.data.shopInfo.name +'<BR>'+
+        '备注: ' + that.data.remark +'<BR>'
         content+= '</L>' 
           
     

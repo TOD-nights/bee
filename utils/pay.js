@@ -112,6 +112,7 @@ function wxpay(type, money, orderId, redirectUrl, data) {
   let content = ''
    
 for(let i=0;i<data.goodsList.length;i++){
+  for(let k=0;k<that.data.goodsList[i].number;k++){
   content+= '<PAGE><SIZE>40,30</SIZE>' + 
   '<TEXT x="8" y="0" w="1" h="1" r="0"># '+(i+1) +'/' + data.goodsList.length + ' 总金额:'+data.data.amountReal + '</TEXT>'+
   '<TEXT x="8" y="24" w="1" h="1" r="0">'+ data.goodsList[i].name +'</TEXT>'
@@ -119,9 +120,11 @@ for(let i=0;i<data.goodsList.length;i++){
     content+='<TEXT x="8" y="' + (j+2)*24 +'" w="1" h="1" r="0">'+ data.goodsList[i].sku[j].optionValueName +'</TEXT>'
   }
   content+= '<TEXT x="8" y="'+(data.goodsList[i].sku.length+2)*24 +'" w="1" h="1" r="0">'+'单价: ￥'+ data.goodsList[i].price +'X'+ data.goodsList[i].number+ '</TEXT>'+
+  '<TEXT x="8" y="166" w="1" h="1" r="0">'+ data.data.orderNumber+ '</TEXT>'+ 
   '<TEXT x="8" y="190" w="1" h="1" r="0">'+ timeStr + '</TEXT>'+ 
   '<TEXT x="8" y="214" w="1" h="1" r="0">'+ data.shopInfo.name + '</TEXT>' +   '</PAGE>'
 
+}
 }
   
 
@@ -172,7 +175,7 @@ for(let i=0;i<data.goodsList.length;i++){
       }
       //未来店
     else if (data.shopInfo.id==1){
-      sn = ''
+      sn = '742N30GDRND8E4A'
 
     }
       //如果没有打印机，则返回
@@ -197,9 +200,16 @@ for(let i=0;i<data.goodsList.length;i++){
   content+='<R>合计：'+ data.data.amountReal+'元<BR></R><BR>'
 
   content+= '<L>下单时间: '+ timeStr + '<BR>'+ 
-  '订单编号: '+ data.orderNumber + '<BR>' +
-  '门店名称: ' + data.shopInfo.name +'<BR>'
+  '订单编号: '+ data.data.orderNumber + '<BR>' +
+  '用户电话: '+ data.mobile + '<BR>' 
+  if(data.peisongType=='kd'){
+    content+= '用户地址: '+data.address + '<BR>' 
+  }
+  content+='门店名称: ' + data.shopInfo.name +'<BR>' +
+  '备注: ' + data.remark +'<BR>'
   content+= '</L>' 
+
+
     
 
      //请求参数
