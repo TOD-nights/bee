@@ -113,7 +113,6 @@ function wxpay(type, money, orderId, redirectUrl, data) {
   let content = ''
    
 for(let i=0;i<data.goodsList.length;i++){
-  for(let k=0;k<that.data.goodsList[i].number;k++){
   content+= '<PAGE><SIZE>40,30</SIZE>' + 
   '<TEXT x="8" y="0" w="1" h="1" r="0"># '+(i+1) +'/' + data.goodsList.length + ' 总金额:'+data.data.amountReal + '</TEXT>'+
   '<TEXT x="8" y="24" w="1" h="1" r="0">'+ data.goodsList[i].name +'</TEXT>'
@@ -121,11 +120,9 @@ for(let i=0;i<data.goodsList.length;i++){
     content+='<TEXT x="8" y="' + (j+2)*24 +'" w="1" h="1" r="0">'+ data.goodsList[i].sku[j].optionValueName +'</TEXT>'
   }
   content+= '<TEXT x="8" y="'+(data.goodsList[i].sku.length+2)*24 +'" w="1" h="1" r="0">'+'单价: ￥'+ data.goodsList[i].price +'X'+ data.goodsList[i].number+ '</TEXT>'+
-  '<TEXT x="8" y="166" w="1" h="1" r="0">'+ data.data.orderNumber+ '</TEXT>'+ 
   '<TEXT x="8" y="190" w="1" h="1" r="0">'+ timeStr + '</TEXT>'+ 
   '<TEXT x="8" y="214" w="1" h="1" r="0">'+ data.shopInfo.name + '</TEXT>' +   '</PAGE>'
 
-}
 }
   
 
@@ -176,7 +173,7 @@ for(let i=0;i<data.goodsList.length;i++){
       }
       //未来店
     else if (data.shopInfo.id==1){
-      sn = '742N30GDRND8E4A'
+      sn = ''
 
     }
       //如果没有打印机，则返回
@@ -185,7 +182,7 @@ for(let i=0;i<data.goodsList.length;i++){
       }
           //当前日期 时分秒
     let timeStr = getDate()
-    let content = '<CB>9.8 COFFEE<BR><BR><BR></CB>' +'<TABLE col="22,3,7" w=1 h=1 b=0 lh=68> '
+    let content = '<CB>9.8 COFFEE小票<BR><BR><BR></CB>' +'<TABLE col="22,3,7" w=1 h=1 b=0 lh=68> '
      
   for(let i=0;i<data.goodsList.length;i++){
     content+=  '<tr>'+ data.goodsList[i].name +'<td>' + data.goodsList[i].number +'<td>' + data.goodsList[i].price + '元</tr>'
@@ -212,8 +209,6 @@ for(let i=0;i<data.goodsList.length;i++){
   content+='门店名称: ' + data.shopInfo.name +'<BR>' +
   '  备注: ' + data.remark +'<BR>'
   content+= '</L>' 
-
-
     
 
      //请求参数
