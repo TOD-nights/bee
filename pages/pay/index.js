@@ -404,7 +404,7 @@ Page({
         mobile: that.data.mobile,//用户电话
         address: that.data.curAddressData.address,//配送地址
         remark: that.data.remark, //用户备注
-        peisongType: that.data.peisongType,//配置方式zq,kd
+        peisongType: that.data.peisongType,//zq,kd
 
         isPrint: true //打印标志
 
@@ -793,8 +793,11 @@ Page({
         if(that.data.peisongType =='kd'){
           content+= '用户地址: '+ that.data.curAddressData.address + '<BR>' 
         }
+        // if(that.data.peisongType=='zq'){
+        //   content+= ' 取单号: '+that.data.curAddressData.address + '<BR>' 
+        // }
         content+=  '门店名称: ' + that.data.shopInfo.name +'<BR>'+
-        '备注: ' + that.data.remark +'<BR>'
+        '  备注: ' + that.data.remark +'<BR>'
         content+= '</L>' 
           
     
