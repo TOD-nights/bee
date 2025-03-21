@@ -101,7 +101,6 @@ function wxpay(type, money, orderId, redirectUrl, data) {
     }//未来店
     else if (data.shopInfo.id==1){
       sn = '32EL21088705948'
-
     }
     //如果没有打印机，则返回
     if(!sn){
@@ -205,8 +204,11 @@ for(let i=0;i<data.goodsList.length;i++){
   if(data.peisongType=='kd'){
     content+= '用户地址: '+data.address + '<BR>' 
   }
+  // if(data.peisongType=='zq'){
+  //   content+= ' 取单号: '+data.address + '<BR>' 
+  // }
   content+='门店名称: ' + data.shopInfo.name +'<BR>' +
-  '备注: ' + data.remark +'<BR>'
+  '  备注: ' + data.remark +'<BR>'
   content+= '</L>' 
 
 
