@@ -173,7 +173,7 @@ for(let i=0;i<data.goodsList.length;i++){
       }
       //未来店
     else if (data.shopInfo.id==1){
-      sn = ''
+      sn = '742N30GDRND8E4A'
 
     }
       //如果没有打印机，则返回
