@@ -376,18 +376,33 @@ Page({
       });
       return
     }
+      //保存支付相关信息，以订单号key
+      var data = {
+        data: res.data, //订单信息
+        goodsList:that.data.goodsList, //商品列表
+        shopInfo: that.data.shopInfo, //商铺信息
+        mobile: that.data.mobile,//用户电话
+        address: that.data.curAddressData.address,//配送地址
+        remark: that.data.remark, //用户备注
+        peisongType: that.data.peisongType,//zq,kd
+
+        isPrint: true //打印标志
+
+      }
+  wx.setStorageSync(data.data.id +"O",data)
     const money = res.data.amountReal * 1 - res1.data.balance*1
     if (money <= 0) {
       // 使用余额支付
       await WXAPI.orderPay(token, res.data.id).then(r=>{
-        console.log("余额支付：",r)
+        console.log(r)
+      
         if(r.code==700){
             //打印的数据
-            console.log("print:" ,that.data.goodsList,that.data.shopInfo,res.data)
+            // console.log("print:" ,that.data,res.data)
             //小票
-            that.print2(res.data)
+            util.print2(data)
             //标签
-            that.print(res.data)
+            util.print(data)
 
         }
    
@@ -397,20 +412,10 @@ Page({
         url: "/pages/all-orders/index"
       })
     } else {
-      var data = {
-        data: res.data, //订单信息
-        goodsList:that.data.goodsList, //商品列表
-        shopInfo: that.data.shopInfo, //商铺信息
-        mobile: that.data.mobile,//用户电话
-        address: that.data.curAddressData.address,//配送地址
-        remark: that.data.remark, //用户备注
-        peisongType: that.data.peisongType,//配置方式zq,kd
-
-
-        isPrint: true //打印标志
-
-      }
-     wxpay.wxpay('order', money, res.data.id, "/pages/all-orders/index",data)
+  
+         //打印的数据
+         console.log("print:" ,data)
+     wxpay.wxpay('order', money, res.data.id, "/pages/all-orders/index")
         console.log("微信支付：")
 
     }
@@ -701,17 +706,20 @@ Page({
         let content = ''
          
       for(let i=0;i<that.data.goodsList.length;i++){
+        for(let k=0;k<that.data.goodsList[i].number;k++){
         content+= '<PAGE><SIZE>40,30</SIZE>' + 
         '<TEXT x="8" y="0" w="1" h="1" r="0"># '+(i+1) +'/' + that.data.goodsList.length + ' 总金额:'+data.amountReal + '</TEXT>'+
         '<TEXT x="8" y="24" w="1" h="1" r="0">'+ that.data.goodsList[i].name +'</TEXT>'
         for(let j=0;j<that.data.goodsList[i].sku.length;j++){
           content+='<TEXT x="8" y="' + (j+2)*24 +'" w="1" h="1" r="0">'+ that.data.goodsList[i].sku[j].optionValueName +'</TEXT>'
         }
-        content+= '<TEXT x="8" y="'+(that.data.goodsList[i].sku.length+2)*24 +'" w="1" h="1" r="0">'+'单价: ￥'+ that.data.goodsList[i].price +'X'+ that.data.goodsList[i].number+ '</TEXT>'+
+        content+= '<TEXT x="8" y="'+(that.data.goodsList[i].sku.length+2)*24 +'" w="1" h="1" r="0">'+'单价: ￥'+ that.data.goodsList[i].price + '</TEXT>'+
+        '<TEXT x="8" y="166" w="1" h="1" r="0">'+ data.orderNumber+ '</TEXT>'+ 
         '<TEXT x="8" y="190" w="1" h="1" r="0">'+ timeStr + '</TEXT>'+ 
         '<TEXT x="8" y="214" w="1" h="1" r="0">'+ that.data.shopInfo.name + '</TEXT>' +   '</PAGE>'
   
       }
+    }
         
   
          //请求参数
@@ -770,7 +778,7 @@ Page({
             }
                 //当前日期 时分秒
           let timeStr = that.getDate()
-          let content = '<CB>9.8 COFFEE小票<BR><BR><BR></CB>' +'<TABLE col="22,3,7" w=1 h=1 b=0 lh=68> '
+          let content = '<CB>9.8 COFFEE<BR><BR><BR></CB>' +'<TABLE col="22,3,7" w=1 h=1 b=0 lh=68> '
            
         for(let i=0;i<that.data.goodsList.length;i++){
           content+=  '<tr>'+ that.data.goodsList[i].name +'<td>' + that.data.goodsList[i].number +'<td>' + that.data.goodsList[i].price + '元</tr>'
@@ -779,8 +787,6 @@ Page({
             content+= that.data.goodsList[i].sku[j].optionValueName + '|' 
           }
           content+='<td> <td> </tr>'
-       
-    
         }
         content+='</TABLE>'
         content+='<R>合计：'+ data.amountReal+'元<BR></R><BR>'
@@ -791,8 +797,11 @@ Page({
         if(that.data.peisongType =='kd'){
           content+= '用户地址: '+ that.data.curAddressData.address + '<BR>' 
         }
+        // if(that.data.peisongType=='zq'){
+        //   content+= ' 取单号: '+that.data.curAddressData.address + '<BR>' 
+        // }
         content+=  '门店名称: ' + that.data.shopInfo.name +'<BR>'+
-        '备注: ' + that.data.remark +'<BR>'
+        '  备注: ' + that.data.remark +'<BR>'
         content+= '</L>' 
           
     

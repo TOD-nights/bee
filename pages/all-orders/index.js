@@ -2,6 +2,7 @@ const wxpay = require('../../utils/pay.js')
 const WXAPI = require('apifm-wxapi')
 const AUTH = require('../../utils/auth')
 const APP = getApp()
+var util = require('../../utils/util.js')
 APP.configLoadOK = () => {
 
 }
@@ -89,14 +90,33 @@ Page({
   },
   _toPayTap: function (orderId, money){
     const _this = this
+      // console.log(orderId)
+      // console.log(wx.getStorageSync(orderId))
+      //未支付的现金订单，从本地缓存中获取订单信息
+      let data = wx.getStorageSync(orderId +"O")
+      console.log(data)
     if (money <= 0) {
       // 直接使用余额支付
       WXAPI.orderPay(wx.getStorageSync('token'), orderId).then(function (res) {
+        console.log("余额支付：",r)
+        if(r.code==700){
+            //打印的数据
+            if(data2 && data2.isPrint ===true){
+      
+            //小票
+            util.print2(data)
+            //标签
+            util.print(data)
+            }
+
+        }
         _this.onShow();
       })
     } else {
-      wxpay.wxpay('order', money, orderId, "/pages/all-orders/index");
-    }
+    
+        wxpay.wxpay('order', money, orderId, "/pages/all-orders/index"); 
+      
+     }
   },
   onLoad: function(options) {
     getApp().initLanguage(this)
