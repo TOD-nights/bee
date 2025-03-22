@@ -93,7 +93,7 @@ Page({
       // console.log(orderId)
       // console.log(wx.getStorageSync(orderId))
       //未支付的现金订单，从本地缓存中获取订单信息
-      let data = wx.getStorageSync(orderId +"O")
+      let data2 = wx.getStorageSync(orderId +"O")
       console.log(data)
     if (money <= 0) {
       // 直接使用余额支付
@@ -104,9 +104,9 @@ Page({
             if(data2 && data2.isPrint ===true){
       
             //小票
-            util.print2(data)
+            util.print2(data2)
             //标签
-            util.print(data)
+            util.print(data2)
             }
 
         }
