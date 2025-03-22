@@ -234,8 +234,8 @@
   <view class="couponOverlay-container">
     <image src="/images/coupon.png" mode="widthFix" style="width: 80%;" bindtap="couponImageClick"></image>
   </view>
-</van-overlay>
 
+</van-overlay>
 
 
 <block wx:if="{{ scanDining }}">
