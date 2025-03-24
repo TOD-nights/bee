@@ -9,10 +9,10 @@
     <view class="b"><text>{{ $t.asset.send }}¥</text>{{item.send}}</view>
     <van-icon wx:if="{{ruleSelIndex == index}}" custom-class="icon" name="success" />
   </view>
-  <!--其他 <view class="item {{ruleSelIndex == -1 ? 'active' : ''}}" data-idx="-1" bindtap="changePersionNum">
-  <view class="a">{{ $t.asset.other }}</view>
-  <van-icon wx:if="{{ruleSelIndex == -1}}" custom-class="icon" name="success" />
-</view> -->
+  <view class="item {{ruleSelIndex == -1 ? 'active' : ''}}" data-idx="-1" bindtap="changePersionNum">
+    <view class="a">{{ $t.asset.other }}</view>
+    <van-icon wx:if="{{ruleSelIndex == -1}}" custom-class="icon" name="success" />
+  </view>
 </view>
 <view class="btn">
   <van-button type="primary" block bind:click="submit1">{{ $t.asset.confirmBtn }}</van-button>

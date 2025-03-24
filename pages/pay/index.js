@@ -376,27 +376,7 @@ Page({
       });
       return
     }
-    const money = res.data.amountReal * 1 - res1.data.balance*1
-    if (money <= 0) {
-      // 使用余额支付
-      await WXAPI.orderPay(token, res.data.id).then(r=>{
-        console.log("余额支付：",r)
-        if(r.code==700){
-            //打印的数据
-            console.log("print:" ,that.data,res.data)
-            //小票
-            that.print2(res.data)
-            //标签
-            that.print(res.data)
-
-        }
-   
-      })
-      // 跳到订单列表
-      wx.redirectTo({
-        url: "/pages/all-orders/index"
-      })
-    } else {
+      //保存支付相关信息，以订单号key
       var data = {
         data: res.data, //订单信息
         goodsList:that.data.goodsList, //商品列表
@@ -409,9 +389,33 @@ Page({
         isPrint: true //打印标志
 
       }
+  wx.setStorageSync(data.data.id +"O",data)
+    const money = res.data.amountReal * 1 - res1.data.balance*1
+    if (money <= 0) {
+      // 使用余额支付
+      await WXAPI.orderPay(token, res.data.id).then(r=>{
+        console.log(r)
+      
+        if(r.code==700){
+            //打印的数据
+            // console.log("print:" ,that.data,res.data)
+            //小票
+            util.print2(data)
+            //标签
+            util.print(data)
+
+        }
+   
+      })
+      // 跳到订单列表
+      wx.redirectTo({
+        url: "/pages/all-orders/index"
+      })
+    } else {
+  
          //打印的数据
          console.log("print:" ,data)
-     wxpay.wxpay('order', money, res.data.id, "/pages/all-orders/index",data)
+     wxpay.wxpay('order', money, res.data.id, "/pages/all-orders/index")
         console.log("微信支付：")
 
     }
