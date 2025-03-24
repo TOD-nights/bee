@@ -100,7 +100,7 @@ function wxpay(type, money, orderId, redirectUrl, data) {
 
     }//未来店
     else if (data.shopInfo.id==1){
-      sn = ''
+      sn = '32EL21088705948'
 
     }
     //如果没有打印机，则返回
@@ -172,7 +172,7 @@ for(let i=0;i<data.goodsList.length;i++){
       }
       //未来店
     else if (data.shopInfo.id==1){
-      sn = ''
+      sn = '742N30GDRND8E4As'
 
     }
       //如果没有打印机，则返回
