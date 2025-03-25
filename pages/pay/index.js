@@ -372,12 +372,17 @@ Page({
   }
   //
   console.log("缓存前的打印数据",that.data.dataP)
-  //存储打印数据
+  try{
+     //存储打印数据
   wx.setStorage({
     key:  that.data.dataP.data.id +"O",
     data:  that.data.dataP
-  
   })
+  }
+  catch(e){
+    console.log("存储打印数据报错：",e)
+  }
+ 
     const token = wx.getStorageSync('token')
     if (res.data.status != 0) {
       // 待支付状态才需要支付
@@ -407,20 +412,13 @@ Page({
         console.log(r)
       
         if(r.code==700){
-            //打印的数据
-            console.log("print:" ,that.data.dataP)
-          
+           
             //标签
             that.print(that.data.dataP)
               //小票
             that.print2(that.data.dataP)
 
-        }
-        // wx.getStorage({
-        //   key: that.data.dataP.data.id +"O", // 缓存中的 key
-        //   success(data2) {
-        //    console.log("缓存中的打印数据：",data2)
-        //   }})
+        }  
    
       })
       // 跳到订单列表
@@ -429,9 +427,9 @@ Page({
       })
     } else {
   
-       
-     wxpay.wxpay('order', money, res.data.id, "/pages/all-orders/index")
-        console.log("微信支付：")
+      console.log("微信支付：") 
+     wxpay.wxpay('order', money, res.data.id, "/pages/all-orders/index",that.data.dataP)
+     
 
     }
   },

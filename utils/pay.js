@@ -53,25 +53,14 @@ function wxpay(type, money, orderId, redirectUrl, data) {
           }
         },
         success: function () {
-                //打印
-                 //未支付的现金订单，从本地缓存中获取订单信息
-                 wx.getStorage({
-                  key: orderId +"O", // 缓存中的 key
-                  success(res) {
-                 
-               
-                    console.log("缓存中的打印数据：",res.data)
-                    
-                if(res.data && res.data.isPrint ==true){
+                //打印     
+                if(data &&data.isPrint ==true){
                   //打印标签
-                  print(res.data)
+                  print(data)
                   //打印小票
-                  print2(res.data)
+                  print2(data)
                 }
-                  },
-                  fail(err) {
-                    console.error(err) // 获取失败时的错误信息
-                  }})
+                
      
           // 提示支付成功
           wx.showToast({
