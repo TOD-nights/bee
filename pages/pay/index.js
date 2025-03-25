@@ -31,6 +31,7 @@ Page({
     peisongType: '', // 配送方式 kd,zq 分别表示快递/到店自取【默认值到onshow修改，这里修改无效】
     submitLoding: false,
     remark: '',
+    dataP: '',//打印信息保存
 
     currentDate: new Date().getHours() + ':' + (new Date().getMinutes() % 10 === 0 ? new Date().getMinutes() : Math.ceil(new Date().getMinutes() / 10) * 10),
     minHour: new Date().getHours(),
@@ -356,6 +357,40 @@ Page({
   },
   async processAfterCreateOrder(res) {
     var that = this
+       //保存支付相关信息，以订单号key
+       let address = ''
+       if(that.data.curAddressData){
+         if(that.data.curAddressData.address){
+          address = that.data.curAddressData.address
+
+         }
+       }
+        
+   that.data.dataP = {
+    data: res.data, //订单信息
+    goodsList:that.data.goodsList, //商品列表
+    shopInfo: that.data.shopInfo, //商铺信息
+    mobile: that.data.mobile,//用户电话
+    address: address,//配送地址
+    remark: that.data.remark, //用户备注
+    peisongType: that.data.peisongType,//zq,kd
+
+    isPrint: true //打印标志
+
+  }
+  //
+  console.log("缓存前的打印数据",that.data.dataP)
+  try{
+     //存储打印数据
+  wx.setStorage({
+    key:  that.data.dataP.data.id +"O",
+    data:  that.data.dataP
+  })
+  }
+  catch(e){
+    console.log("存储打印数据报错：",e)
+  }
+ 
     const token = wx.getStorageSync('token')
     if (res.data.status != 0) {
       // 待支付状态才需要支付
@@ -376,20 +411,8 @@ Page({
       });
       return
     }
-      //保存支付相关信息，以订单号key
-      var data = {
-        data: res.data, //订单信息
-        goodsList:that.data.goodsList, //商品列表
-        shopInfo: that.data.shopInfo, //商铺信息
-        mobile: that.data.mobile,//用户电话
-        address: that.data.curAddressData.address,//配送地址
-        remark: that.data.remark, //用户备注
-        peisongType: that.data.peisongType,//zq,kd
-
-        isPrint: true //打印标志
-
-      }
-  wx.setStorageSync(data.data.id +"O",data)
+   
+      
     const money = res.data.amountReal * 1 - res1.data.balance*1
     if (money <= 0) {
       // 使用余额支付
@@ -397,14 +420,13 @@ Page({
         console.log(r)
       
         if(r.code==700){
-            //打印的数据
-            // console.log("print:" ,that.data,res.data)
-            //小票
-            util.print2(data)
+           
             //标签
-            util.print(data)
+            that.print(that.data.dataP)
+              //小票
+            that.print2(that.data.dataP)
 
-        }
+        }  
    
       })
       // 跳到订单列表
@@ -413,10 +435,9 @@ Page({
       })
     } else {
   
-         //打印的数据
-         console.log("print:" ,data)
-     wxpay.wxpay('order', money, res.data.id, "/pages/all-orders/index")
-        console.log("微信支付：")
+      console.log("微信支付：") 
+     wxpay.wxpay('order', money, res.data.id, "/pages/all-orders/index",that.data.dataP)
+     
 
     }
   },
@@ -689,11 +710,11 @@ Page({
           //打印机序列号，店铺id对应打印机序列号
           let sn = ''
           //紫金店
-          if(that.data.shopInfo.id==2){
+          if(data.shopInfo.id==2){
             sn = '32817SCU1VAF54B'
   
           }//未来店
-          else if (that.data.shopInfo.id==1){
+          else if (data.shopInfo.id==1){
             sn = '32EL21088705948'
   
           }
@@ -705,18 +726,18 @@ Page({
         let timeStr = that.getDate()
         let content = ''
          
-      for(let i=0;i<that.data.goodsList.length;i++){
-        for(let k=0;k<that.data.goodsList[i].number;k++){
+      for(let i=0;i<data.goodsList.length;i++){
+        for(let k=0;k<data.goodsList[i].number;k++){
         content+= '<PAGE><SIZE>40,30</SIZE>' + 
-        '<TEXT x="8" y="0" w="1" h="1" r="0"># '+(i+1) +'/' + that.data.goodsList.length + ' 总金额:'+data.amountReal + '</TEXT>'+
-        '<TEXT x="8" y="24" w="1" h="1" r="0">'+ that.data.goodsList[i].name +'</TEXT>'
-        for(let j=0;j<that.data.goodsList[i].sku.length;j++){
-          content+='<TEXT x="8" y="' + (j+2)*24 +'" w="1" h="1" r="0">'+ that.data.goodsList[i].sku[j].optionValueName +'</TEXT>'
+        '<TEXT x="8" y="0" w="1" h="1" r="0"># '+(i+1) +'/' + data.goodsList.length + ' 总金额:'+data.data.amountReal + '</TEXT>'+
+        '<TEXT x="8" y="24" w="1" h="1" r="0">'+ data.goodsList[i].name +'</TEXT>'
+        for(let j=0;j<data.goodsList[i].sku.length;j++){
+          content+='<TEXT x="8" y="' + (j+2)*24 +'" w="1" h="1" r="0">'+ data.goodsList[i].sku[j].optionValueName +'</TEXT>'
         }
-        content+= '<TEXT x="8" y="'+(that.data.goodsList[i].sku.length+2)*24 +'" w="1" h="1" r="0">'+'单价: ￥'+ that.data.goodsList[i].price + '</TEXT>'+
-        '<TEXT x="8" y="166" w="1" h="1" r="0">'+ data.orderNumber+ '</TEXT>'+ 
+        content+= '<TEXT x="8" y="'+(data.goodsList[i].sku.length+2)*24 +'" w="1" h="1" r="0">'+'单价: ￥'+data.goodsList[i].price + '</TEXT>'+
+        '<TEXT x="8" y="166" w="1" h="1" r="0">'+ data.data.orderNumber+ '</TEXT>'+ 
         '<TEXT x="8" y="190" w="1" h="1" r="0">'+ timeStr + '</TEXT>'+ 
-        '<TEXT x="8" y="214" w="1" h="1" r="0">'+ that.data.shopInfo.name + '</TEXT>' +   '</PAGE>'
+        '<TEXT x="8" y="214" w="1" h="1" r="0">'+ data.shopInfo.name + '</TEXT>' +   '</PAGE>'
   
       }
     }
@@ -763,12 +784,12 @@ Page({
             //打印机序列号，店铺id对应打印机序列号
             let sn = ''
             //紫金店
-            if(that.data.shopInfo.id==2){
+            if(data.shopInfo.id==2){
               sn = '74Y4LWMD9R9AF4B'
     
             }
             //未来店
-          else if (that.data.shopInfo.id==1){
+          else if (data.shopInfo.id==1){
             sn = '742N30GDRND8E4A'
   
           }
@@ -780,28 +801,28 @@ Page({
           let timeStr = that.getDate()
           let content = '<CB>9.8 COFFEE<BR><BR><BR></CB>' +'<TABLE col="22,3,7" w=1 h=1 b=0 lh=68> '
            
-        for(let i=0;i<that.data.goodsList.length;i++){
-          content+=  '<tr>'+ that.data.goodsList[i].name +'<td>' + that.data.goodsList[i].number +'<td>' + that.data.goodsList[i].price + '元</tr>'
+        for(let i=0;i<data.goodsList.length;i++){
+          content+=  '<tr>'+ data.goodsList[i].name +'<td>' + data.goodsList[i].number +'<td>' + data.goodsList[i].price + '元</tr>'
           content+='<tr>|'
-          for(let j=0;j<that.data.goodsList[i].sku.length;j++){
-            content+= that.data.goodsList[i].sku[j].optionValueName + '|' 
+          for(let j=0;j<data.goodsList[i].sku.length;j++){
+            content+=data.goodsList[i].sku[j].optionValueName + '|' 
           }
           content+='<td> <td> </tr>'
         }
         content+='</TABLE>'
-        content+='<R>合计：'+ data.amountReal+'元<BR></R><BR>'
+        content+='<R>合计：'+ data.data.amountReal+'元<BR></R><BR>'
   
         content+= '<L>下单时间: '+ timeStr + '<BR>'+ 
-        '订单编号: '+ data.orderNumber + '<BR>' +
-        '用户电话: '+ that.data.mobile + '<BR>' 
-        if(that.data.peisongType =='kd'){
-          content+= '用户地址: '+ that.data.curAddressData.address + '<BR>' 
+        '订单编号: '+ data.data.orderNumber + '<BR>' +
+        '用户电话: '+ data.mobile + '<BR>' 
+        if(data.peisongType =='kd'){
+          content+= '用户地址: '+ data.address + '<BR>' 
         }
         // if(that.data.peisongType=='zq'){
         //   content+= ' 取单号: '+that.data.curAddressData.address + '<BR>' 
         // }
-        content+=  '门店名称: ' + that.data.shopInfo.name +'<BR>'+
-        '  备注: ' + that.data.remark +'<BR>'
+        content+=  '门店名称: ' + data.shopInfo.name +'<BR>'+
+        '备注: ' + data.remark +'<BR>'
         content+= '</L>' 
           
     
