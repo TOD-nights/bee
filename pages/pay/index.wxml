@@ -5,8 +5,8 @@
 			<van-icon name="shop-collect-o" color="{{peisongType == 'zq' ? '#fff' : '#333'}}" />
 			<view class="ziqu-1">{{ $t.index.pickup }}</view>
 		</view>
-		<view class="peisong ziqu {{peisongType == 'kd' ? 'active' : ''}}" bindtap="selected" data-pstype="kd">
-			<van-icon name="logistics" color="{{peisongType == 'kd' ? '#fff' : '#333'}}" />
+		<view class="peisong ziqu {{peisongType == 'pszq' ? 'active' : ''}}" bindtap="selected" data-pstype="pszq">
+			<van-icon name="logistics" color="{{peisongType == 'pszq' ? '#fff' : '#333'}}" />
 			<view class="ziqu-1">{{ $t.index.Delivery }}</view>
 		</view>
 	</view>
