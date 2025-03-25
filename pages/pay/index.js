@@ -358,12 +358,20 @@ Page({
   async processAfterCreateOrder(res) {
     var that = this
        //保存支付相关信息，以订单号key
+       let address = ''
+       if(that.data.curAddressData){
+         if(that.data.curAddressData.address){
+          address = that.data.curAddressData.address
+
+         }
+       }
+        
    that.data.dataP = {
     data: res.data, //订单信息
     goodsList:that.data.goodsList, //商品列表
     shopInfo: that.data.shopInfo, //商铺信息
     mobile: that.data.mobile,//用户电话
-    address: that.data.curAddressData.address,//配送地址
+    address: address,//配送地址
     remark: that.data.remark, //用户备注
     peisongType: that.data.peisongType,//zq,kd
 
@@ -808,7 +816,7 @@ Page({
         '订单编号: '+ data.data.orderNumber + '<BR>' +
         '用户电话: '+ data.mobile + '<BR>' 
         if(data.peisongType =='kd'){
-          content+= '用户地址: '+ data.curAddressData.address + '<BR>' 
+          content+= '用户地址: '+ data.address + '<BR>' 
         }
         // if(that.data.peisongType=='zq'){
         //   content+= ' 取单号: '+that.data.curAddressData.address + '<BR>' 

@@ -357,7 +357,7 @@ Page({
       '订单编号: '+ data.data.orderNumber + '<BR>' +
       '用户电话: '+ data.mobile + '<BR>' 
       if(data.peisongType =='kd'){
-        content+= '用户地址: '+ data.curAddressData.address + '<BR>' 
+        content+= '用户地址: '+ data.address + '<BR>' 
       }
       // if(that.data.peisongType=='zq'){
       //   content+= ' 取单号: '+that.data.curAddressData.address + '<BR>' 
