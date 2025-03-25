@@ -213,7 +213,7 @@ Page({
       showCouponPop: this.data.showCouponPop
     })
   },
-  changePeisongType(e) {
+changePeisongType(e) {
     const peisongType = e.currentTarget.dataset.type
     this.setData({
       peisongType
