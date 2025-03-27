@@ -815,7 +815,7 @@ Page({
         content+= '<L>下单时间: '+ timeStr + '<BR>'+ 
         '订单编号: '+ data.data.orderNumber + '<BR>' +
         '用户电话: '+ data.mobile + '<BR>' 
-        if(data.peisongType =='kd'){
+        if(data.peisongType =='pszq'){
           content+= '用户地址: '+ data.address + '<BR>' 
         }
         // if(that.data.peisongType=='zq'){
