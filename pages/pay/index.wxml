@@ -101,7 +101,7 @@
 	button-text="{{peisongType == 'pszq' && amountReal < shopInfo.serviceAmountMin ? ('￥' + shopInfo.serviceAmountMin + $t.pay.qisong) : $t.order.toPayTap }}"
 	bind:submit="goCreateOrder"
 	button-class="pay-btn"
-	disabled="{{(peisongType == 'pszq' && amountReal < shopInfo.serviceAmountMin || curAddressData == null) || submitLoding }}"
+	disabled="{{(peisongType == 'pszq' && amountReal < shopInfo.serviceAmountMin) || submitLoding }}"
 />
 <van-submit-bar
   wx:else
