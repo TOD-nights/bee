@@ -18,6 +18,11 @@ Page({
     menuButtonBoundingClientRect: wx.getMenuButtonBoundingClientRect(),
   },  
   onLoad: function (e) {
+
+     // 清除店铺缓存
+  wx.removeStorageSync('shopInfo')
+  wx.removeStorageSync('shopIds')
+  
     getApp().initLanguage(this)
     const _data = {}
     // 测试拼团入口
@@ -175,9 +180,12 @@ Page({
       curlatitude: latitude,
       curlongitude: longitude,
       nameLike: kw,
-      pageSize: 1
+      orderBy: 'distance',  // 按距离排序
+    sortBy: 'asc'        // 升序排列
     })
     if (res.code == 0) {
+      res.data.sort((a, b) => parseFloat(a.distance) - parseFloat(b.distance))
+
       res.data.forEach(ele => {
         ele.distance = ele.distance.toFixed(1) // 距离保留3位小数
       })

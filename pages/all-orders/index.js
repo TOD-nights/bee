@@ -257,8 +257,19 @@ Page({
         }//未来店
         else if (data.shopInfo.id==1){
           sn = '32EL21088705948'
-
         }
+        //塘下店
+        else if (data.shopInfo.id==4){
+          sn = '325Z1VC2ANA044B'
+      }
+      //瑞安店
+      else if (data.shopInfo.id==3){
+          sn = '32EVUCUVY0B4848'
+      }
+
+
+
+
         //如果没有打印机，则返回
         if(!sn){
           return
@@ -322,18 +333,26 @@ Page({
          let userId = 'xu1271669848@gmail.com'
          let timstamp = Math.trunc(new Date().getTime()/1000) + ""
          let sign = userId + userKey + timstamp
-          //打印机序列号，店铺id对应打印机序列号
+          //小票机序列号，店铺id对应小票机序列号
           let sn = ''
           //紫金店
           if(data.shopInfo.id==2){
             sn = '74Y4LWMD9R9AF4B'
-  
           }
           //未来店
         else if (data.shopInfo.id==1){
           sn = '742N30GDRND8E4A'
-
         }
+                //塘下店
+        else if (data.shopInfo.id==4){
+          sn = '74S8LPEQ3584048'
+        }
+        //瑞安店
+        else if (data.shopInfo.id==3){
+          sn = '744905VQE26ED4A'
+        }
+
+        
           //如果没有打印机，则返回
           if(!sn){
             return
@@ -356,7 +375,7 @@ Page({
       content+= '<L>下单时间: '+ timeStr + '<BR>'+ 
       '订单编号: '+ data.data.orderNumber + '<BR>' +
       '用户电话: '+ data.mobile + '<BR>' 
-      if(data.peisongType =='kd'){
+      if(data.peisongType =='pszq'){
         content+= '用户地址: '+ data.address + '<BR>' 
       }
       // if(that.data.peisongType=='zq'){
