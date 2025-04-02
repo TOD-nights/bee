@@ -325,7 +325,7 @@ Page({
               moneyUnit = '%'
             }
             if (ele.moneyHreshold) {
-              ele.nameExt = ele.name + + ' ['+ that.data.$t.pay.Fullconsumption +'' + ele.moneyHreshold + that.data.$t.pay.RMBreduced + ele.money + moneyUnit +']'
+              ele.nameExt = ele.name + ' ['+ that.data.$t.pay.Fullconsumption +'' + ele.moneyHreshold + that.data.$t.pay.RMBreduced + ele.money + moneyUnit +']'
             } else {
               ele.nameExt = ele.name + ' ['+ that.data.$t.pay.Fullconsumption +'' + ele.money + moneyUnit + ']'
             }
