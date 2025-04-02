@@ -100,12 +100,18 @@ function wxpay(type, money, orderId, redirectUrl, data) {
         //紫金店
         if(data.shopInfo.id==2){
           sn = '32817SCU1VAF54B'
-
         }//未来店
         else if (data.shopInfo.id==1){
           sn = '32EL21088705948'
-
         }
+         //塘下店
+         else if (data.shopInfo.id==4){
+          sn = '325Z1VC2ANA044B'
+      }
+      //瑞安店
+      else if (data.shopInfo.id==3){
+          sn = 'YOUR_RUIAN_SN_HERE'
+      }
         //如果没有打印机，则返回
         if(!sn){
           return
@@ -174,12 +180,18 @@ function wxpay(type, money, orderId, redirectUrl, data) {
           //紫金店
           if(data.shopInfo.id==2){
             sn = '74Y4LWMD9R9AF4B'
-  
           }
           //未来店
         else if (data.shopInfo.id==1){
           sn = '742N30GDRND8E4A'
-
+        }
+        //塘下店
+        else if (data.shopInfo.id==4){
+          sn = '74S8LPEQ3584048'
+        }
+        //瑞安店
+        else if (data.shopInfo.id==3){
+          sn = 'YOUR_RUIAN_SN_HERE'
         }
           //如果没有打印机，则返回
           if(!sn){
