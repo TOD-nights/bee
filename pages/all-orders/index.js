@@ -264,7 +264,7 @@ Page({
       }
       //瑞安店
       else if (data.shopInfo.id==3){
-          sn = 'YOUR_RUIAN_SN_HERE'
+          sn = '32EVUCUVY0B4848'
       }
 
 
@@ -333,7 +333,7 @@ Page({
          let userId = 'xu1271669848@gmail.com'
          let timstamp = Math.trunc(new Date().getTime()/1000) + ""
          let sign = userId + userKey + timstamp
-          //打印机序列号，店铺id对应打印机序列号
+          //小票机序列号，店铺id对应小票机序列号
           let sn = ''
           //紫金店
           if(data.shopInfo.id==2){
@@ -349,7 +349,7 @@ Page({
         }
         //瑞安店
         else if (data.shopInfo.id==3){
-          sn = 'YOUR_RUIAN_SN_HERE'
+          sn = '744905VQE26ED4A'
         }
 
         

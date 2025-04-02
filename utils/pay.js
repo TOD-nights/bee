@@ -110,7 +110,7 @@ function wxpay(type, money, orderId, redirectUrl, data) {
       }
       //瑞安店
       else if (data.shopInfo.id==3){
-          sn = 'YOUR_RUIAN_SN_HERE'
+          sn = '32EVUCUVY0B4848'
       }
         //如果没有打印机，则返回
         if(!sn){
@@ -191,7 +191,7 @@ function wxpay(type, money, orderId, redirectUrl, data) {
         }
         //瑞安店
         else if (data.shopInfo.id==3){
-          sn = 'YOUR_RUIAN_SN_HERE'
+          sn = '744905VQE26ED4A'
         }
           //如果没有打印机，则返回
           if(!sn){
