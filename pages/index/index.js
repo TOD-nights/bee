@@ -156,20 +156,43 @@ Page({
     wx.getLocation({
       type: 'wgs84', //wgs84 返回 gps 坐标，gcj02 返回可用于 wx.openLocation 的坐标
       success: (res) => {
-        // console.log(res)
         this.data.latitude = res.latitude
         this.data.longitude = res.longitude
         this.fetchShops(res.latitude, res.longitude, '')
       },      
       fail: (e) => {
         if (e.errMsg.indexOf('fail auth deny') != -1) {
-          AUTH.checkAndAuthorize('scope.userLocation')
-        } else {
+          // 定位权限被拒绝，提供友好提示
           wx.showModal({
-            confirmText: this.data.$t.common.confirm,
-            cancelText: this.data.$t.common.cancel,
-            content: e.errMsg,
-            showCancel: false
+            title: this.data.$t.common.tips || '提示',
+            content: '为了给您推荐最近的门店，需要获取您的位置信息',
+            confirmText: this.data.$t.common.confirm || '去开启',
+            cancelText: this.data.$t.common.cancel || '暂不开启',
+            success: (res) => {
+              if (res.confirm) {
+                AUTH.checkAndAuthorize('scope.userLocation')
+              } else {
+                // 用户选择不开启定位，跳转到店铺列表
+                wx.navigateTo({
+                  url: '/pages/shop/select?type=index'
+                })
+              }
+            }
+          })
+        } else {
+          // 其他定位错误
+          wx.showModal({
+            title: this.data.$t.common.tips || '提示',
+            content: '无法获取您的位置，是否手动选择门店？',
+            confirmText: this.data.$t.common.confirm || '去选择',
+            cancelText: this.data.$t.common.cancel || '取消',
+            success: (res) => {
+              if (res.confirm) {
+                wx.navigateTo({
+                  url: '/pages/shop/select?type=index'
+                })
+              }
+            }
           })
         }
       }
