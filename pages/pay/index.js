@@ -416,7 +416,7 @@ Page({
     const money = res.data.amountReal * 1 - res1.data.balance*1
     if (money <= 0) {
       // 使用余额支付
-      await WXAPI.orderPay(token, res.data.id).then(r=>{
+      await WXAPI.balance_pay(token, res.data.id).then(r=>{
         console.log(r)
       
         if(r.code==700){
