@@ -57,4 +57,5 @@ var filter = {
 }
 module.exports = {
   parseTime: filter.parseTime,
+  formatNumber: filter.formatNumber
 }
