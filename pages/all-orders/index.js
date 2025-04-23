@@ -61,13 +61,13 @@ Page({
         if (res.data.balance > 0) {
           _msg += ' ' + that.data.$t.order.balance + ' ' + res.data.balance
           if (money - res.data.balance > 0) {
-            _msg += ' ' + that.data.$t.order.payAmount + ' ' + (money - res.data.balance)
+            _msg += ' ' + that.data.$t.order.payAmount + ' ' + (money - res.data.balance).toFixed(2)
           }          
         }
         if (needScore > 0) {
           _msg += ' ' + that.data.$t.order.payScore + ' ' + needScore
         }
-        money = money - res.data.balance
+        money = (money - res.data.balance).toFixed(2)
         wx.showModal({
           content: _msg,
           confirmText: that.data.$t.common.confirm,

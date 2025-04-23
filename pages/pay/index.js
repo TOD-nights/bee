@@ -412,8 +412,7 @@ Page({
       return
     }
    
-      
-    const money = res.data.amountReal * 1 - res1.data.balance*1
+    const money = (res.data.amountReal * 1 - res1.data.balance*1).toFixed(2)
     if (money <= 0) {
       // 使用余额支付
       await WXAPI.balance_pay(token, res.data.id).then(r=>{
