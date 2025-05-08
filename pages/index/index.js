@@ -18,7 +18,10 @@ Page({
     menuButtonBoundingClientRect: wx.getMenuButtonBoundingClientRect(),
   },  
   onLoad: function (e) {
-
+// 直接跳转到店铺选择页面
+wx.navigateTo({
+  url: '/pages/shop/select?type=index'
+})
      // 清除店铺缓存
   wx.removeStorageSync('shopInfo')
   wx.removeStorageSync('shopIds')
