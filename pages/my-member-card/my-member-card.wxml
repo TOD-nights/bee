@@ -1,0 +1,18 @@
+<van-cell-group>
+  <van-cell wx:for="{{list}}" tilte='{{item.name}}' wx:key='index'>
+
+    <view class="cell-panel">
+      <view class="body">
+        <view class="top">
+          <view class='name'>{{item.name}}</view>
+          <view class="price">¥{{item.amount}}</view>
+        </view>
+        <view class="bottom">
+          <view class="type" style="flex:1;">可用次数:{{item.totalCount}}/{{item.leftCount}}</view>
+          <view class="type">{{item.typeName}}</view>
+        </view>
+      </view>
+      <view class='buy-btn' data-index='{{index}}' bind:tap="hexiao" wx:if="{{item.leftCount > 0}}">核销</view>
+    </view>
+  </van-cell>
+</van-cell-group>

@@ -1,0 +1,44 @@
+/* pages/member-card.wxss */
+.cell-panel {
+  display: flex;
+  align-items: center;
+}
+
+.cell-panel .body {
+  display: flex;
+  flex:1;
+  flex-direction: column;
+}
+
+.cell-panel .top {
+  display: flex;
+}
+
+.cell-panel .top .name {
+  flex: 1;
+  text-align: left;
+}
+
+.cell-panel .top .price {
+  flex: 1;
+  color: rgb(197, 38, 38);
+}
+
+.cell-panel .bottom {
+  display: flex;
+}
+
+.cell-panel .bottom .type {
+  color: rgb(197, 38, 38);
+  text-align: left;
+}
+
+.cell-panel .buy-btn{
+  height: 50rpx;
+  line-height: 50rpx;
+  background-color: rgb(240, 71, 29);
+  color: white;
+  padding: 0rpx 20rpx;
+  margin-left: 30rpx;
+  border-radius: 10rpx;
+}

@@ -108,6 +108,11 @@ Page({
       url: '/pages/asset/index',
     })
   },
+  goMyMemberCard(){
+    wx.navigateTo({
+      url: '/pages/my-member-card/my-member-card',
+    })
+  },
   goScorelog() {
     wx.navigateTo({
       url: '/pages/score/logs',

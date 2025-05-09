@@ -28,7 +28,9 @@
     "pages/cart/index",
     "pages/cart/order",
     "pages/goods-details/index",
-    "pages/goods/list"
+    "pages/goods/list",
+    "pages/member-card/member-card",
+    "pages/my-member-card/my-member-card"
   ],
   "requiredPrivateInfos": [
     "getLocation",
@@ -52,7 +54,6 @@
         "selectedIconPath": "images/nav/index-on.png",
         "text": "点餐"
       },
-      
       {
         "pagePath": "pages/order-details/doing",
         "iconPath": "images/nav/qc-off.png",
@@ -73,7 +74,7 @@
     }
   },
   "usingComponents": {
-    "parser":"/components/parser.20200731.min/parser",
+    "parser": "/components/parser.20200731.min/parser",
     "van-button": "@vant/weapp/button/index",
     "van-sidebar": "@vant/weapp/sidebar/index",
     "van-sidebar-item": "@vant/weapp/sidebar-item/index",

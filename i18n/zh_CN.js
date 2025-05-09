@@ -52,6 +52,7 @@ module.exports = {
     scoreNotEnough: '您的积分不足，无法支付',
     amountReal: '订单金额',
     balance: '可用余额',
+    memberCard: '我的卡片',
     payAmount: '仍需支付',
     payScore: '需要扣除积分:',
     noCashAccount: '无法获取用户资金信息',
@@ -351,5 +352,8 @@ module.exports = {
       xl: '销量',
       jg: '价格',
     }
+  },
+  memberCard:{
+    title:'会员卡管理'
   }
 }

@@ -52,6 +52,7 @@ module.exports = {
     scoreNotEnough: 'Your Score are is Not enough!',
     amountReal: 'Order Amount',
     balance: 'Balance',
+    memberCard: 'My Card',
     payAmount: 'Still need Pay',
     payScore: 'Score need to be deducted:',
     noCashAccount: 'Unable to obtain user funding information',
@@ -351,5 +352,8 @@ module.exports = {
       xl: 'Sales',
       jg: 'Price',
     }
+  },
+  memberCard:{
+    title:'memberCard'
   }
 }
