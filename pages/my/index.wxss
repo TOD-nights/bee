@@ -119,6 +119,10 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  margin-left: 88rpx;
+}
+.coupon-box .coupon:first-child{
+  margin-left: 0;
 }
 .coupon-box .coupon .title1{
   font-size: 25rpx;

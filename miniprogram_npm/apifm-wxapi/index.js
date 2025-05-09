@@ -2881,7 +2881,20 @@ module.exports = {
   },
   cpactivityPay: function cpactivityPay(data) {
     return request('/cpactivityInfo/pay', true, 'post', data);
-  }
+  },
+  memberCardListAll: function memberCardListAll () {
+    return request('/member-card/listall', true, 'get',{token:wx.getStorageSync('token')});
+  },
+  myMemberCardListAll: function myMemberCardListAll () {
+    return request('/member-card/my-member-card', true, 'get',{token:wx.getStorageSync('token')});
+  },
+  buyBalancePay: function buyBalancePay (data) {
+    return request('/member-card/buy/balance_pay', true, 'post',{token:wx.getStorageSync('token'),...data});
+  },
+  buyWxPay: function buyWxPay (data) {
+    return request('/member-card/buy/wxpay', true, 'post',{token:wx.getStorageSync('token'),...data});
+  },
+
 };
 
 /***/ })
