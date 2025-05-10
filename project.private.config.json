@@ -25,8 +25,8 @@
           "name": "pages/member-card/member-card",
           "pathName": "pages/member-card/member-card",
           "query": "",
-          "scene": null,
-          "launchMode": "default"
+          "launchMode": "default",
+          "scene": null
         },
         {
           "name": "pages/cart/order",
