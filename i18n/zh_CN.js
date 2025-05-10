@@ -51,7 +51,7 @@ module.exports = {
     cancelProfile: '确定要取消该订单吗？',
     scoreNotEnough: '您的积分不足，无法支付',
     amountReal: '订单金额',
-    balance: '可用余额',
+    balance: '余额',
     memberCard: '我的卡片',
     payAmount: '仍需支付',
     payScore: '需要扣除积分:',

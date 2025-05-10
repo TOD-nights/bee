@@ -14,6 +14,7 @@ Page({
     balance: 0.00,
     score: 0,
     nick: undefined,
+    statusBarHeight: 0
   },
   onLoad() {
     const order_hx_uids = wx.getStorageSync('order_hx_uids')
@@ -40,6 +41,13 @@ Page({
         })
       }
     })
+    // 在页面或组件中调用
+    const systemInfo = wx.getWindowInfo();
+    const statusBarHeight = systemInfo.statusBarHeight; // 单位：px
+    this.setData({
+      statusBarHeight
+    })
+    console.log(statusBarHeight)
   },
   async getUserApiInfo() {
     const res = await WXAPI.userDetail(wx.getStorageSync('token'))

@@ -1,10 +1,42 @@
-<view class="search">
-	<view class="icon">
-		<van-icon name="search" />
-	</view>
-	<input placeholder="{{ $t.common.search }}" bindinput="searchChange" bindconfirm="search" />
+<view class="store-bg">
+  <image class="store-image" src="/images/store.png" mode="aspectFit"/>
 </view>
-<view class="shops" wx:for="{{shops}}" wx:key="id">
+<view class="data-box">
+  <view class="search">  
+    <view class="icon">
+      <van-icon name="search" />
+    </view>
+    <input placeholder="{{ $t.common.search }}" bindinput="searchChange" bindconfirm="search" />
+  </view>
+  <view class="data">
+    <view class="list">
+      <view class="item {{selectId == item.id ? 'active': ''}}" wx:for="{{shops}}" wx:key="id" data-idx="{{index}}" bindtap="goShop">
+        <view class="name">
+          <text style="color:#333;font-weight: bold;">{{ item.name }}</text>
+          <text class="distance">{{ item.distance }}km</text>
+        </view>
+        <view class="addr">
+          <text class="value">{{ item.address }}</text>
+        </view>
+        <view class="time">
+          <text class="value">{{ item.openingHours }}</text>
+        </view>
+        <view class="btn-box">
+          <view class="v-btn">可外卖</view>
+          <view class="icon">
+            <view class="icon-box">
+              <van-icon name="phone" color="#666" />
+            </view>
+            <view class="icon-box">
+              <van-icon name="map-marked" color="#666" />
+            </view>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+</view>
+<!--<view class="shops" wx:for="{{shops}}" wx:key="id">
 	<view class="t">
 		<view class="name">
 			<van-icon name="shop-o" />
@@ -33,7 +65,7 @@
 	</view>
 
 	<button wx:if="{{index == 0}}" class="goHotel" type="default" bindtap="goShop" data-idx="{{ index }}"> {{ $t.shop.select }} </button>
-</view>
+</view> -->
 <!-- <view class="block-btn btn">
   <van-button type="primary" block bind:click="joinApply">商家申请入驻</van-button>
 </view> -->

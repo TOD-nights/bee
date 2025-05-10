@@ -1025,8 +1025,9 @@ Page({
     })
   },
   selectshop() {
+    const {id} = this.data.shopInfo;
     wx.navigateTo({
-      url: '/pages/shop/select?type=index',
+      url: '/pages/shop/select?type=index&id=' + id,
     })
   },
   goGoodsDetail(e) {

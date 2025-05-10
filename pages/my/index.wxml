@@ -1,16 +1,22 @@
 <view class="my-bar">
-	<image mode='aspectFill' class='background' src='{{myBg}}'></image>	
-	<view class="my-box">
+	<view class="my-box background" style="padding-top:{{statusBarHeight}}px;">
+    <view class="bar-title">
+      <text>我的</text>
+    </view>
 		<view class="head-bar">
       <view class="head-bar-left">
         <button class="userinfo-avatar" open-type="chooseAvatar" bind:chooseavatar="onChooseAvatar">
           <image src="{{ apiUserInfoMap.base.avatarUrl ? apiUserInfoMap.base.avatarUrl : '/images/default.png' }}" mode="aspectFill" class="userinfo-avatar-img"></image>
         </button> 
         <view class="name-box">
-          <view class="name" bindtap="copyuid">{{ $t.my.uid }}:{{ apiUserInfoMap.base.id }}</view>
-          <view class="name" bindtap="editNick">{{ nick ? nick : $t.my.nickSet }}</view>
-          <view wx:if="{{apiUserInfoMap.userLevel}}" class="state" bindtap="govip">{{apiUserInfoMap.userLevel.name}}</view>
-          <view wx:else class="state" bindtap="govip">{{ $t.vip.notVIP }}</view>
+          <!-- <view class="name" bindtap="copyuid">{{ $t.my.uid }}:{{ apiUserInfoMap.base.id }}</view> -->
+          <view class="name" bindtap="editNick" style="font-weight: bold;font-size: 34rpx;">{{ nick ? nick : $t.my.nickSet }}</view>
+          <view wx:if="{{apiUserInfoMap.userLevel}}" class="state" bindtap="govip">
+            <van-icon name="diamond" />
+            {{apiUserInfoMap.userLevel.name}}</view>
+          <view wx:else class="state" bindtap="govip">
+            <van-icon name="diamond" />
+            {{ $t.vip.notVIP }}</view>
         </view>
       </view>
       <view class="user-code" bindtap="goUserCode">
@@ -18,28 +24,28 @@
         <view class="txt">{{ $t.my.userCode }}</view>
       </view>
 		</view>
-		<view wx:if="{{apiUserInfoMap}}" class="coupon-box">
-			<view class="coupon" bindtap="goCoupons">
-				<view class="num">{{couponStatistics.canUse}}</view>
-				<view class="title1">{{ $t.coupons.title }}</view>
-			</view>
-      <view class="coupon" bindtap="goMyMemberCard">
-				<view class="num">{{couponStatistics.canUse}}</view>
-				<view class="title1">{{ $t.order.memberCard }}</view>
-			</view>
-			<view class="balance-box" bindtap="goBalance">
-				<view class="amount-box">
-					<view class="amount1">¥</view>
-					<view class="amount2">{{balance}}</view>
-				</view>
-				<view class="amount">{{ $t.order.balance }}</view>
-			</view>
-			<view class="coupon" bindtap="goScorelog">
-				<view class="num">{{score}}</view>
-				<view class="title1">{{ $t.my.score }}</view>
-			</view>
-		</view>
 	</view>
+</view>
+<view wx:if="{{apiUserInfoMap}}" class="coupon-box">
+  <view class="coupon coupon-item" bindtap="goCoupons">
+    <view class="num">{{couponStatistics.canUse}}</view>
+    <view class="title1 name">{{ $t.coupons.title }}</view>
+  </view>
+  <!-- <view class="coupon" bindtap="goMyMemberCard">
+    <view class="num">{{couponStatistics.canUse}}</view>
+    <view class="title1">{{ $t.order.memberCard }}</view>
+  </view> -->
+  <view class="balance-box coupon-item" bindtap="goBalance">
+    <view class="amount-box">
+      <view class="amount1">¥</view>
+      <view class="amount2">{{balance}}</view>
+    </view>
+    <view class="amount name">{{ $t.order.balance }}</view>
+  </view>
+  <view class="coupon coupon-item" bindtap="goScorelog">
+    <view class="num">{{score}}</view>
+    <view class="title1 name">{{ $t.my.score }}</view>
+  </view>
 </view>
 <view class="my-bar1">
 	<van-cell icon="sign" title="{{ $t.my.signDaily }}" size="large" is-link url="/pages/sign/index" />

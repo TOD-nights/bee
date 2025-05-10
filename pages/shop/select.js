@@ -8,7 +8,8 @@ Page({
    * 页面的初始数据
    */
   data: {
-
+    selectId: null,
+    selectIdx: null
   },
 
   /**
@@ -20,10 +21,12 @@ Page({
       title: this.data.$t.shop.select,
     })
     this.setData({
+      selectId: options.id,
       type: options.type,
       shop_join_open: wx.getStorageSync('shop_join_open')
     })
-    this.fetchShops(null, null, '')
+    this.fetchShops(null, null, '');
+    
   },
   onShow: function () {
     const that = this
@@ -83,14 +86,13 @@ Page({
     })
   },
   search(event){
-    console.log('search')
     this.setData({
       searchValue: event.detail.value
     })
     this.fetchShops(this.data.latitude, this.data.longitude, event.detail.value)
   },
   goShop(e){
-    const idx = e.currentTarget.dataset.idx    
+    const idx = e.currentTarget.dataset.idx;
     wx.setStorageSync('shopInfo', this.data.shops[idx])
     if (this.data.type == 'index') {
       wx.setStorageSync('refreshIndex', 1)
@@ -108,5 +110,5 @@ Page({
     wx.navigateTo({
       url: '/pages/shop/join-apply',
     })
-  },
+  }
 })
