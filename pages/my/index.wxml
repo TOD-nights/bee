@@ -9,7 +9,7 @@
           <image src="{{ apiUserInfoMap.base.avatarUrl ? apiUserInfoMap.base.avatarUrl : '/images/default.png' }}" mode="aspectFill" class="userinfo-avatar-img"></image>
         </button> 
         <view class="name-box">
-          <!-- <view class="name" bindtap="copyuid">{{ $t.my.uid }}:{{ apiUserInfoMap.base.id }}</view> -->
+           <view class="name" bindtap="copyuid">{{ $t.my.uid }}:{{ apiUserInfoMap.base.id }}</view> 
           <view class="name" bindtap="editNick" style="font-weight: bold;font-size: 34rpx;">{{ nick ? nick : $t.my.nickSet }}</view>
           <view wx:if="{{apiUserInfoMap.userLevel}}" class="state" bindtap="govip">
             <van-icon name="diamond" />
@@ -48,9 +48,12 @@
   </view>
 </view>
 <view class="my-bar1">
-	<van-cell icon="sign" title="{{ $t.my.signDaily }}" size="large" is-link url="/pages/sign/index" />
+	
 	<van-cell wx:if="{{canHX}}" icon="qr" title="{{ $t.my.scanHx }}" size="large" is-link bind:click="scanOrderCode" />
-	<!--<van-cell icon="medal-o" title="{{ $t.vip.title }}" size="large" is-link url="/pages/member-center/index" />
+  
+	<!--
+    <van-cell icon="sign" title="{{ $t.my.signDaily }}" size="large" is-link url="/pages/sign/index" />
+    <van-cell icon="medal-o" title="{{ $t.vip.title }}" size="large" is-link url="/pages/member-center/index" />
 	<van-cell icon="clock-o" title="{{ $t.booking.title }}" size="large" is-link url="/pages/booking/index" />-->
 	<van-cell icon="gold-coin-o" title="{{ $t.my.youhuimaidan }}" size="large" is-link url="/pages/youhui-pay/index" />
 	<van-cell icon="orders-o" title="{{ $t.order.title }}" size="large" is-link url="/pages/all-orders/index" />
