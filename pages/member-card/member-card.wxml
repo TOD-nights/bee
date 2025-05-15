@@ -1,17 +1,32 @@
-<van-cell-group>
-  <van-cell wx:for="{{list}}" tilte='{{item.name}}' wx:key='index'>
+<view>
+  <van-cell-group>
+    <van-cell>
+      <image src='/images/member-card.jpg' class='member-card-tip-logo' mode="widthFix" />
 
-    <view class="cell-panel">
-      <view class="body">
-        <view class="top">
-          <view class='name'>{{item.name}}</view>
-          <view class="price">¥{{item.amount}}</view>
-        </view>
-        <view class="bottom">
-          <view class="type">{{item.typeName}}</view>
+    </van-cell>
+    <van-cell wx:for="{{list}}" tilte='{{item.name}}' wx:key='index' class='cell-item ' custom-style='overflow: visible;'>
+      <view class="cell-panel {{selectedIndex == index?'active':''}}" bind:tap="selectOne" data-index='{{index}}'>
+        <view class="body ">
+          <view class="youhui">优惠{{item.youhuiPercent}}</view>
+          <view class="top">
+            <view class='name'>{{item.name}}</view>
+            <view class="one-price">¥{{item.price}}/杯</view>
+          </view>
+          <view class="bottom">
+            <view class='info'>每日一杯乌干达豆现磨咖啡</view>
+            <view class="price">¥{{item.amount}}</view>
+          </view>
         </view>
       </view>
-      <view class='buy-btn' data-index='{{index}}' bind:tap="buy">购买</view>
+    </van-cell>
+  </van-cell-group>
+  <view class='flex page-bottom'>
+  <view class="left">
+    <view class="top">
+    订单金额<text class='price'>¥{{list[selectedIndex].amount}}</text>
     </view>
-  </van-cell>
-</van-cell-group>
+    <view>以上优惠价仅限乌干达豆</view>
+  </view>
+  <view class='right' bind:tap="buy">立即购买</view>
+  </view>
+</view>

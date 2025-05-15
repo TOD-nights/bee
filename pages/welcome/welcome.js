@@ -29,6 +29,11 @@ Page({
       wx.setStorageSync('show_tip', now + this.data.posterTipTime);
     }
   },
+  toMemberCard(){
+    wx.navigateTo({
+      url: '/pages/member-card/member-card',
+    })
+  },
   refuseAgreement() {
     wx.exitMiniProgram({
       complete(info) {}

@@ -1,13 +1,52 @@
 /* pages/member-card.wxss */
+.member-card-tip-logo{
+  width: 100%;
+  height: auto;
+}
 .cell-panel {
   display: flex;
   align-items: center;
+  border: 4rpx solid #eee;
+  padding: 40rpx;
+  border-radius: 16rpx;
+  box-sizing: border-box;
 }
-
+.cell-panel{
+  overflow: visible;
+}
+::v-deep .van-cell__value{
+  overflow:visible;
+}
+.cell-item .van-cell__value{
+  overflow:visible;
+}
 .cell-panel .body {
   display: flex;
   flex:1;
+  overflow: visible;
   flex-direction: column;
+  position: relative;
+}
+.cell-panel.active {
+ border-color: rgb(255,216,1);
+}
+.cell-panel.active .body .youhui {
+  background-color: rgb(255,216,1);
+  color: black;
+ }
+.cell-panel .body .youhui{
+  color: #999;
+  font-weight: bold;
+  font-size: 34rpx;
+  background-color: #efefef;
+  position:absolute;
+  right: 0rpx;
+  top: -70rpx;
+  border-radius: 18rpx;
+  text-align: center;
+  line-height: 60rpx;
+  height: 60rpx;
+  padding: 0 30rpx;
 }
 
 .cell-panel .top {
@@ -17,6 +56,15 @@
 .cell-panel .top .name {
   flex: 1;
   text-align: left;
+  color: black;
+  font-size: 40rpx;
+  font-weight: bold;
+}
+ .cell-panel .top .one-price {
+  text-align: left;
+  color: black;
+  font-size: 40rpx;
+  font-weight: bold;
 }
 
 .cell-panel .top .price {
@@ -26,11 +74,18 @@
 
 .cell-panel .bottom {
   display: flex;
+  margin-top: 16rpx;
 }
 
-.cell-panel .bottom .type {
+.cell-panel .bottom .info {
   flex: 1;
-  color: rgb(197, 38, 38);
+  color: #ccc;
+  text-align: left;
+}
+.cell-panel .bottom .price {
+  color: #ccc;
+  text-align: left;
+  font-size: 40rpx;
 }
 
 .cell-panel .buy-btn{
@@ -41,4 +96,49 @@
   padding: 0rpx 20rpx;
   margin-left: 30rpx;
   border-radius: 10rpx;
+}
+
+.page-bottom{
+  position: fixed;
+  bottom: 0px;
+  left:0px;
+  right: 0px;
+  display: flex;
+  padding:45rpx;
+  border-top: 2rpx solid #eee;
+
+}
+.page-bottom .left{
+  flex:1;
+}
+
+.page-bottom .left{
+  color: #ddd;
+  font-size: 28rpx;
+  margin-right: 80rpx;
+  margin-left: 40rpx;
+}
+
+.page-bottom .left .top{
+font-size: 36rpx;
+color: #aaa;
+display: flex;
+justify-content: space-evenly;
+}
+
+.page-bottom .left .top .price{
+  color: #000;
+  font-size: 46rpx;
+  font-weight: bold;
+}
+
+.page-bottom .right{
+  background-color: rgb(255,216,1);
+  color: #000;
+  font-size: 30rpx;
+  height: 80rpx;
+  line-height: 80rpx;
+  font-weight: bold;
+  padding: 0 30rpx;
+  border-radius: 40rpx;
 }

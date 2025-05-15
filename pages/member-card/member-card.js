@@ -9,13 +9,15 @@ Page({
   data: {
     list: [],
     loading: false,
-    finished: false
+    finished: false,
+    selectedIndex:0
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad(options) {
+    getApp().initLanguage(this)
     this.loadData()
     console.log("数据加载")
   },
@@ -61,6 +63,12 @@ Page({
   onReachBottom() {
 
   },
+  selectOne(e){
+  
+    this.setData({
+      selectedIndex: e.currentTarget.dataset.index
+    })
+  },
   // 数据加载
   async loadData() {
     this.setData({
@@ -69,6 +77,12 @@ Page({
     const result = await WXAPI.memberCardListAll()
     console.log(result)
     if (result.code == 0) {
+      // 计算每杯的价格和优惠力度
+      for(let i=0;i<result.data.length;i++) {
+        const item = result.data[i]
+        result.data[i].youhuiPercent = parseInt(((item.validMonth * 30 * 9.8 - item.amount) / (item.validMonth * 30 * 9.8)) * 100)+'%' 
+        result.data[i].price = parseInt(item.amount / (30 * item.validMonth) * 100) / 100
+      }
       this.setData({
         list: result.data,
         loading: false,
@@ -76,12 +90,11 @@ Page({
       })
     }
   },
-  /**
+  /**fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
    * 购买
    */
   async buy(e) {
-    const index = e.currentTarget.dataset.index
-    console.log(this.data.list)
+    const index =this.data.selectedIndex
     const id = this.data.list[index].id
     const amount =  this.data.list[index].amount
     const userAmount = await WXAPI.userAmount(wx.getStorageSync('token'))
