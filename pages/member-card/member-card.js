@@ -90,7 +90,7 @@ Page({
       })
     }
   },
-  /**fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+  /**
    * 购买
    */
   async buy(e) {
@@ -171,6 +171,7 @@ Page({
           }
         })
       } else {
+        console.log(_this)
         wx.showModal({
           confirmText: this.data.$t.common.confirm,
           cancelText: this.data.$t.common.cancel,
