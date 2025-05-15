@@ -81,7 +81,6 @@ Page({
    */
   async buy(e) {
     const index = e.currentTarget.dataset.index
-    console.log(this.data.list)
     const id = this.data.list[index].id
     const amount =  this.data.list[index].amount
     const userAmount = await WXAPI.userAmount(wx.getStorageSync('token'))
@@ -158,6 +157,7 @@ Page({
           }
         })
       } else {
+        console.log(_this)
         wx.showModal({
           confirmText: this.data.$t.common.confirm,
           cancelText: this.data.$t.common.cancel,
