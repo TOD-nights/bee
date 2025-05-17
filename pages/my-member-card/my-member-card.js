@@ -81,6 +81,9 @@ Page({
    */
   async hexiao(e){
     const index = e.currentTarget.dataset.index
-    this.data.list.get(index)
+    const id = this.data.list[index].id
+    wx.navigateTo({
+      url: '/pages/member-card-hx/member-card-hx?id='+id,
+    })
   }
 })

@@ -1,0 +1,25 @@
+<wxs module="filters" src="../../utils/time.wxs"></wxs>
+
+<view class='container'>
+  <van-cell-group>
+    <van-cell title='会员卡名称' value='{{data.name}}'></van-cell>
+    <van-cell title='总次数' value='{{data.totalCount}}'></van-cell>
+    <van-cell title='剩余次数' value='{{data.leftCount}}'></van-cell>
+    <van-cell title='今日领取' value='{{data.useLog.id > 0?"已领取":"未领取"}}'></van-cell>
+    <van-cell title='领取时间' value='{{filters.parseTime(data.useLog.use_time,"datetime")}}' wx:if='{{data.useLog.id > 0}}'></van-cell>
+    <van-cell title='领取门店' value='{{data.useLog.shopName}}'>
+      <van-dropdown-menu  style='width: 100% !important;'>
+        <van-dropdown-item value='{{data.useLog.shopId}}' options="{{shops}}" bind:change='shopChange' />
+      </van-dropdown-menu>
+    </van-cell>
+    <van-cell title='领取商品' value='{{data.useLog.goodsName}}' >
+      <van-dropdown-menu  style='width: 100% !important;'>
+        <van-dropdown-item value='{{data.useLog.goodsId}}' options="{{goods}}" bind:change='goodsChange'/>
+      </van-dropdown-menu>
+      </van-cell>
+    <van-cell wx:if='{{data.useLog.id == 0}}'>
+      <van-button type='primary' bind:tap="lingqu">领取</van-button>
+    </van-cell>
+  </van-cell-group>
+  <van-popup show="{{ show }}" round position="bottom" custom-style="height: 20%" bind:close="onClose" />
+</view>

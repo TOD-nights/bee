@@ -12,7 +12,7 @@
           <view class="type">{{item.typeName}}</view>
         </view>
       </view>
-      <view class='buy-btn' data-index='{{index}}' bind:tap="hexiao" wx:if="{{item.leftCount > 0}}">核销</view>
+      <view class='buy-btn' data-index='{{index}}' bind:tap="hexiao" wx:if="{{item.leftCount > 0}}">领取</view>
     </view>
   </van-cell>
 </van-cell-group>

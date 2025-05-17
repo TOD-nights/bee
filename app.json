@@ -31,7 +31,8 @@
     "pages/goods-details/index",
     "pages/goods/list",
     "pages/member-card/member-card",
-    "pages/my-member-card/my-member-card"
+    "pages/my-member-card/my-member-card",
+    "pages/member-card-hx/member-card-hx"
   ],
   "requiredPrivateInfos": [
     "getLocation",

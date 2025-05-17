@@ -354,6 +354,7 @@ module.exports = {
     }
   },
   memberCard:{
-    title:'会员卡管理'
+    title:'会员卡管理',
+    myTitle: '我的会员卡'
   }
 }

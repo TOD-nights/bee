@@ -1,0 +1,26 @@
+/* pages/member-card-hx/member-card-hx.wxss */
+
+
+.van-dropdown-menu__item {
+  justify-content: flex-end !important;
+  margin-right: 30rpx;
+}
+
+.van-cell__title {
+  display: flex;
+  align-items: center;
+}
+
+.van-cell__value {
+  flex: 2 !important;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+.van-cell{
+  height: 120rpx;
+}
+
+.van-dropdown-menu{
+  width: 100% !important;
+}

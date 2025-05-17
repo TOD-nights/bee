@@ -58,6 +58,7 @@
 	<van-cell icon="gold-coin-o" title="{{ $t.my.youhuimaidan }}" size="large" is-link url="/pages/youhui-pay/index" />
 	<van-cell icon="orders-o" title="{{ $t.order.title }}" size="large" is-link url="/pages/all-orders/index" />
 	<van-cell icon="location-o" title="{{ $t.ad_index.title }}" size="large" is-link url="/pages/ad/index" />
+  <van-cell icon="vip-card-o" title="{{ $t.memberCard.myTitle }}" size="large" is-link url="/pages/my-member-card/my-member-card" />
 	<van-cell icon="vip-card-o" title="{{ $t.memberCard.title }}" size="large" is-link url="/pages/member-card/member-card" />
 	<van-cell icon="info-o" title="{{ $t.my.aboutUs }}" size="large" is-link url="/pages/about/index" />
   <van-cell icon="service-o" wx:if="{{ customerServiceType == 'QW' }}" title="{{ $t.my.Contact }}" size="large" is-link bind:click="customerService" />

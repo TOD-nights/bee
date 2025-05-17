@@ -1,3 +1,5 @@
+const AUTH = require('../../utils/auth')
+
 Page({
   data: {
     agreement: false,
@@ -6,7 +8,15 @@ Page({
     posterTipTime: 1000 * 60 * 60 * 24 * 3
   },
   onLoad(options) {
-
+    AUTH.checkHasLogined().then(isLogin => {
+      if (isLogin) {
+        AUTH.bindSeller()
+      } else {
+        AUTH.authorize().then(res => {
+          AUTH.bindSeller()
+        })
+      }
+    })
   },
 
   onReady() {

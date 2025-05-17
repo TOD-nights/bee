@@ -1406,6 +1406,9 @@ module.exports = {
   fetchShops: function fetchShops(data) {
     return request('/shop/subshop/list', true, 'post', data);
   },
+  membercardprod: function membercardprod(data) {
+    return request('/shop/goods/list/membercardprod', true, 'get', data);
+  },
   fetchMyShops: function fetchMyShops(token) {
     return request('/shop/subshop/my', true, 'get', { token: token });
   },
@@ -2885,8 +2888,14 @@ module.exports = {
   memberCardListAll: function memberCardListAll () {
     return request('/member-card/listall', true, 'get',{token:wx.getStorageSync('token')});
   },
+  getMemberCardHxInfo: function getMemberCardHxInfo (id) {
+    return request('/member-card/getMemberCardHxInfo?id='+id, true, 'get',{token:wx.getStorageSync('token')});
+  },
   myMemberCardListAll: function myMemberCardListAll () {
     return request('/member-card/my-member-card', true, 'get',{token:wx.getStorageSync('token')});
+  },
+  lingqu: function lingqu (data) {
+    return request('/member-card/lingqu', true, 'post',{token:wx.getStorageSync('token'),...data});
   },
   buyBalancePay: function buyBalancePay (data) {
     return request('/member-card/buy/balance_pay', true, 'post',{token:wx.getStorageSync('token'),...data});

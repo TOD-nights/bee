@@ -95,10 +95,11 @@ Page({
    */
   async buy(e) {
     const index =this.data.selectedIndex
+    console.log(index)
     const id = this.data.list[index].id
     const amount =  this.data.list[index].amount
     const userAmount = await WXAPI.userAmount(wx.getStorageSync('token'))
-    console.log(userAmount)
+    console.log(userAmount,id,'------')
     if (userAmount.code == 0) {
       const balance = parseFloat(userAmount.data.balance)
       console.log(balance, amount)
