@@ -8,7 +8,7 @@
           <view class="price">¥{{item.amount}}</view>
         </view>
         <view class="bottom">
-          <view class="type" style="flex:1;">可用次数:{{item.totalCount}}/{{item.leftCount}}</view>
+          <view class="type" style="flex:1;">可用次数:{{item.leftCount}}/{{item.totalCount}}</view>
           <view class="type">{{item.typeName}}</view>
         </view>
       </view>
