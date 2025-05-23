@@ -846,12 +846,11 @@ Page({
     }
   },
   tapBanner(e) {
-    const url = e.currentTarget.dataset.url
-    if (url) {
+   
       wx.navigateTo({
-        url
+        url: '/pages/member-card/member-card'
       })
-    }
+    
   },
   checkIsOpened(openingHours) {
     if (!openingHours) {
