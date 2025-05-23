@@ -51,16 +51,22 @@
     "backgroundColor": "#fff",
     "list": [
       {
-        "pagePath": "pages/index/index",
+        "pagePath": "pages/welcome/welcome",
         "iconPath": "images/nav/index-off.png",
         "selectedIconPath": "images/nav/index-on.png",
-        "text": "点餐"
+        "text": "主页"
+      },
+      {
+        "pagePath": "pages/index/index",
+        "iconPath": "images/nav/qc-off.png",
+        "selectedIconPath": "images/nav/qc-on.png",
+        "text": "点单"
       },
       {
         "pagePath": "pages/order-details/doing",
-        "iconPath": "images/nav/qc-off.png",
-        "selectedIconPath": "images/nav/qc-on.png",
-        "text": "取餐"
+        "iconPath": "images/nav/qh-off.png",
+        "selectedIconPath": "images/nav/qh-on.png",
+        "text": "取单"
       },
       {
         "pagePath": "pages/my/index",

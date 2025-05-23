@@ -21,26 +21,37 @@ function $t(){
 
 function setTabBarLanguage(){
   const $t = this.$t()
+
   wx.setTabBarItem({
     index: 0,
-    pagePath: "pages/index/index",
+    pagePath: "pages/welcome/welcome",
     iconPath: "images/nav/index-off.png",
     selectedIconPath: "images/nav/index-on.png",
-    text: $t.index.order
+    text: "主页"
   })
-
 
 
   wx.setTabBarItem({
     index: 1,
-    pagePath: "pages/order-details/doing",
+    pagePath: "pages/index/index",
     iconPath: "images/nav/qc-off.png",
     selectedIconPath: "images/nav/qc-on.png",
-    text: $t.index.PickingUp
+    text: $t.index.order
   })
+
 
   wx.setTabBarItem({
     index: 2,
+    pagePath: "pages/order-details/doing",
+    iconPath: "images/nav/qh-off.png",
+    selectedIconPath: "images/nav/qh-on.png",
+    text: $t.index.PickingUp
+  })
+
+ 
+
+  wx.setTabBarItem({
+    index: 3,
     pagePath: "pages/my/index",
     iconPath: "images/nav/my-off.png",
     selectedIconPath: "images/nav/my-on.png",

@@ -210,8 +210,8 @@ module.exports = {
     step2: '好友参与',
     step3: '成功取餐',
     step4: '失败退款',
-    order: '点餐',
-    PickingUp: '取餐',
+    order: '点单',
+    PickingUp: '取单',
     ordered: '已点',
   },
   queue: {
