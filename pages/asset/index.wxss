@@ -1,70 +1,91 @@
-.balance {
-  height: 260rpx;
+
+
+
+page {
+  background: #fffbe6;
+  min-height: 100vh;
+}
+
+.wallet-card {
+  margin: 40rpx 24rpx 24rpx 24rpx;
+  background: #fff;
+  border-radius: 32rpx;
+  box-shadow: 0 8rpx 32rpx #f5e7b3;
+  padding: 48rpx 0 32rpx 0;
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
-  font-weight: bold;
-  background: #ebebec;
 }
-.balance .t {
-  color: #333;
-}
-.balance .amount {
-  margin-top: 16rpx;
-  color: #333;
-  font-size: 60rpx;
-}
-.balance .amount text {
+.wallet-title {
+  color: #888;
   font-size: 28rpx;
-  margin-right: 8rpx;
+  margin-bottom: 12rpx;
 }
-.persion-num {
-  padding: 32rpx;
+.wallet-amount {
+  color: #222;
+  font-size: 64rpx;
+  font-weight: bold;
+  margin-bottom: 16rpx;
+}
+.wallet-record {
+  color: #bbb;
+  font-size: 24rpx;
+  margin-top: 8rpx;
+}
+
+.recharge-section {
+  margin: 0 24rpx;
+}
+.recharge-title {
+  color: #888;
+  font-size: 28rpx;
+  margin-bottom: 24rpx;
+}
+.recharge-options {
   display: flex;
   flex-wrap: wrap;
+  gap: 24rpx;
   justify-content: space-between;
 }
-.persion-num .item {
-  width: 327rpx;
-  border: solid 1rpx #969799;
-  color: #333;
-  margin-bottom: 32rpx;
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  padding: 16rpx 0;
+.recharge-btn {
+  width: 44vw;
+  background: #fff;
+  border: 2rpx solid #ffe066;
+  border-radius: 24rpx;
+  padding: 32rpx 0;
+  text-align: center;
+  margin-bottom: 24rpx;
+  box-sizing: border-box;
 }
-.persion-num .item.active {
-  border: solid 1rpx #149652;
-  color: #149652;
+.recharge-btn.active {
+  border: 2rpx solid #ffd600;
+  background: #fffde7;
+  color: #ffb800;
 }
-.persion-num .item .icon {
-  position: absolute;
-  right: 8rpx;
-  top: 8rpx;
+.recharge-btn .main {
+  font-size: 36rpx;
+  font-weight: bold;
 }
-.persion-num .item .a {
-  font-size: 48rpx;
+.recharge-btn .sub {
+  font-size: 24rpx;
+  color: #bbb;
+  margin-top: 8rpx;
 }
-.persion-num .item .a text {
-  font-size: 28rpx;
+
+.footer-btn {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 48rpx;
+  padding: 0 48rpx;
 }
-.persion-num .item .b {
-  font-size: 48rpx;
-}
-.persion-num .item .b text {
-  font-size: 28rpx;
-}
-.btn {
-  padding: 0 32rpx;
-  margin-bottom: 64rpx;
-}
-.pop-blank {
+.confirm-btn {
+  width: 100%;
   height: 88rpx;
-}
-.bottom-blank {
-  height: 88rpx;
+  background: #ffd600;
+  color: #222;
+  font-size: 32rpx;
+  border-radius: 44rpx;
+  font-weight: bold;
+  border: none;
 }

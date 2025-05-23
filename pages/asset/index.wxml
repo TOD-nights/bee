@@ -1,44 +1,42 @@
-<view class="balance">
-  <view class="t">{{ $t.order.balance }}</view>
-  <view class="amount"><text>¥</text>{{balance}}</view>
+
+
+<!-- 顶部背景 -->
+<view class="asset-header-bg"></view>
+
+<!-- 余额卡片 -->
+<view class="asset-balance-card">
+  <view class="balance-label">可用余额</view>
+  <view class="balance-amount">¥{{balance}}</view>
 </view>
-<van-divider contentPosition="center">{{ $t.asset.recharge }}</van-divider>
-<view class="persion-num">
-  <view wx:for="{{rechargeSendRules}}" wx:key="id" class="item {{ruleSelIndex == index ? 'active' : ''}}" data-idx="{{index}}" bindtap="changePersionNum">
-    <view class="a"><text>{{ $t.asset.confine }}¥</text>{{item.confine}}</view>
-    <view class="b"><text>{{ $t.asset.send }}¥</text>{{item.send}}</view>
-    <van-icon wx:if="{{ruleSelIndex == index}}" custom-class="icon" name="success" />
+
+<!-- 余额卡片 -->
+<view class="wallet-card">
+  <view class="wallet-title">可用余额</view>
+  <view class="wallet-amount">¥{{balance}}</view>
+  <van-cell title="{{ $t.asset.rechargeLogs }}"  is-link url="/pages/asset/recharge-log" />
+ 
+</view>
+
+<!-- 充值选项 -->
+<view class="recharge-section">
+  <view class="recharge-title">余额充值</view>
+  <view class="recharge-options">
+    <view
+      wx:for="{{rechargeSendRules}}"
+      wx:key="id"
+      class="recharge-btn {{ruleSelIndex == index ? 'active' : ''}}"
+      data-idx="{{index}}"
+      bindtap="changePersionNum"
+    >
+      <view class="main">{{item.confine}}元</view>
+      <view class="sub">
+        {{item.send > 0 ? ('多送' + item.send + '元') : '无赠金'}}
+      </view>
+    </view>
   </view>
-  <!-- <view class="item {{ruleSelIndex == -1 ? 'active' : ''}}" data-idx="-1" bindtap="changePersionNum">
-    <view class="a">{{ $t.asset.other }}</view>
-    <van-icon wx:if="{{ruleSelIndex == -1}}" custom-class="icon" name="success" />
-  </view> -->
-</view>
-<view class="btn">
-  <van-button type="primary" block bind:click="submit1">{{ $t.asset.confirmBtn }}</van-button>
 </view>
 
-
-<van-popup
-  show="{{ showRechargePop }}"
-  position="bottom"
-  closeable
-  bind:close="onClose">
-  <view class="pop-blank"></view>
-  <van-field
-    label="{{ $t.asset.amount }}"
-    size="large"
-    type="digit"
-    clearable
-    model:value="{{ amount2 }}"
-    placeholder="{{ $t.asset.amountPlaceholder }}"
-    bind:change="onChange"
-  />
-  <view class="btn">
-    <van-button type="primary" block bind:click="submit2">{{ $t.asset.confirmBtn }}</van-button>
-  </view>
-</van-popup>
-
-<van-cell title="{{ $t.asset.rechargeLogs }}" size="large" is-link url="/pages/asset/recharge-log" />
-<van-cell title="{{ $t.cashLog.title }}" size="large" is-link url="/pages/asset/cash-log" />
-<view class="bottom-blank"></view>
+<!-- 底部确认按钮 -->
+<view class="footer-btn">
+  <button class="confirm-btn" bindtap="submit1">确认充值</button>
+</view>
