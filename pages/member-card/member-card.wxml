@@ -18,8 +18,25 @@
           </view>
         </view>
       </view>
+    
     </van-cell>
   </van-cell-group>
+
+ <!-- 购买会员区域 -->
+<!-- 购买会员按钮，使用相同的样式结构 -->
+<view class='flex page-bottom member-section'>
+  <view class="left">
+    <view class="top">
+      会员专享优惠
+    </view>
+    <view>充值100享受会员价</view>
+  </view>
+  
+  <view class="balance-box coupon-item" bindtap="goBalance">购买会员</view>
+
+</view>
+
+  <!-- 立即购买区域 -->
   <view class='flex page-bottom'>
   <view class="left">
     <view class="top">

@@ -354,7 +354,7 @@ module.exports = {
     }
   },
   memberCard:{
-    title:'会员卡管理',
-    myTitle: '我的会员卡'
+    title:'购买季卡',
+    myTitle: '我的季卡'
   }
 }

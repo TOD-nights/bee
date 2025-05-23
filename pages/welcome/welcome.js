@@ -41,7 +41,7 @@ Page({
   },
   toMemberCard(){
     wx.navigateTo({
-      url: '/pages/asset/index',
+      url: '/pages/member-card/member-card',
     })
   },
   refuseAgreement() {

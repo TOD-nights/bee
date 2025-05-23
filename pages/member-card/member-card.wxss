@@ -142,3 +142,67 @@ justify-content: space-evenly;
   padding: 0 30rpx;
   border-radius: 40rpx;
 }
+/* 购买会员区域样式 */
+.member-section {
+  position: relative; /* 覆盖fixed定位，让它不固定在底部 */
+  border-top: none;   /* 移除顶部边框 */
+  margin-bottom: 20rpx; /* 添加底部间距 */
+}
+
+.member-section .left {
+  color: #ddd;
+  font-size: 28rpx;
+  margin-right: 80rpx;
+  margin-left: 40rpx;
+}
+
+.member-section .left .top {
+  font-size: 36rpx;
+  color: #aaa;
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.member-section .right {
+  background-color: rgb(255,216,1);
+  color: #000;
+  font-size: 30rpx;
+  height: 80rpx;
+  line-height: 80rpx;
+  font-weight: bold;
+  padding: 0 30rpx;
+  border-radius: 40rpx;
+}
+/* 确保第一个按钮可以点击 */
+.right {
+  background-color: rgb(255,216,1);
+  color: #000;
+  font-size: 30rpx;
+  height: 80rpx;
+  line-height: 80rpx;
+  font-weight: bold;
+  padding: 0 30rpx;
+  border-radius: 40rpx;
+  position: relative;
+  z-index: 999; /* 提升层级，防止被遮挡 */
+  pointer-events: auto; /* 确保可以点击 */
+}
+
+/* 给balance-box添加样式 */
+.balance-box {
+  background-color: rgb(255,216,1);
+  color: #000;
+  font-size: 30rpx;
+  height: 80rpx;
+  line-height: 80rpx;
+  font-weight: bold;
+  padding: 0 30rpx;
+  border-radius: 40rpx;
+  text-align: center;
+  display: inline-block;
+}
+
+.coupon-item {
+  /* 如果需要额外样式可以在这里添加 */
+  margin: 10rpx;
+}
