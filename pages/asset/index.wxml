@@ -1,42 +1,40 @@
+<view class="page">
+  <!-- 标题栏 -->
+  <view class="header">
+    <view class="title"> </view>
+  </view>
 
+  <!-- 余额卡片 
+  <van-cell title="{{ $t.asset.rechargeLogs }}" size="large" is-link url="/pages/asset/recharge-log" />
+    <van-cell title="{{ $t.cashLog.title }}" size="large" is-link url="/pages/asset/cash-log" />
+    -->
+  <view class="wallet-card">
+    <view class="wallet-title">可用余额</view>
+    <view class="wallet-amount">¥{{balance}}</view>
+    
+  </view>
 
-<!-- 顶部背景 -->
-<view class="asset-header-bg"></view>
-
-<!-- 余额卡片 -->
-<view class="asset-balance-card">
-  <view class="balance-label">可用余额</view>
-  <view class="balance-amount">¥{{balance}}</view>
-</view>
-
-<!-- 余额卡片 -->
-<view class="wallet-card">
-  <view class="wallet-title">可用余额</view>
-  <view class="wallet-amount">¥{{balance}}</view>
-  <van-cell title="{{ $t.asset.rechargeLogs }}"  is-link url="/pages/asset/recharge-log" />
- 
-</view>
-
-<!-- 充值选项 -->
-<view class="recharge-section">
-  <view class="recharge-title">余额充值</view>
-  <view class="recharge-options">
-    <view
-      wx:for="{{rechargeSendRules}}"
-      wx:key="id"
-      class="recharge-btn {{ruleSelIndex == index ? 'active' : ''}}"
-      data-idx="{{index}}"
-      bindtap="changePersionNum"
-    >
-      <view class="main">{{item.confine}}元</view>
-      <view class="sub">
-        {{item.send > 0 ? ('多送' + item.send + '元') : '无赠金'}}
+  <!-- 充值选项 -->
+  <view class="recharge-section">
+    <view class="recharge-title">余额充值</view>
+    <view class="recharge-options">
+      <view
+        wx:for="{{rechargeSendRules}}"
+        wx:key="id"
+        class="recharge-btn {{ruleSelIndex == index ? 'active' : ''}}"
+        data-idx="{{index}}"
+        bindtap="changePersionNum"
+      >
+        <view class="amount">{{item.confine}}元</view>
+        <view class="bonus">
+          {{item.send > 0 ? ('多送' + item.send + '元') : '无赠金'}}
+        </view>
       </view>
     </view>
   </view>
-</view>
 
-<!-- 底部确认按钮 -->
-<view class="footer-btn">
-  <button class="confirm-btn" bindtap="submit1">确认充值</button>
+  <!-- 底部确认按钮 -->
+  <view class="footer-btn">
+    <button class="confirm-btn" bindtap="submit1">确认充值</button>
+  </view>
 </view>
