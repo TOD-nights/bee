@@ -26,10 +26,8 @@
 <!-- 购买会员按钮，使用相同的样式结构 -->
 <view class='flex page-bottom member-section'>
   <view class="left">
-    <view class="top">
-      会员专享优惠
-    </view>
-    <view>充值100享受会员价</view>
+    <view style="font-size: 40rpx; font-weight: bold; color: #000;">会员专享优惠</view>
+    <view style="margin-top: 30rpx;">充值100享受会员价</view>
   </view>
   
   <view class="balance-box coupon-item" bindtap="goBalance">购买会员</view>
