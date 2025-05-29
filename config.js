@@ -1,8 +1,9 @@
 module.exports = {
-    apiHost: 'https://98.9kuai8coffee.asia',
+    //apiHost: 'https://98.9kuai8coffee.asia',
+ apiHost: 'https://9kuai8coffee.asia',
   // apiHost: 'http://localhost:8081',
-  subDomain: "9kuai8coffee.asia", 
-  // subDomain: "98.9kuai8coffee.asia",
+  // apiHost: 'https://api.it120.cc',//api工厂的值
+  subDomain: "9kuai8coffee.asia", // 固定值
 
 
   version: "20.1.2",

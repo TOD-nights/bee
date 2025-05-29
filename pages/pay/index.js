@@ -708,8 +708,15 @@ Page({
          let sign = userId + userKey + timstamp
           //打印机序列号，店铺id对应打印机序列号
           let sn = ''
+          //紫金店
+          if(data.shopInfo.id==2){
+            sn = '32817SCU1VAF54B'
+          }//未来店
+          else if (data.shopInfo.id==1){
+            sn = '32EL21088705948'
+          }
            //塘下店
-        if (data.shopInfo.id==4){
+        else if (data.shopInfo.id==4){
           sn = '325Z1VC2ANA044B'
       }
       //瑞安店
