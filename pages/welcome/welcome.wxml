@@ -1,6 +1,6 @@
 <view class="container">  
   <view class="poster">
-    <image class="poster-image" src="/images/poster.png" mode="aspectFit"/>
+    <image class="poster-image" src="https://taletape-video-dev.oss-eu-central-1.aliyuncs.com/9.8/poster.png" mode="aspectFit"/>
     <view class="btn-box">
       <view class="btn-button" bindtap="toIndex" style='border-right: 1px solid #ddd;'>
         <image class="btn-icon" src="/images/diancan.jpg" mode="aspectFit"/>
