@@ -806,6 +806,24 @@ Page({
           else if (data.shopInfo.id==3){
             sn = '744905VQE26ED4A'
           }
+
+          //丽阳门 钟楼
+        else if (data.shopInfo.id==5){
+          sn = '742TDCUUEG52448'
+        }
+
+        //银泰
+        else if (data.shopInfo.id==6){
+          sn = '746YPYC2M938048'
+        }
+        //金汇店
+        else if (data.shopInfo.id==7){
+          sn = '746M3WQ7371EB4B'
+        }
+        //小转盘店
+        else if (data.shopInfo.id==8){
+          sn = '74UCT9NHQ03F048'
+        }
       
             //如果没有打印机，则返回
             if(!sn){
