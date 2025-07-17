@@ -724,8 +724,7 @@ Page({
           sn = '32EVUCUVY0B4848'
       }
 
-
-          //如果没有打印机，则返回
+          //如果没有贴纸机，则返回
           if(!sn){
             return
           }
@@ -823,6 +822,10 @@ Page({
         //小转盘店
         else if (data.shopInfo.id==8){
           sn = '74UCT9NHQ03F048'
+        }
+        //ritmohub
+        else if (data.shopInfo.id==9){
+          sn = '74Q47U9U2NE334A'
         }
       
             //如果没有打印机，则返回

@@ -112,7 +112,7 @@ function wxpay(type, money, orderId, redirectUrl, data) {
       else if (data.shopInfo.id==3){
           sn = '32EVUCUVY0B4848'
       }
-        //如果没有打印机，则返回
+        //如果没有贴纸机，则返回
         if(!sn){
           return
         }
@@ -198,7 +198,6 @@ function wxpay(type, money, orderId, redirectUrl, data) {
         else if (data.shopInfo.id==5){
           sn = '742TDCUUEG52448'
         }
-
         //银泰
         else if (data.shopInfo.id==6){
           sn = '746YPYC2M938048'
@@ -211,6 +210,11 @@ function wxpay(type, money, orderId, redirectUrl, data) {
         else if (data.shopInfo.id==8){
           sn = '74UCT9NHQ03F048'
         }
+        //ritmohub
+        else if (data.shopInfo.id==9){
+          sn = '74Q47U9U2NE334A'
+        }
+
           //如果没有打印机，则返回
           if(!sn){
             return

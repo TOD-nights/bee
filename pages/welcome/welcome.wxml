@@ -11,12 +11,24 @@
         <view class="btn-text">购买会员</view>
       </view>
     </view>
-    <view class="poster-tip" wx:if="{{posterTip}}">
-      <view class="image-box" bindtap="scanQrcode">
-        <image class="poster-tip-image" src="/images/tip.jpg" mode="aspectFit"/>
-      </view>
-      <image class="poster-tip-close" src="/images/close.png" mode="aspectFit" bindtap="closeTip"/>
-    </view>
+    <!-- poster-tip 容器 -->
+<view class="poster-tip" wx:if="{{posterTip}}">
+  <view class="image-box" bindtap="scanQrcode">
+    <!-- 根据索引动态取出当前图片 -->
+    <image class="poster-tip-image"
+           src="{{posters[currentPoster]}}"
+           mode="aspectFit"/>
+  </view>
+
+  <!-- 关闭按钮 / 下一张按钮 -->
+  <image class="poster-tip-close"
+         src="/images/close.png"
+         mode="aspectFit"
+         bindtap="closeTip"/>
+</view>
+
+
+    
   </view>
   <view class="agreement-popup" wx:if="{{agreement}}">
     <view class="agreement">
