@@ -266,8 +266,30 @@ Page({
       else if (data.shopInfo.id==3){
           sn = '32EVUCUVY0B4848'
       }
+ //银泰新
+      else if (data.shopInfo.id==10){
+        sn = '32NGYDZZWN9D349'
+      }
 
-        //如果没有贴纸机，则返回
+      //天津
+      else if (data.shopInfo.id==11){
+        sn = '32838SJRD48F849'
+      }
+
+       //金田
+       else if (data.shopInfo.id==12){
+        sn = '32C5PT83TYA9449'
+      }
+
+      //未来里
+      else if (data.shopInfo.id==13){
+        sn = '32JA8NVQDC1074B'
+      }
+
+
+
+
+        //如果没有打印机，则返回
         if(!sn){
           return
         }
@@ -364,11 +386,27 @@ Page({
         }
         //小转盘店
         else if (data.shopInfo.id==8){
+          sn = ''
+        }
+
+        //银泰
+        else if (data.shopInfo.id==10){
+          sn = '74M60R5MB165A4B'
+        }
+
+        //天津
+        else if (data.shopInfo.id==11){
+          sn = '44PNT1XFVHD8549'
+        }
+
+        //金田
+        else if (data.shopInfo.id==12){
           sn = '74UCT9NHQ03F048'
         }
-        //ritmohub
-        else if (data.shopInfo.id==9){
-          sn = '74Q47U9U2NE334A'
+
+         //未来里
+         else if (data.shopInfo.id==13){
+          sn = '746YPYC2M938048'
         }
 
         
@@ -395,7 +433,7 @@ Page({
       '订单编号: '+ data.data.orderNumber + '<BR>' +
       '用户电话: '+ data.mobile + '<BR>' 
       if(data.peisongType =='pszq'){
-        content+= '用户地址: '+ data.address + '<BR>' 
+        content+= '用户地址: '+ data.address + '<BR>'+ '电话:' +data.mobile + '<BR>' 
       }
       // if(that.data.peisongType=='zq'){
       //   content+= ' 取单号: '+that.data.curAddressData.address + '<BR>' 

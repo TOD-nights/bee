@@ -112,7 +112,29 @@ function wxpay(type, money, orderId, redirectUrl, data) {
       else if (data.shopInfo.id==3){
           sn = '32EVUCUVY0B4848'
       }
-        //如果没有贴纸机，则返回
+
+       //银泰新
+       else if (data.shopInfo.id==10){
+        sn = '32NGYDZZWN9D349'
+      }
+
+
+      //天津
+      else if (data.shopInfo.id==11){
+        sn = '32838SJRD48F849'
+      }
+
+      //金田
+      else if (data.shopInfo.id==12){
+        sn = '32C5PT83TYA9449'
+      }
+
+      //未来里
+      else if (data.shopInfo.id==13){
+        sn = '32JA8NVQDC1074B'
+      }
+
+        //如果没有打印机，则返回
         if(!sn){
           return
         }
@@ -198,6 +220,7 @@ function wxpay(type, money, orderId, redirectUrl, data) {
         else if (data.shopInfo.id==5){
           sn = '742TDCUUEG52448'
         }
+
         //银泰
         else if (data.shopInfo.id==6){
           sn = '746YPYC2M938048'
@@ -208,13 +231,28 @@ function wxpay(type, money, orderId, redirectUrl, data) {
         }
         //小转盘店
         else if (data.shopInfo.id==8){
-          sn = '74UCT9NHQ03F048'
-        }
-        //ritmohub
-        else if (data.shopInfo.id==9){
-          sn = '74Q47U9U2NE334A'
+          sn = ''
         }
 
+        //银泰
+        else if (data.shopInfo.id==10){
+          sn = '74M60R5MB165A4B'
+        }
+
+        //天津
+        else if (data.shopInfo.id==11){
+          sn = '44PNT1XFVHD8549'
+        }
+
+        //金田
+        else if (data.shopInfo.id==12){
+          sn = '74UCT9NHQ03F048'
+        }
+
+         //未来里
+         else if (data.shopInfo.id==13){
+          sn = '746YPYC2M938048'
+        }
           //如果没有打印机，则返回
           if(!sn){
             return
