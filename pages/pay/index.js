@@ -319,6 +319,14 @@ Page({
       }
       if (!e) {
         const coupons = res.data.couponUserList
+        // 仅当 shopInfo.id == 11 且 peisongType == 'pszq' 时，多加 3 元配送费
+if (that.data.shopInfo.id == 11 && that.data.peisongType == 'pszq') {
+  res.data.amountReal = (res.data.amountReal * 1 + 3).toFixed(2)
+  res.data.amountTotle = (res.data.amountTotle * 1 + 3).toFixed(2)
+  res.data.amountLogistics = (res.data.amountLogistics * 1 + 3).toFixed(2)
+}
+
+
         if (coupons) {
           coupons.forEach(ele => {
             let moneyUnit = '元'
