@@ -378,7 +378,7 @@ if (that.data.shopInfo.id == 11 && that.data.peisongType == 'pszq') {
     data: res.data, //订单信息
     goodsList:that.data.goodsList, //商品列表
     shopInfo: that.data.shopInfo, //商铺信息
-    mobile: that.data.mobile,//用户电话
+    mobile: that.data.mobile || that.data.curAddressData.mobile,//用户电话,自取或配送
     address: address,//配送地址
     remark: that.data.remark, //用户备注
     peisongType: that.data.peisongType,//zq,kd
@@ -388,6 +388,7 @@ if (that.data.shopInfo.id == 11 && that.data.peisongType == 'pszq') {
   }
   //
   console.log("缓存前的打印数据",that.data.dataP)
+  console.log('新电话',that.data.curAddressData)
   try{
      //存储打印数据
   wx.setStorage({
