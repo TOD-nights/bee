@@ -250,15 +250,26 @@ Page({
     }
     postData.extJsonStr = JSON.stringify(extJsonStr)
     // 有设置了配送费的情况下，计算运费
-    if (this.data.peisonFeeList && postData.peisongType == 'kd') {
-      let distance = await this.getDistance(this.data.curAddressData)
-      const peisonFee = this.data.peisonFeeList.find(ele => {
-        return ele.distance >= distance
-      })
-      if (peisonFee) {
-        postData.peisongFeeId = peisonFee.id
-      }
-    }
+if (this.data.peisonFeeList && postData.peisongType == 'pszq') {
+  let distance = await this.getDistance(this.data.curAddressData)
+  const peisonFee = this.data.peisonFeeList.find(ele => {
+    return ele.distance >= distance
+  })
+  if (peisonFee) {
+    postData.peisongFeeId = peisonFee.id
+    console.log('匹配到配送费区间：', peisonFee)
+  }
+}
+
+// ✅ 保底逻辑：确保运费实际参与支付
+if (postData.peisongType == 'kd') {
+  const yun = this.data.yunPrice || this.data.peisongfee || 3
+  postData.amountLogistics = yun
+  console.log('实际生效的运费：', yun)
+}
+
+
+
     // 达达配送
     if (this.data.shopInfo && this.data.shopInfo.number && (this.data.shopInfo.expressType == 'dada'|| this.data.shopInfo.expressType == 'yunlaba') && postData.peisongType == 'kd') {
       if (!that.data.curAddressData) {
@@ -298,11 +309,22 @@ Page({
     if (!e) {
       postData.calculate = "true";
     }
-    // console.log(postData)
-    // console.log(e)
+    // 🧩 如果是 pszq 类型，也要加上运费 3 元
+if (that.data.peisongType === 'kd') {
+  // 先判断是否已有运费字段
+  const yun =  3
+  postData.amountLogistics = yun           // 告诉后端运费
+  postData.amountLogisticsReal = yun       // 实际要收的运费
+  postData.amountRealAdd = true            // 自定义标识（防止被后端覆盖）
+  console.log('kd 模式：强制加上运费', yun)
+}
+
+     console.log(e)
+    console.log('即将提交的订单数据：', postData)
+
     WXAPI.orderCreate(postData)
-    .then(function (res) {     
-      console.log(res.data) 
+    .then(function (res) {   
+      console.log('查看后端返回', res.data)  
       if (res.code != 0) {
         wx.showModal({
           confirmText: that.data.$t.common.confirm,
@@ -319,14 +341,16 @@ Page({
       }
       if (!e) {
         const coupons = res.data.couponUserList
-        // 仅当 shopInfo.id == 11 且 peisongType == 'pszq' 时，且价格小于5元时，多加3元配送费
-if (that.data.shopInfo.id == 11 && that.data.peisongType == 'pszq'&&
-res.data.amountReal * 1 < 5) {
-  res.data.amountReal = (res.data.amountReal * 1 + 3).toFixed(2)
-  res.data.amountTotle = (res.data.amountTotle * 1 + 3).toFixed(2)
-  res.data.amountLogistics = (res.data.amountLogistics * 1 + 3).toFixed(2)
-}
+        // 仅当 shopInfo.id == 11 且 peisongType == 'kd' 时，且价格小于5元时，多加3元配送费
+ if (that.data.shopInfo.id == 11 && that.data.peisongType == 'pszq'&&
+ that.data.amountReal * 1 < 5) {
+  postData.peisongFeeId = '2' // 需要后端配置一个3元的配送费规则
+  postData.amountReal = (that.data.amountReal * 1 + 3).toFixed(2)
 
+  // 确保运费被正确添加到实际支付金额中
+   res.data.amountReal = (res.data.amountReal * 1 + 3).toFixed(2)
+   res.data.amountTotle = (res.data.amountTotle * 1 + 3).toFixed(2)
+   res.data.amountLogistics = (res.data.amountLogistics * 1 + 3).toFixed(2)  }
 
         if (coupons) {
           coupons.forEach(ele => {
@@ -346,8 +370,8 @@ res.data.amountReal * 1 < 5) {
           allGoodsNumber: res.data.goodsNumber,
           allGoodsPrice: res.data.amountTotle,
           allGoodsAndYunPrice: res.data.amountLogistics + res.data.amountTotle,
-          yunPrice: res.data.amountLogistics,
-          peisongfee: res.data.peisongfee,
+          yunPrice: res.data.amountLogistics|| 0,
+          peisongfee: res.data.peisongfee|| 0,
           amountReal: res.data.amountReal,
           coupons
         });
@@ -422,13 +446,25 @@ res.data.amountReal * 1 < 5) {
       return
     }
    
-    const money = (res.data.amountReal * 1 - res1.data.balance*1).toFixed(2)
+// 计算应付金额并强制加收 3 元配送费（满足 pszq + shopId=11 + 订单金额<5 的情况）
+let extraFee = 0
+if (that.data.peisongType === 'pszq' && that.data.shopInfo && that.data.shopInfo.id == 11 && res.data.amountReal * 1 < 5) {
+  extraFee = 3
+}
+const baseDue = (res.data.amountReal * 1 - res1.data.balance * 1)
+let money = (baseDue + extraFee).toFixed(2)
     if (money <= 0) {
-      // 使用余额支付
-      await WXAPI.balance_pay(token, res.data.id).then(r=>{
-        console.log(r)
-      
-        if(r.code==700){
+      if (extraFee > 0) {
+        // 余额已覆盖基础订单，但仍需收取额外运费，发起仅收取运费的微信支付
+        money = extraFee.toFixed(2)
+        console.log("微信支付（仅运费）：")
+        wxpay.wxpay('order', money, res.data.id, "/pages/all-orders/index",that.data.dataP)
+      } else {
+        // 使用余额支付
+        await WXAPI.balance_pay(token, res.data.id).then(r=>{
+          console.log(r)
+        
+          if(r.code==700){
            
             //标签
             that.print(that.data.dataP)
@@ -441,7 +477,7 @@ res.data.amountReal * 1 < 5) {
       // 跳到订单列表
       wx.redirectTo({
         url: "/pages/all-orders/index"
-      })
+      })}
     } else {
   
       console.log("微信支付：") 
