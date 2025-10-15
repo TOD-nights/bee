@@ -15,7 +15,7 @@
 </view>
 <view wx:if="{{ !scanDining }}" class="box">
   <view class="shop-name">
-    <view class="name" bindtap="selectshop">{{shopInfo.name}}</view>
+    <view bindtap="selectshop" hover-style="background-color:#179e16;" style="display:inline-block;padding:8px 16px;background-color:#FFD700;color:#000;border-radius:6px;text-align:center;font-size:16px;font-weight:500;">{{shopInfo.name}}</view>
     <view wx:if="{{ shopInfo.openWaimai && shopInfo.openZiqu }}" class="select">
       <view class="{{peisongType == 'zq' ? 'on' : 'off'}}" data-type="zq" bindtap="changePeisongType">{{ $t.index.pickup }}</view>
       <view class="{{peisongType == 'kd' ? 'on' : 'off'}}" data-type="kd" bindtap="changePeisongType">{{ $t.index.Delivery }}</view>
