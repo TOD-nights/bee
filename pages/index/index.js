@@ -846,12 +846,29 @@ Page({
     }
   },
   tapBanner(e) {
-   
+    const url = e.currentTarget.dataset.url
+    console.log('点击的 banner 链接:', url)
+  
+    if (!url) return
+  
+    // 如果是小程序内部路径
+    if (url.startsWith('/pages/')) {
       wx.navigateTo({
-        url: '/pages/member-card/member-card'
+        url: url
       })
-    
-  },
+    } else if (url.startsWith('http')) {
+      // 外部网页
+      wx.navigateTo({
+        url: '/pages/webview/index?url=' + encodeURIComponent(url)
+      })
+    } else {
+      wx.showToast({
+        title: '无效链接',
+        icon: 'none'
+      })
+    }
+  }
+  ,
   checkIsOpened(openingHours) {
     if (!openingHours) {
       return true

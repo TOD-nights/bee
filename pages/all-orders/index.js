@@ -441,7 +441,7 @@ Page({
 
 //pszq第二遍
       if(that.data.peisongType=='pszq'){
-        content+='<BR><BR>--------顾客联--------<BR><BR>'
+        content+='<BR><BR><BR><BR>--------顾客联--------<BR><BR>'
         content += '<CB>9.8 COFFEE<BR><BR><BR></CB>' +'<TABLE col="22,3,7" w=1 h=1 b=0 lh=68> '
       
       for(let i=0;i<data.goodsList.length;i++){
