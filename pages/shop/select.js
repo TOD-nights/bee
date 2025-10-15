@@ -59,6 +59,8 @@ Page({
           res.data.forEach(ele => {
             ele.distance = ele.distance.toFixed(1)
           })
+           // 按距离排序
+        res.data.sort((a, b) => parseFloat(a.distance) - parseFloat(b.distance))
         } else {
           res.data.forEach(ele => {
             ele.distance = '-'
