@@ -2,12 +2,17 @@
   <image class="store-image" src="/images/store.png" mode="aspectFit"/>
 </view>
 <view class="data-box">
+<!-- 
+  
   <view class="search">  
     <view class="icon">
       <van-icon name="search" />
     </view>
     <input placeholder="{{ $t.common.search }}" bindinput="searchChange" bindconfirm="search" />
   </view>
+  
+ -->
+  
   <view class="data">
     <view class="list">
       <view class="item {{selectId == item.id ? 'active': ''}}" wx:for="{{shops}}" wx:key="id" data-idx="{{index}}" bindtap="goShop">
