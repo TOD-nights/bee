@@ -159,6 +159,10 @@ Page({
         this.data.latitude = res.latitude
         this.data.longitude = res.longitude
         this.fetchShops(res.latitude, res.longitude, '')
+        // ，跳转到店铺列表
+        wx.navigateTo({
+          url: '/pages/shop/select?type=index'
+        })
       },      
       fail: (e) => {
         if (e.errMsg.indexOf('fail auth deny') != -1) {
@@ -171,6 +175,11 @@ Page({
             success: (res) => {
               if (res.confirm) {
                 AUTH.checkAndAuthorize('scope.userLocation')
+                // 用户选择开启定位，跳转到店铺列表
+                wx.navigateTo({
+                  url: '/pages/shop/select?type=index'
+                })
+
               } else {
                 // 用户选择不开启定位，跳转到店铺列表
                 wx.navigateTo({
