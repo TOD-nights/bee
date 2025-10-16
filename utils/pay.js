@@ -259,53 +259,28 @@ function wxpay(type, money, orderId, redirectUrl, data) {
           }
               //当前日期 时分秒
         let timeStr = getDate()
-        let content = '---------商家联---------<BR><BR><CB>9.8 COFFEE<BR><BR><BR></CB>' +'<TABLE col="22,3,7" w=1 h=1 b=0 lh=68> '
-      for(let i=0;i<data.goodsList.length;i++){
-        content+=  '<tr>'+ data.goodsList[i].name +'<td>' + data.goodsList[i].number +'<td>' + data.goodsList[i].price + '元</tr>'
-        content+='<tr>|'
-        for(let j=0;j<data.goodsList[i].sku.length;j++){
-          content+=data.goodsList[i].sku[j].optionValueName + '|' 
+        let content = '<CB>9.8 COFFEE<BR><BR><BR></CB>' +'<TABLE col="22,3,7" w=1 h=1 b=0 lh=68> '
+         
+        for(let i=0;i<data.goodsList.length;i++){
+          content+=  '<tr>'+ data.goodsList[i].name +'<td>' + data.goodsList[i].number +'<td>' + data.goodsList[i].price + '元</tr>'
+          content+='<tr>|'
+          for(let j=0;j<data.goodsList[i].sku.length;j++){
+            content+=data.goodsList[i].sku[j].optionValueName + '|' 
+          }
+          content+='<td> <td> </tr>'
         }
-        content+='<td> <td> </tr>'
-      }
-      content+='</TABLE>'
-      content+='<R>合计：'+ data.data.amountReal+'元<BR></R><BR>'
-      content+= '订单id: '+data.data.id + '<BR>' 
-     // content+= '取单号: '+data.data.qudanhao + '<BR>' 
-      content+= '<L>下单时间: '+ timeStr + '<BR>'+ 
-      '订单编号: '+ data.data.orderNumber + '<BR>' +
-      '用户电话: '+ data.mobile + '<BR>' 
-      if(data.peisongType =='pszq'){
-        content+= '用户地址: '+ data.address + '<BR>'
-      }
-      content+=  '门店名称: ' + data.shopInfo.name +'<BR>'+
-      '备注: ' + data.remark +'<BR>'
-      content+= '</L>' 
-
-//pszq第二遍
-      if(that.data.peisongType=='pszq'){
-        content+='<BR><BR><BR><BR>--------顾客联--------<BR><BR>'
-        content += '<CB>9.8 COFFEE<BR><BR><BR></CB>' +'<TABLE col="22,3,7" w=1 h=1 b=0 lh=68> '
-      
-      for(let i=0;i<data.goodsList.length;i++){
-        content+=  '<tr>'+ data.goodsList[i].name +'<td>' + data.goodsList[i].number +'<td>' + data.goodsList[i].price + '元</tr>'
-        content+='<tr>|'
-        for(let j=0;j<data.goodsList[i].sku.length;j++){
-          content+=data.goodsList[i].sku[j].optionValueName + '|' 
+        content+='</TABLE>'
+        content+='<R>合计：'+ data.data.amountReal+'元<BR></R><BR>'
+  
+        content+= '<L>下单时间: '+ timeStr + '<BR>'+ 
+        '订单编号: '+ data.data.orderNumber + '<BR>' +
+        '用户电话: '+ data.mobile + '<BR>' 
+        if(data.peisongType =='pszq'){
+          content+= '用户地址: '+ data.address + '<BR>' 
         }
-        content+='<td> <td> </tr>'
-      }
-      content+='</TABLE>'
-      content+='<R>合计：'+ data.data.amountReal+'元<BR></R><BR>'
-      content+= '订单id: '+data.data.id + '<BR>' 
-      content+= '<L>下单时间: '+ timeStr + '<BR>'+ 
-      '订单编号: '+ data.data.orderNumber + '<BR>' +
-      '用户电话: '+ data.mobile + '<BR>' 
-        content+= '用户地址: '+ data.address + '<BR>' 
-      content+=  '门店名称: ' + data.shopInfo.name +'<BR>'+
-      '备注: ' + data.remark +'<BR>'
-      content+= '<CB>热饮请在收到产品后取出放洒垫再行饮用！</CB></L>' 
-      }
+        content+=  '门店名称: ' + data.shopInfo.name +'<BR>'+
+        '备注: ' + data.remark +'<BR>'
+        content+= '</L>' 
         
   
          //请求参数
