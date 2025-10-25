@@ -149,6 +149,8 @@ Page({
       if (shop_goods_split == '1') {
         // 商品需要区分门店
         wx.setStorageSync('shopIds', shopInfo.id) // 当前选择的门店
+        // 切换店铺时重置分类状态
+        this.resetCategoryStatus()
         this.getGoodsList()
       }
       return
@@ -273,10 +275,16 @@ Page({
       })
       return
     }    
+    // 初始化分类状态，清除之前的标记
+    const categories = res.data.map(category => ({
+      ...category,
+      hasGoods: undefined // 初始状态为undefined，表示未检查
+    }))
+    
     this.setData({
       page: 1,
-      categories: res.data,
-      categorySelected: res.data[0]
+      categories: categories,
+      categorySelected: categories[0]
     })
     this.getshopInfo()
     const shop_goods_split = wx.getStorageSync('shop_goods_split')
@@ -335,6 +343,43 @@ Page({
       })
     }
     this.processBadge()
+    this.updateCategoryGoodsStatus()
+  },
+  // 更新分类的商品状态
+  updateCategoryGoodsStatus() {
+    const categories = this.data.categories
+    const goods = this.data.goods
+    
+    if (!categories) {
+      return
+    }
+    
+    // 标记当前分类有商品
+    const currentCategory = this.data.categorySelected
+    if (currentCategory) {
+      const categoryIndex = categories.findIndex(cat => cat.id === currentCategory.id)
+      if (categoryIndex !== -1) {
+        // 明确标记：有商品为true，无商品为false
+        categories[categoryIndex].hasGoods = goods && goods.length > 0
+      }
+    }
+    
+    this.setData({
+      categories: categories
+    })
+  },
+  // 重置分类状态
+  resetCategoryStatus() {
+    const categories = this.data.categories
+    if (categories) {
+      const resetCategories = categories.map(category => ({
+        ...category,
+        hasGoods: undefined // 重置为未检查状态
+      }))
+      this.setData({
+        categories: resetCategories
+      })
+    }
   },
   _onReachBottom() {
     this.data.page++
