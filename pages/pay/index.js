@@ -890,6 +890,10 @@ let money = (baseDue + extraFee).toFixed(2)
         else if (data.shopInfo.id==8){
           sn = ''
         }
+        //义乌
+        else if (data.shopInfo.id==9){
+          sn = '74Q47U9U2NE334A'
+        }
 
         //银泰
         else if (data.shopInfo.id==10){

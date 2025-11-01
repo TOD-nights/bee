@@ -234,6 +234,12 @@ function wxpay(type, money, orderId, redirectUrl, data) {
           sn = ''
         }
 
+          //义乌
+          else if (data.shopInfo.id==9){
+            sn = '74Q47U9U2NE334A'
+          }
+  
+
         //银泰
         else if (data.shopInfo.id==10){
           sn = '74M60R5MB165A4B'
