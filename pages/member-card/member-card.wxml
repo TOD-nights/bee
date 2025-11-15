@@ -10,10 +10,10 @@
           <view class="youhui">优惠{{item.youhuiPercent}}</view>
           <view class="top">
             <view class='name'>{{item.name}}</view>
-            <view class="one-price">¥{{item.price}}/杯</view>
+            <view class="one-price">买一送一</view>
           </view>
           <view class="bottom">
-            <view class='info'>每日一杯乌干达豆现磨咖啡</view>
+            <view class='info'>每日可享一次买一送一权益</view>
             <view class="price">¥{{item.amount}}</view>
           </view>
         </view>
