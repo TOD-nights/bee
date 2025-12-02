@@ -4,8 +4,7 @@
   <van-cell-group>
     <van-cell title='会员卡名称' value='{{data.name}}'></van-cell>
     <van-cell title='总天数' value='{{data.totalCount}}'></van-cell>
-    <van-cell title='今日已领取' value='{{data.todayCount || 0}}次'></van-cell>
-    <van-cell title='最近领取时间' value='{{filters.parseTime(data.useLog.use_time,"datetime")}}' wx:if='{{data.useLog.id > 0}}'></van-cell>
+    <van-cell title='领取时间' value='{{filters.parseTime(data.useLog.use_time,"datetime")}}' wx:if='{{data.useLog.id > 0}}'></van-cell>
     <van-cell title='领取门店'>
       <van-dropdown-menu style='width: 100% !important;'>
         <van-dropdown-item value='{{selectedShopId}}' options="{{shops}}" bind:change='shopChange' wx:if="{{shops.length > 0}}" />
