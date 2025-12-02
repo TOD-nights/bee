@@ -7,7 +7,7 @@
     <van-cell wx:for="{{list}}" tilte='{{item.name}}' wx:key='index' class='cell-item ' custom-style='overflow: visible;'>
       <view class="cell-panel {{selectedIndex == index?'active':''}}" bind:tap="selectOne" data-index='{{index}}'>
         <view class="body ">
-          <view class="youhui">优惠{{item.youhuiPercent}}</view>
+          <view class="youhui">全年可享</view>
           <view class="top">
             <view class='name'>{{item.name}}</view>
             <view class="one-price">买一任选一</view>
