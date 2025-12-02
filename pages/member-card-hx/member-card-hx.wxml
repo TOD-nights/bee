@@ -3,8 +3,7 @@
 <view class='container'>
   <van-cell-group>
     <van-cell title='会员卡名称' value='{{data.name}}'></van-cell>
-    <van-cell title='总次数' value='{{data.totalCount}}'></van-cell>
-    <van-cell title='剩余次数' value='{{data.leftCount}}'></van-cell>
+    <van-cell title='总天数' value='{{data.totalCount}}'></van-cell>
     <van-cell title='今日领取' value='{{data.useLog.id > 0?"已领取":"未领取"}}'></van-cell>
     <van-cell title='领取时间' value='{{filters.parseTime(data.useLog.use_time,"datetime")}}' wx:if='{{data.useLog.id > 0}}'></van-cell>
     <van-cell title='领取门店' value='{{data.useLog.shopName}}'>

@@ -7,10 +7,7 @@
           <view class='name'>{{item.name}}</view>
           <view class="price">¥{{item.amount}}</view>
         </view>
-        <view class="bottom">
-          <view class="type" style="flex:1;">可用次数:{{item.leftCount}}/{{item.totalCount}}</view>
-          <view class="type">{{item.typeName}}</view>
-        </view>
+      
       </view>
       <view class='buy-btn' data-index='{{index}}' bind:tap="hexiao" wx:if="{{item.leftCount > 0}}">领取</view>
     </view>

@@ -10,10 +10,10 @@
           <view class="youhui">优惠{{item.youhuiPercent}}</view>
           <view class="top">
             <view class='name'>{{item.name}}</view>
-            <view class="one-price">买一送一</view>
+            <view class="one-price">买一任选一</view>
           </view>
           <view class="bottom">
-            <view class='info'>每日可享一次买一送一权益</view>
+            <view class='info'>每日可享一次买一任选一权益</view>
             <view class="price">¥{{item.amount}}</view>
           </view>
         </view>
@@ -40,7 +40,8 @@
     <view class="top">
     订单金额<text class='price'>¥{{list[selectedIndex].amount}}</text>
     </view>
-    <view>以上优惠价仅限乌干达豆</view>
+  
+  
   </view>
   <view class='right' bind:tap="buy">立即购买</view>
   </view>
