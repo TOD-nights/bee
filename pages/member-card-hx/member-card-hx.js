@@ -84,18 +84,6 @@ Page({
 
   // 加载商品列表
   loadGoods() {
-    console.log('=== 商品API调用开始 ===')
-    
-    // 尝试直接调用看返回什么
-    wx.request({
-      url: 'http://9kuai8coffee.asia/' + wx.getStorageSync('subDomain') + '/membercardprod/list',
-      success: (res) => {
-        console.log('直接请求结果:', res)
-      },
-      fail: (err) => {
-        console.error('直接请求失败:', err)
-      }
-    })
     
     WXAPI.membercardprod({}).then(res => {
       console.log('WXAPI.membercardprod 返回:', res)

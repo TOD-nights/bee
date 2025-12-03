@@ -1,4 +1,6 @@
 <van-cell-group>
+
+
   <van-cell wx:for="{{list}}" tilte='{{item.name}}' wx:key='index'>
 
     <view class="cell-panel">
@@ -11,5 +13,9 @@
       </view>
       <view class='buy-btn' data-index='{{index}}' bind:tap="hexiao" wx:if="{{item.leftCount > 0}}">领取</view>
     </view>
-  </van-cell>
+  </van-cell>  
+  
+  <van-cell>
+      <image src='/images/member.jpg' class='member-card-tip-logo' mode="widthFix" />
+    </van-cell>
 </van-cell-group>

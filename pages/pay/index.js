@@ -7,7 +7,7 @@ var util = require('../../utils/util.js')
 APP.configLoadOK = () => {
 
 }
-
+ 
 Page({
   data: {
     wxlogin: true,
@@ -321,6 +321,9 @@ if (that.data.peisongType === 'kd') {
 
      console.log(e)
     console.log('即将提交的订单数据：', postData)
+// ✅ 获取页面栈
+const pages = getCurrentPages()
+console.log('📚 当前页面栈:', pages)
 
     WXAPI.orderCreate(postData)
     .then(function (res) {   
@@ -390,6 +393,10 @@ if (that.data.peisongType === 'kd') {
   },
   async processAfterCreateOrder(res) {
     var that = this
+
+
+   
+
        //保存支付相关信息，以订单号key
        let address = ''
        if(that.data.curAddressData){
