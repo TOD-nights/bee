@@ -66,7 +66,7 @@
 	<!--<van-cell icon="records" title="{{ $t.feedback.title }}" is-link url="/pages/my/feedback" />
 	 <van-cell icon="manager-o" title="{{ $t.auth.goAdmin }}" is-link bind:tap="goadmin" /> -->
 </view>
-<view class="version">v{{version}}</view>
+<view class="version">version{{version}}</view>
 
 <van-dialog
   use-slot

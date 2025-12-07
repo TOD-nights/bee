@@ -149,7 +149,7 @@ Page({
             _this.setData({
               showRechargePop: false
             })
-            _this.getUserAmount()
+            //_this.getUserAmount()
           }
         })
       } else {

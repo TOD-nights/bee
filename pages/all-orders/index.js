@@ -262,10 +262,7 @@ Page({
         else if (data.shopInfo.id==4){
           sn = '325Z1VC2ANA044B'
       }
-      //瑞安店
-      else if (data.shopInfo.id==3){
-          sn = '32EVUCUVY0B4848'
-      }
+    
  //银泰新
       else if (data.shopInfo.id==10){
         sn = '32NGYDZZWN9D349'
@@ -285,6 +282,11 @@ Page({
       else if (data.shopInfo.id==13){
         sn = '32JA8NVQDC1074B'
       }
+      //汽车
+      else if (data.shopInfo.id==14){
+        sn = '32EVUCUVY0B4848'
+      }
+      
 
 
 
@@ -362,14 +364,11 @@ Page({
         else if (data.shopInfo.id==1){
           sn = '742N30GDRND8E4A'
         }
-                //塘下店
+        //塘下店
         else if (data.shopInfo.id==4){
           sn = '74S8LPEQ3584048'
         }
-        //瑞安店
-        else if (data.shopInfo.id==3){
-          sn = '744905VQE26ED4A'
-        }
+        
 
         //丽阳门 钟楼
         else if (data.shopInfo.id==5){
@@ -414,6 +413,10 @@ Page({
           sn = '746YPYC2M938048'
         }
 
+         //汽车
+         else if (data.shopInfo.id==14){
+          sn = '744905VQE26ED4A'
+        }
         
           //如果没有打印机，则返回
           if(!sn){
