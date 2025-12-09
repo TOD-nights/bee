@@ -324,7 +324,7 @@ Page({
          sn: sn,
          content: content
          }
-         console.log(param)
+          
           
      let header = {
        "Content-Type": "application/json;charset=UTF-8"
@@ -343,8 +343,20 @@ Page({
        })
     },
       //打印小票，参数为支付返回的data数据
-      print2(data){
+      async print2(data){ 
         var that = this
+     
+        // >>>>>>>>> 新增代码开始：获取会员卡状态 <<<<<<<<<
+        let hasCardStr = '否' // 默认显示否
+        try {
+          const cardRes = await WXAPI.myMemberCardListAll()
+          if (cardRes.code == 0 && cardRes.data && cardRes.data.length > 0) {
+            hasCardStr = '是' // 如果接口返回有数据，则显示是
+          }
+        } catch (e) {
+          console.error('获取会员卡状态失败', e)
+        }
+        // >>>>>>>>> 新增代码结束 <<<<<<<<<
      
         //芯烨云打印接口
          let url = 'https://open.xpyun.net/api/openapi/xprinter/print'      
@@ -439,6 +451,7 @@ Page({
   
         content+= '<L>下单时间: '+ timeStr + '<BR>'+ 
         '订单编号: '+ data.data.orderNumber + '<BR>' +
+        '周年卡用户: ' + hasCardStr + '<BR>' +  
         '用户电话: '+ data.mobile + '<BR>' 
         if(data.peisongType =='pszq'){
           content+= '用户地址: '+ data.address + '<BR>' 
@@ -456,7 +469,7 @@ Page({
            sn: sn,
            content: content
            }
-           console.log(param)
+            
             
        let header = {
          "Content-Type": "application/json;charset=UTF-8"
