@@ -1,0 +1,34 @@
+<!--pages/pindan/pindan.wxml-->
+<view>
+  <view class="shopinfo-panel">
+    <view class='flex'>
+      <view class="shopname">{{shopName}}</view>
+      <van-icon name="arrow" />
+      <view class="flex-1">
+      </view>
+      <view class="peisong-panel">
+        <view class="ziqu {{peisongType=='zq'?'active':''}}" bind:tap="peisongTypeHandler" data-peisongType='zq'>自取</view>
+        <view class="waimai {{peisongType=='kd'?'active':''}}" bind:tap="peisongTypeHandler" data-peisongType='kd'>外送</view>
+      </view>
+    </view>
+    <view class="distance">距你{{distance}}公里</view>
+  </view>
+  <view class="shopinfo-panel">
+    <view class="title">快去邀请好友一起拼单吧</view>
+    <view class="yaoqing-panel">
+      <van-button color='#e64340' round>邀请好友</van-button>
+    </view>
+  </view>
+  <!-- 拼单列表 -->
+  <view class="shopinfo-panel" wx:if='{{id == 0}}'>
+    <view class="flex">
+      <van-image round width='50' height='50' src='https://gips3.baidu.com/it/u=3886271102,3123389489&fm=3028&app=3028&f=JPEG&fmt=auto?w=1280&h=960' />
+      <view class="tag">队长</view>
+      <view class="nickname">李<text>(我)</text></view>
+      <view class="flex-1"></view>
+      <view class='no-order-tip'>还没点单</view>
+    </view>
+    <view class="xiadan-panel">
+    <van-button round type='info' plain size='small'>立即下单</van-button></view>
+  </view>
+</view>

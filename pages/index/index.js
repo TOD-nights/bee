@@ -558,6 +558,64 @@ Page({
     }
     return canSubmit
   },
+  // 去拼团
+  async toPindan() {
+    const token = wx.getStorageSync('token')
+    const curGoodsMap = this.data.curGoodsMap
+    const canSubmit = this.skuCanSubmit()
+    const additionCanSubmit = this.additionCanSubmit()
+    if (!canSubmit || !additionCanSubmit) {
+      wx.showToast({
+        title: this.data.$t.goodsDetail.noSelectSku,
+        icon: 'none'
+      })
+      return
+    }
+    const sku = []
+    if (curGoodsMap.properties) {
+      curGoodsMap.properties.forEach(big => {
+        const small = big.childsCurGoods.find(ele => {
+          return ele.selected
+        })
+        sku.push({
+          optionId: big.id,
+          optionValueId: small.id
+        })
+      })
+    }
+    const goodsAddition = []
+    if (this.data.goodsAddition) {
+      this.data.goodsAddition.forEach(ele => {
+        ele.items.forEach(item => {
+          if (item.active) {
+            goodsAddition.push({
+              id: item.id,
+              pid: item.pid
+            })
+          }
+        })
+      })
+    }
+    const d = {
+      token,
+      goodsId: curGoodsMap.basicInfo.id,
+      number: curGoodsMap.number,
+      sku: sku && sku.length > 0 ? JSON.stringify(sku) : '',
+      addition: goodsAddition && goodsAddition.length > 0 ? JSON.stringify(goodsAddition) : '',
+    }
+    if (this.data.goodsTimesSchedule) {
+      const a = this.data.goodsTimesSchedule.find(ele => ele.active)
+      if (a) {
+        const b = a.items.find(ele => ele.active)
+        if (b) {
+          d.goodsTimesDay = a.day
+          d.goodsTimesItem = b.name
+        }
+      }
+    }
+    console.log(d)
+    this.hideGoodsDetailPOP()
+  },
   async addCart2() {
     const token = wx.getStorageSync('token')
     const curGoodsMap = this.data.curGoodsMap

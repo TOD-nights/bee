@@ -1,0 +1,69 @@
+/* pages/pindan/pindan.wxss */
+page{
+  background-color: #efefef;
+}
+.shopinfo-panel{
+  background-color: white;
+  border-radius: 20rpx;
+  margin: 20rpx;
+  padding: 20rpx;
+}
+.flex {
+  display: flex;
+  align-items: center;
+}
+
+.peisong-panel {
+  width: 203rpx;
+  background-color: #efefef;
+  display: flex; 
+   border-radius:40rpx;
+}
+
+.peisong-panel .active{
+  background-color: #e64340;
+  color: white;
+  border-radius:40rpx;
+  padding: 10rpx 20rpx;
+}
+
+.peisong-panel .ziqu, .peisong-panel .waimai{
+  border-radius:40rpx;
+  padding: 10rpx 20rpx;
+}
+
+.distance{
+  color: #999;
+  font-size: 30rpx;
+}
+
+.yaoqing-panel{
+  margin-top: 40rpx;
+  display: flex;
+  justify-content: center;
+}
+
+.yaoqing-panel button{
+  width: 240rpx;
+}
+
+.xiadan-panel{
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 20rpx;
+}
+
+.tag{
+ margin-top: -60rpx;
+ margin-left: -40rpx;
+ background-color: #e64340;
+ color: white;
+ border-radius: 10rpx;
+ font-size: 20rpx;
+ padding: 10rpx;
+ z-index: 10;
+}
+
+.no-order-tip{
+  font-size: 28rpx;
+}

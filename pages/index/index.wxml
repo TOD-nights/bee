@@ -149,9 +149,11 @@
       <view class="price"><text>¥</text>{{isVip && curGoodsMap.vipPrice>0 ?curGoodsMap.vipPrice:curGoodsMap.price}}</view>
       <van-stepper value="{{ curGoodsMap.number }}" min="{{curGoodsMap.basicInfo.minBuyNumber}}" max="{{ buyNumMax }}" bind:change="goodsStepChange"/>
     </view>
-    <view class="add-cart">
-      <van-button wx:if="{{lijipingtuanbuy}}" block color="#e64340" bind:click="pingtuanbuy">{{ $t.index.pingtuan }}</van-button>
-      <van-button wx:else block color="#e64340" bind:click="addCart2">{{ $t.goodsDetail.addCartBtn }}</van-button>
+    <view class="add-cart" style="display: flex;">
+      <van-button  style='flex:1;' size='large'  color="#e64340" bind:click="toPindan">{{ $t.goodsDetail.pindanBtn }}</van-button>
+
+      <van-button wx:if="{{lijipingtuanbuy}}"  color="#e64340" bind:click="pingtuanbuy">{{ $t.index.pingtuan }}</van-button>
+      <van-button wx:else  style='flex:1; margin-left: 20rpx;' size='large'  color="#e64340" bind:click="addCart2">{{ $t.goodsDetail.addCartBtn }}</van-button>
     </view>
   </view>
 </van-popup> 
