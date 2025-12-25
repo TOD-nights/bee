@@ -6,7 +6,7 @@ module.exports = {
   subDomain: "9kuai8coffee.asia", // 固定值
 
 
-  version: "20.1.2",
+  version: "1.3.5",
 
   note: '标签机 会员价 ',
 

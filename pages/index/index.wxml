@@ -36,6 +36,7 @@
     <van-sidebar>
       <van-sidebar-item
         wx:for="{{categories}}" wx:key="id"
+        wx:if="{{item.hasGoods !== false}}"
         title="{{item.name}}"
         badge="{{ item.badge ? item.badge : '' }}"
         data-idx="{{index}}" bind:click="categoryClick"

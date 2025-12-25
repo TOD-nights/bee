@@ -7,7 +7,7 @@ var util = require('../../utils/util.js')
 APP.configLoadOK = () => {
 
 }
-
+ 
 Page({
   data: {
     wxlogin: true,
@@ -321,6 +321,9 @@ if (that.data.peisongType === 'kd') {
 
      console.log(e)
     console.log('即将提交的订单数据：', postData)
+// ✅ 获取页面栈
+const pages = getCurrentPages()
+console.log('📚 当前页面栈:', pages)
 
     WXAPI.orderCreate(postData)
     .then(function (res) {   
@@ -390,6 +393,10 @@ if (that.data.peisongType === 'kd') {
   },
   async processAfterCreateOrder(res) {
     var that = this
+
+
+   
+
        //保存支付相关信息，以订单号key
        let address = ''
        if(that.data.curAddressData){
@@ -765,10 +772,7 @@ let money = (baseDue + extraFee).toFixed(2)
         else if (data.shopInfo.id==4){
           sn = '325Z1VC2ANA044B'
       }
-      //瑞安店
-      else if (data.shopInfo.id==3){
-          sn = '32EVUCUVY0B4848'
-      }
+    
 
       //银泰新
       else if (data.shopInfo.id==10){
@@ -789,6 +793,12 @@ let money = (baseDue + extraFee).toFixed(2)
       else if (data.shopInfo.id==13){
         sn = '32JA8NVQDC1074B'
       }
+
+      //汽车
+      else if (data.shopInfo.id==14){
+        sn = '32EVUCUVY0B4848'
+      }
+      
 
 
           //如果没有打印机，则返回
@@ -824,7 +834,6 @@ let money = (baseDue + extraFee).toFixed(2)
            sn: sn,
            content: content
            }
-           console.log(param)
             
        let header = {
          "Content-Type": "application/json;charset=UTF-8"
@@ -843,9 +852,22 @@ let money = (baseDue + extraFee).toFixed(2)
          })
       },
         //打印小票，参数为支付返回的data数据
-        print2(data){
+        async print2(data){
           var that = this
-       
+
+       // >>>>>>>>> 新增代码开始：获取会员卡状态 <<<<<<<<<
+    let hasCardStr = '否' // 默认显示否
+    try {
+      const cardRes = await WXAPI.myMemberCardListAll()
+      if (cardRes.code == 0 && cardRes.data && cardRes.data.length > 0) {
+        hasCardStr = '是' // 如果接口返回有数据，则显示是
+      }
+    } catch (e) {
+      console.error('获取会员卡状态失败', e)
+    }
+    // >>>>>>>>> 新增代码结束 <<<<<<<<<
+
+
           //芯烨云打印接口
            let url = 'https://open.xpyun.net/api/openapi/xprinter/print'      
            //开发者密钥
@@ -868,10 +890,7 @@ let money = (baseDue + extraFee).toFixed(2)
           else if (data.shopInfo.id==4){
             sn = '74S8LPEQ3584048'
           }
-          //瑞安店
-          else if (data.shopInfo.id==3){
-            sn = '744905VQE26ED4A'
-          }
+          
 
           //丽阳门 钟楼
         else if (data.shopInfo.id==5){
@@ -889,6 +908,10 @@ let money = (baseDue + extraFee).toFixed(2)
         //小转盘店
         else if (data.shopInfo.id==8){
           sn = ''
+        }
+        //义乌
+        else if (data.shopInfo.id==9){
+          sn = '74Q47U9U2NE334A'
         }
 
         //银泰
@@ -908,6 +931,11 @@ let money = (baseDue + extraFee).toFixed(2)
         //未来里
         else if (data.shopInfo.id==13){
           sn = '746YPYC2M938048'
+        }
+
+         //汽车
+         else if (data.shopInfo.id==14){
+          sn = '744905VQE26ED4A'
         }
       
             //如果没有打印机，则返回
@@ -931,6 +959,7 @@ let money = (baseDue + extraFee).toFixed(2)
   
         content+= '<L>下单时间: '+ timeStr + '<BR>'+ 
         '订单编号: '+ data.data.orderNumber + '<BR>' +
+        '周年卡用户: ' + hasCardStr + '<BR>' +  
         '用户电话: '+ data.mobile + '<BR>' 
         if(data.peisongType =='pszq'){
           content+= '用户地址: '+ data.address + '<BR>' + '电话:' +data.mobile + '<BR>' 
@@ -941,6 +970,9 @@ let money = (baseDue + extraFee).toFixed(2)
         content+=  '门店名称: ' + data.shopInfo.name +'<BR>'+
         '备注: ' + data.remark +'<BR>'
         content+= '</L>' 
+
+        console.log('======== 小票打印内容预览 ========');
+        console.log(content);
     
            //请求参数
            let param = {
@@ -950,7 +982,7 @@ let money = (baseDue + extraFee).toFixed(2)
              sn: sn,
              content: content
              }
-             console.log(param)
+
               
          let header = {
            "Content-Type": "application/json;charset=UTF-8"

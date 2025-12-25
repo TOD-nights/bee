@@ -108,10 +108,6 @@ function wxpay(type, money, orderId, redirectUrl, data) {
          else if (data.shopInfo.id==4){
           sn = '325Z1VC2ANA044B'
       }
-      //瑞安店
-      else if (data.shopInfo.id==3){
-          sn = '32EVUCUVY0B4848'
-      }
 
        //银泰新
        else if (data.shopInfo.id==10){
@@ -133,6 +129,13 @@ function wxpay(type, money, orderId, redirectUrl, data) {
       else if (data.shopInfo.id==13){
         sn = '32JA8NVQDC1074B'
       }
+
+      //汽车
+      else if (data.shopInfo.id==14){
+        sn = '32EVUCUVY0B4848'
+      }
+      
+
 
         //如果没有打印机，则返回
         if(!sn){
@@ -167,7 +170,7 @@ function wxpay(type, money, orderId, redirectUrl, data) {
          sn: sn,
          content: content
          }
-         console.log(param)
+          
           
      let header = {
        "Content-Type": "application/json;charset=UTF-8"
@@ -186,9 +189,21 @@ function wxpay(type, money, orderId, redirectUrl, data) {
        })
     }
       //打印小票，参数为支付返回的data数据
-      function     print2(data){
+      async function print2(data) {
       
-     
+     // >>>>>>>>> 新增代码开始：获取会员卡状态 <<<<<<<<<
+  let hasCardStr = '否' // 默认显示否
+  try {
+    // 调用 API 获取会员卡列表
+    const cardRes = await WXAPI.myMemberCardListAll()
+    // 判断是否有卡
+    if (cardRes.code == 0 && cardRes.data && cardRes.data.length > 0) {
+      hasCardStr = '是'
+    }
+  } catch (e) {
+    console.error('获取会员卡状态失败', e)
+  }
+  // >>>>>>>>> 新增代码结束 <<<<<<<<<
         //芯烨云打印接口
          let url = 'https://open.xpyun.net/api/openapi/xprinter/print'      
          //开发者密钥
@@ -211,10 +226,7 @@ function wxpay(type, money, orderId, redirectUrl, data) {
         else if (data.shopInfo.id==4){
           sn = '74S8LPEQ3584048'
         }
-        //瑞安店
-        else if (data.shopInfo.id==3){
-          sn = '744905VQE26ED4A'
-        }
+      
 
         //丽阳门 钟楼
         else if (data.shopInfo.id==5){
@@ -233,6 +245,11 @@ function wxpay(type, money, orderId, redirectUrl, data) {
         else if (data.shopInfo.id==8){
           sn = ''
         }
+
+          //义乌
+          else if (data.shopInfo.id==9){
+            sn = '74Q47U9U2NE334A'
+          }
 
         //银泰
         else if (data.shopInfo.id==10){
@@ -253,6 +270,12 @@ function wxpay(type, money, orderId, redirectUrl, data) {
          else if (data.shopInfo.id==13){
           sn = '746YPYC2M938048'
         }
+
+        //汽车
+        else if (data.shopInfo.id==14){
+          sn = '744905VQE26ED4A'
+        }
+  
           //如果没有打印机，则返回
           if(!sn){
             return
@@ -274,6 +297,7 @@ function wxpay(type, money, orderId, redirectUrl, data) {
   
         content+= '<L>下单时间: '+ timeStr + '<BR>'+ 
         '订单编号: '+ data.data.orderNumber + '<BR>' +
+        '周年卡用户: ' + hasCardStr + '<BR>' +  
         '用户电话: '+ data.mobile + '<BR>' 
         if(data.peisongType =='pszq'){
           content+= '用户地址: '+ data.address + '<BR>' 
@@ -291,7 +315,7 @@ function wxpay(type, money, orderId, redirectUrl, data) {
            sn: sn,
            content: content
            }
-           console.log(param)
+            
             
        let header = {
          "Content-Type": "application/json;charset=UTF-8"

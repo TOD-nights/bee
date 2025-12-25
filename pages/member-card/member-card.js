@@ -105,54 +105,27 @@ Page({
     console.log(index)
     const id = this.data.list[index].id
     const amount =  this.data.list[index].amount
-    const userAmount = await WXAPI.userAmount(wx.getStorageSync('token'))
-    console.log(userAmount,id,'------')
-    if (userAmount.code == 0) {
-      const balance = parseFloat(userAmount.data.balance)
-      console.log(balance, amount)
-      if (balance>amount) {
-        const res = await WXAPI.buyBalancePay({
-          memberCardId: id,
-          shopId: wx.getStorageSync('shopInfo').id
-        })
-        console.log(res)
-        if (res.code == 0) {
-          wx.showToast({
-            title: '购买成功',
-          })
-          wx.redirectTo({
-            url: '/pages/my-member-card/my-member-card',
-          })
-        } else {
-          wx.showToast({
-            icon:'error',
-            title: res.msg,
-            duration:5000
-          })
-        }
-      } else {
-        // 账户余额不足,使用微信支付
+    
         // const res = await WXAPI.buyWxPay({
         //   memberCardId: id,
         //   shopId: wx.getStorageSync('shopInfo').id
         // })
         // console.log(res)
         this._wxpay(amount,id)
-      }
-    }
+      
+    
 
   },
-  _wxpay(money,memberCardId) {
+  _wxpay(money, memberCardId) {
     const _this = this
     const postData = {
       token: wx.getStorageSync('token'),
-      money: money,
-      memberCardId,
-      shopId: wx.getStorageSync('shopInfo').id,
-      payName: "购买会员卡",
-      remark: "购买会员卡",
+      memberCardId: memberCardId,
+      shopId: wx.getStorageSync('shopInfo').id
     }
-    WXAPI.wxpay(postData).then(res => {
+    
+    // 使用会员卡专用的支付接口,而不是普通充值接口
+    WXAPI.buyWxPay(postData).then(res => {
       if (res.code == 0) {
         // 发起支付
         wx.requestPayment({
@@ -164,29 +137,36 @@ Page({
           fail: function (aaa) {
             console.error(aaa)
             wx.showToast({
-              title: aaa
+              title: '支付失败',
+              icon: 'none'
             })
           },
           success: function () {
             // 提示支付成功
             wx.showToast({
-              title: this.data.$t.asset.success
+              title: '购买成功'
             })
             _this.setData({
               showRechargePop: false
             })
-            _this.getUserAmount()
+            // 可以跳转到会员卡页面或刷新用户信息
+            setTimeout(() => {
+              wx.navigateBack()
+            }, 1500)
           }
         })
       } else {
-        console.log(_this)
         wx.showModal({
-          confirmText: this.data.$t.common.confirm,
-          cancelText: this.data.$t.common.cancel,
-          content: JSON.stringify(res),
+          content: res.msg || '购买失败',
           showCancel: false
         })
       }
+    }).catch(err => {
+      console.error(err)
+      wx.showToast({
+        title: '请求失败',
+        icon: 'none'
+      })
     })
   }
 })
