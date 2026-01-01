@@ -67,3 +67,22 @@ page{
 .no-order-tip{
   font-size: 28rpx;
 }
+
+.goods-panel{
+  display: flex;
+}
+
+.goods-sku{
+  color: #666;
+  font-size:20rpx;
+}
+.count{
+  margin-right: 30rpx;
+  color: #666;
+  font-size:20rpx;
+}
+.price{
+  color: #e64340;
+  font-size:20rpx;
+  
+}

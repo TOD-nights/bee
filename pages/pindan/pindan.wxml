@@ -2,25 +2,26 @@
 <view>
   <view class="shopinfo-panel">
     <view class='flex'>
-      <view class="shopname">{{shopName}}</view>
-      <van-icon name="arrow" />
-      <view class="flex-1">
+      <view class="shopname" bind:tap="toSelectShop">{{shopName}}</view>
+      <van-icon name="arrow" bind:tap="toSelectShop" />
+      <view class="flex-1" bind:tap="toSelectShop" wx:if='{{userId == pindanInfo.userId}}'>
       </view>
-      <view class="peisong-panel">
-        <view class="ziqu {{peisongType=='zq'?'active':''}}" bind:tap="peisongTypeHandler" data-peisongType='zq'>自取</view>
-        <view class="waimai {{peisongType=='kd'?'active':''}}" bind:tap="peisongTypeHandler" data-peisongType='kd'>外送</view>
+      <view class="flex-1"></view>
+      <view class="peisong-panel" wx:if='{{userId == pindanInfo.userId}}'>
+        <view class="ziqu {{peisongType==1?'active':''}}" bind:tap="peisongTypeHandler" data-peisongType='zq'>自取</view>
+        <view class="waimai {{peisongType==2?'active':''}}" bind:tap="peisongTypeHandler" data-peisongType='kd'>外送</view>
       </view>
     </view>
     <view class="distance">距你{{distance}}公里</view>
   </view>
   <view class="shopinfo-panel">
     <view class="title">快去邀请好友一起拼单吧</view>
-    <view class="yaoqing-panel">
-      <van-button color='#e64340' round>邀请好友</van-button>
+    <view class="yaoqing-panel" wx:if='{{id > 0}}'>
+      <van-button color='#e64340' round open-type='share'>邀请好友</van-button>
     </view>
   </view>
   <!-- 拼单列表 -->
-  <view class="shopinfo-panel" wx:if='{{id == 0}}'>
+  <view class="shopinfo-panel" wx:if='{{id > 0 && pindanInfo.items.length  == 0}}'>
     <view class="flex">
       <van-image round width='50' height='50' src='https://gips3.baidu.com/it/u=3886271102,3123389489&fm=3028&app=3028&f=JPEG&fmt=auto?w=1280&h=960' />
       <view class="tag">队长</view>
@@ -29,6 +30,31 @@
       <view class='no-order-tip'>还没点单</view>
     </view>
     <view class="xiadan-panel">
-    <van-button round type='info' plain size='small'>立即下单</van-button></view>
+      <van-button round type='info' plain size='small'>立即下单</van-button>
+    </view>
+  </view>
+  <view wx:if='{{id > 0 && pindanInfo.items.length > 0}}'>
+    <view class="shopinfo-panel" wx:for='{{pindanInfo.items}}' wx:key='id'>
+      <view class="flex">
+        <van-image round width='50' height='50' src='{{item.userInfo.avatarUrl}}' />
+        <view class="tag" wx:if='{{item.userInfo.id == pindanInfo.userId}}'>队长</view>
+        <view class="nickname">{{item.userInfo.nick}}<text wx:if='{{item.userInfo.id == pindanInfo.userId}}'>(我)</text></view>
+        <view class="flex-1">
+        </view>
+      </view>
+      <view class="goods-panel">
+        <van-image round width='80' height='80' src='{{item.goodsInfo.pic}}' />
+
+        <view class="flex flex-1">
+          <view class='flex-1'>
+            <view class="goods-name">{{item.goodsInfo.name}}</view>
+            <view class="goods-sku">{{item.goodsPropertyNames}}</view>
+          </view>
+          <view class="count">X1</view>
+          <view class="price">¥1231</view>
+        </view>
+
+      </view>
+    </view>
   </view>
 </view>

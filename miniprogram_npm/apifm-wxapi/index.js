@@ -95,17 +95,17 @@ module.exports =
 /* eslint-disable */
 // 小程序开发api接口工具包，https://github.com/gooking/wxapi
 var API_BASE_URL = 'https://api.it120.cc';
-// var API_BASE_URL = 'http://localhost:8888';
+// var API_BASE_URL = 'http://localhost:8081';
 var subDomain = '-';
 var merchantId = '0';
 
-var request = function request(url, needSubDomain, method, data) {
+var request = function request(url, needSubDomain, method, data, header) {
   var _url = API_BASE_URL + (needSubDomain ? '/' + subDomain : '') + url;
   if (url.indexOf("http") == 0) {
     _url = url;
   }
   var header = {
-    'Content-Type': 'application/x-www-form-urlencoded'
+    'Content-Type': 'application/x-www-form-urlencoded',...header
   };
   return new Promise(function (resolve, reject) {
     wx.request({
@@ -2904,6 +2904,28 @@ module.exports = {
   buyWxPay: function buyWxPay (data) {
     return request('/member-card/buy/wxpay', true, 'post',{token:wx.getStorageSync('token'),...data});
   },
+
+  // 发起拼单
+  createPindan: function createPindan(data) {
+    return request('/order/createPindan', true, 'post',{token:wx.getStorageSync('token'),...data},{
+      'Content-Type': 'application/json',
+      'x-token': wx.getStorageSync('token')
+    })
+  },
+// 根据门店ID查找拼单信息
+  getPinDanInfo: function getPinDanInfo(shopId){
+    return request('/order/getPinDanInfo', true, 'get',{token:wx.getStorageSync('token'),shopId},{
+      'Content-Type': 'application/json',
+      'x-token': wx.getStorageSync('token')
+    })
+  },
+  // 根据拼单id 查找拼单信息
+  getPinDanInfoById: function getPinDanInfoById(id){
+    return request('/order/getPinDanInfoById', true, 'get',{token:wx.getStorageSync('token'),id},{
+      'Content-Type': 'application/json',
+      'x-token': wx.getStorageSync('token')
+    })
+  }
 
 };
 

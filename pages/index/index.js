@@ -603,7 +603,7 @@ Page({
     }
     return canSubmit
   },
-  // 去拼团
+  // 去拼单
   async toPindan() {
     const token = wx.getStorageSync('token')
     const curGoodsMap = this.data.curGoodsMap
@@ -645,7 +645,7 @@ Page({
       token,
       goodsId: curGoodsMap.basicInfo.id,
       number: curGoodsMap.number,
-      sku: sku && sku.length > 0 ? JSON.stringify(sku) : '',
+      sku: sku ,
       addition: goodsAddition && goodsAddition.length > 0 ? JSON.stringify(goodsAddition) : '',
     }
     if (this.data.goodsTimesSchedule) {
@@ -658,8 +658,20 @@ Page({
         }
       }
     }
-    console.log(d)
-    this.hideGoodsDetailPOP()
+    WXAPI.createPindan(d).then(res=>{
+     if(res.code == 0){
+      this.hideGoodsDetailPOP()
+      wx.navigateTo({
+        url: '/pages/pindan/pindan',
+      })
+     }else {
+       wx.showToast({
+         title: res.msg,
+         icon: 'none'
+       })
+     }
+    });
+    
   },
   async addCart2() {
     const token = wx.getStorageSync('token')
