@@ -22,11 +22,25 @@
     "miniprogram": {
       "list": [
         {
-          "name": "pages/pindan/pindan",
-          "pathName": "pages/pindan/pindan",
+          "name": "pages/my/pindan/pindan",
+          "pathName": "pages/my/pindan/pindan",
           "query": "",
           "scene": null,
           "launchMode": "default"
+        },
+        {
+          "name": "pages/select-prod/select-prod",
+          "pathName": "pages/select-prod/select-prod",
+          "query": "pindanId=6015",
+          "launchMode": "default",
+          "scene": null
+        },
+        {
+          "name": "pages/pindan/pindan",
+          "pathName": "pages/pindan/pindan",
+          "query": "id=6015",
+          "launchMode": "default",
+          "scene": null
         }
       ]
     }

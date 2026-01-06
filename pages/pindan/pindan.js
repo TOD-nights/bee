@@ -1,5 +1,6 @@
 // pages/pindan/pindan.js
 const WXAPI = require('apifm-wxapi')
+
 const AUTH = require('../../utils/auth')
 
 Page({
@@ -15,7 +16,8 @@ Page({
     distance: '',
     shopId: '',
     userInfo: {},
-    userId: 0
+    userId: 0,
+    total:0
   },
 
   /**
@@ -29,10 +31,10 @@ Page({
       })
     }
     WXAPI.userDetail(wx.getStorageSync('token')).then(res => {
-      // console.log(res)
       if (res.code == 0) {
         this.setData({
-          userId: res.data.base.id
+          userId: res.data.base.id,
+          userInfo: res.data
         })
       }
       if (res.code == 2000) {
@@ -82,40 +84,71 @@ Page({
   //--------------------------业务方法---------------
   peisongTypeHandler(e) {
     // console.log(e) 
-    this.setData({
-      peisongType: e.currentTarget.dataset.peisongtype
+    // 更新拼单配送方式
+    WXAPI.updatePindanPeisongTypeById(this.data.pindanInfo.id).then(res => {
+      // console.log(res)
+      if (res.data) {
+        this.setData({
+          peisongType: e.currentTarget.dataset.peisongtype
+        })
+      }
+    })
+  },
+
+  /// 跳转到创建拼单项页面
+  toCreatePindanItem(e) {
+    const pindanId = this.data.pindanInfo.id
+    wx.navigateTo({
+      url: '/pages/select-prod/select-prod?pindanId=' + pindanId,
     })
   },
 
   toSelectShop() {
-    if (this.data.userId == this.data.pindanInfo.userId) {
-      wx.navigateTo({
-        url: '/pages/shop/select?type=pindan',
-      })
-    }
+    // if (this.data.userId == this.data.pindanInfo.userId) {
+    //   wx.navigateTo({
+    //     url: '/pages/shop/select?type=pindan',
+    //   })
+    // }
   },
   // 加载拼单信息
   loadData() {
     if (this.data.id > 0) {
       // 点击了别人分享的链接后,执行
       WXAPI.getPinDanInfoById(this.data.id).then(res => {
-        console.log(res)
         if (res.code == 500001) {
           wx.showToast({
             title: '拼单信息不存在',
             icon: 'none'
           })
         } else if (res.code == 0) {
+          let items = res.data.items
+          let total = 0
+          items.forEach(element => {
+           total +=  element.amount * element.goodsNumber
+          });
+          if (items.filter(item => item.userId == this.data.userId).length == 0) {
+            // 当前用户没有下单
+            console.log('当前用户没有下单')
+            items = [items[0],{
+              goodsInfo:{},
+              userInfo:this.data.userInfo.base
+            },...items.slice(1)]
+            res.data.items = items
+          }
           this.setData({
             pindanInfo: res.data,
             id: res.data.id,
             shopName: res.data.shopInfo.name,
             distance: res.data.shopInfo.distance,
-            shopId: res.data.shopInfo.id
+            shopId: res.data.shopInfo.id,
+            peisongType: res.data.peisongType,
+            total
           });
         }
       })
     } else {
+
+      //我发起的拼单
       var shopInfo = wx.getStorageSync('shopInfo')
       if (shopInfo.id != this.data.shopId) {
         this.setData({
@@ -146,11 +179,20 @@ Page({
                     shopId: shopInfo.id,
                     peisongType: this.data.peisongType
                   }).then(res => {
-                    WXAPI.getPinDanInfo(shopInfo.id).then(pindanInfo => {
-                      this.setData({
-                        pindanInfo: pindanInfo,
-                        id: pindanInfo.id
-                      });
+                    WXAPI.getPinDanInfo(shopInfo.id).then(pindanInfoRes => {
+                      if (pindanInfoRes.code == 0) {
+                        this.setData({
+                          pindanInfo: pindanInfoRes.data,
+                          id: pindanInfoRes.data.id,
+                          peisongType: pindanInfoRes.data.peisongType
+
+                        });
+                      } else {
+                        wx.showToast({
+                          title: '创建拼单失败',
+                          icon: 'error'
+                        })
+                      }
                     });
                   })
                 }
@@ -161,11 +203,61 @@ Page({
           if (res.code == 0) {
             this.setData({
               pindanInfo: res.data,
-              id: res.data.id
+              id: res.data.id,
+              peisongType: res.data.peisongType
             });
           }
         })
       }
     }
+  },
+
+  toPay() {
+    const _this = this
+    const postData = {
+      token: wx.getStorageSync('token'),
+      pindanId: this.data.id
+    }
+    
+    WXAPI.wxPayPindan(postData).then(res => {
+      if (res.code == 0) {
+        // 发起支付
+        wx.requestPayment({
+          timeStamp: res.data.timeStamp,
+          nonceStr: res.data.nonceStr,
+          package: res.data.package,
+          signType: res.data.signType,
+          paySign: res.data.paySign,
+          fail: function (aaa) {
+            console.error(aaa)
+            wx.showToast({
+              title: '支付失败',
+              icon: 'none'
+            })
+          },
+          success: function () {
+            // 提示支付成功
+            wx.showToast({
+              title: '支付成功'
+            })
+            // 可以跳转到会员卡页面或刷新用户信息
+            setTimeout(() => {
+              wx.navigateBack()
+            }, 1500)
+          }
+        })
+      } else {
+        wx.showModal({
+          content: res.msg || '支付失败',
+          showCancel: false
+        })
+      }
+    }).catch(err => {
+      console.error(err)
+      wx.showToast({
+        title: '请求失败',
+        icon: 'none'
+      })
+    })
   }
 })

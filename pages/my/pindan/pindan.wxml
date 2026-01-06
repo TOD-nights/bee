@@ -1,0 +1,11 @@
+<!--pages/my/pindan/pindan.wxml-->
+<view>
+  <van-tabs active="{{active}}" bind:change="onChange">
+    <van-tab title="我发起的"></van-tab>
+    <van-tab title="我参与的"></van-tab>
+  </van-tabs>
+
+  <my-create style="display: {{active == 0?'block':'none'}}"/>
+  <my-joined style="display: {{active == 1?'block':'none'}}"/>
+
+</view>

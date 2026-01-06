@@ -33,7 +33,9 @@
     "pages/member-card/member-card",
     "pages/my-member-card/my-member-card",
     "pages/member-card-hx/member-card-hx",
-    "pages/pindan/pindan"
+    "pages/pindan/pindan",
+    "pages/select-prod/select-prod",
+    "pages/my/pindan/pindan"
   ],
   "requiredPrivateInfos": [
     "getLocation",

@@ -20,6 +20,13 @@ page{
    border-radius:40rpx;
 }
 
+.peisong-panel-1{
+  width: 203rpx;
+   border-radius:40rpx;
+   color: #e64340;
+   text-align: right;
+}
+
 .peisong-panel .active{
   background-color: #e64340;
   color: white;
@@ -85,4 +92,11 @@ page{
   color: #e64340;
   font-size:20rpx;
   
+}
+
+.total{
+  font-weight: bold;
+  line-height: 100rpx;
+  padding-left: 30rpx;
+  box-sizing: border-box;
 }

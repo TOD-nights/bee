@@ -3,13 +3,16 @@
   <view class="shopinfo-panel">
     <view class='flex'>
       <view class="shopname" bind:tap="toSelectShop">{{shopName}}</view>
-      <van-icon name="arrow" bind:tap="toSelectShop" />
+      <van-icon name="arrow" bind:tap="toSelectShop" wx:if='{{userId == pindanInfo.userId}}' />
       <view class="flex-1" bind:tap="toSelectShop" wx:if='{{userId == pindanInfo.userId}}'>
       </view>
       <view class="flex-1"></view>
       <view class="peisong-panel" wx:if='{{userId == pindanInfo.userId}}'>
-        <view class="ziqu {{peisongType==1?'active':''}}" bind:tap="peisongTypeHandler" data-peisongType='zq'>自取</view>
-        <view class="waimai {{peisongType==2?'active':''}}" bind:tap="peisongTypeHandler" data-peisongType='kd'>外送</view>
+        <view class="ziqu {{peisongType==1?'active':''}}" bind:tap="peisongTypeHandler" data-peisongType='1'>自取</view>
+        <view class="waimai {{peisongType==2?'active':''}}" bind:tap="peisongTypeHandler" data-peisongType='2'>外送</view>
+      </view>
+      <view class="peisong-panel-1" wx:else>
+        {{peisongType==1?"自取":"外送"}}
       </view>
     </view>
     <view class="distance">距你{{distance}}公里</view>
@@ -38,11 +41,16 @@
       <view class="flex">
         <van-image round width='50' height='50' src='{{item.userInfo.avatarUrl}}' />
         <view class="tag" wx:if='{{item.userInfo.id == pindanInfo.userId}}'>队长</view>
-        <view class="nickname">{{item.userInfo.nick}}<text wx:if='{{item.userInfo.id == pindanInfo.userId}}'>(我)</text></view>
+        <view class="nickname">{{item.userInfo.nick}}<text wx:if='{{item.userInfo.id == userId}}'>(我)</text></view>
         <view class="flex-1">
         </view>
+        <view class='no-order-tip' wx:if='{{!item.goodsId}}'>还没点单</view>
+
       </view>
-      <view class="goods-panel">
+      <view class="xiadan-panel" wx:if='{{!item.goodsId}}'>
+        <van-button round type='info' plain size='small' bind:tap="toCreatePindanItem">立即下单</van-button>
+      </view>
+      <view class="goods-panel" wx:if='{{item.goodsId}}'>
         <van-image round width='80' height='80' src='{{item.goodsInfo.pic}}' />
 
         <view class="flex flex-1">
@@ -50,11 +58,19 @@
             <view class="goods-name">{{item.goodsInfo.name}}</view>
             <view class="goods-sku">{{item.goodsPropertyNames}}</view>
           </view>
-          <view class="count">X1</view>
-          <view class="price">¥1231</view>
+          <view class="count">X{{item.goodsNumber}}</view>
+          <view class="price">¥{{item.amount}}</view>
         </view>
 
       </view>
     </view>
   </view>
+  <van-row>
+    <van-col span="{{18}}" >
+      <view class='total'>合计: ¥{{total}}</view>
+    </van-col>
+    <van-col span="{{6}}">
+      <van-button type='danger' bind:tap="toPay">去支付</van-button>
+    </van-col>
+  </van-row>
 </view>

@@ -1,0 +1,7 @@
+{
+  "usingComponents": {
+    "my-create": "./components/my-create/my-create",
+    "my-joined": "./components/my-joined/my-joined"
+  },
+  "navigationBarTitleText": "我的拼单"
+}
