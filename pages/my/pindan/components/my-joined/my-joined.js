@@ -17,7 +17,9 @@ Component({
   data: {
     active: 0,
     page: 1, // 每页显示条数
-    list: []
+    list: [],
+    selectedItem: {},
+    showQuCan: false
   },
 
   lifetimes: {
@@ -39,8 +41,8 @@ Component({
     onchange: function (e) {
       this.setData({
         active: e.detail.index,
-        page:1,
-        list:[]
+        page: 1,
+        list: []
       })
       this.loadData()
     },
@@ -56,14 +58,39 @@ Component({
       console.log(e);
       this.loadData();
     },
-    toPay(e){
+    // 取单
+    toShowHx(e) {
       const id = e.currentTarget.dataset.id
       const index = e.currentTarget.dataset.index
-      if(this.data.list[index].status == 0) {
-        wx.navigateTo({
-          url: '/pages/pindan/pindan?id=' + id,
-        })
-      }
+      this.setData({
+        selectedItem: this.data.list[index],
+        showQuCan: true
+      })
+    },
+    onClose() {
+      this.setData({
+        selectedItem: {},
+        showQuCan: false
+      })
+    },
+    onConfirm() {
+      WXAPI.qudan(this.data.selectedItem.id).then(res => {
+        console.log(res)
+        if (res.code == 0) {
+          wx.showToast({
+            title: '取单成功',
+          })
+          this.setData({
+            selectedItem: {},
+            showQuCan: false
+          })
+        } else {
+          wx.showToast({
+            title: res.msg,
+            icon: 'error'
+          })
+        }
+      })
     }
   }
 })

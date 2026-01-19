@@ -151,7 +151,9 @@
       <van-stepper value="{{ curGoodsMap.number }}" min="{{curGoodsMap.basicInfo.minBuyNumber}}" max="{{ buyNumMax }}" bind:change="goodsStepChange"/>
     </view>
     <view class="add-cart" style="display: flex;">
-      <van-button  style='flex:1;' size='large'  color="#e64340" bind:click="toPindan">{{ $t.goodsDetail.pindanBtn }}</van-button>
+      <view  style='flex:1;' size='large'  
+      hover-style="background-color:#179e16;" style="display:inline-block;padding:12px 16px;background-color:#FFD700;color:#000;border-radius:6px;text-align:center;font-size:16px;font-weight:500;"
+      bind:tap="toPindan">{{ $t.goodsDetail.pindanBtn }}</view>
 
       <van-button wx:if="{{lijipingtuanbuy}}"  color="#e64340" bind:click="pingtuanbuy">{{ $t.index.pingtuan }}</van-button>
       <van-button wx:else  style='flex:1; margin-left: 20rpx;' size='large'  color="#e64340" bind:click="addCart2">{{ $t.goodsDetail.addCartBtn }}</van-button>

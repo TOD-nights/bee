@@ -1083,6 +1083,11 @@ module.exports =
         return request('/user/detail', true, 'get', {
           token: token
         });
+      },  
+      userVipLevelById: function userDetail(token,id) {
+        return request('/user/vipLevel/' + id, true, 'get', {
+          token: token
+        });
       },
       randomNick: function randomNick() {
         var len = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
@@ -3776,6 +3781,12 @@ module.exports =
         return request('/order/pindan/buy/wxpay', true, 'post', {
           token: wx.getStorageSync('token'),
           ...data
+        });
+      },
+
+      qudan: function qudan(id) {
+        return request('/order/pindan/qudan?id=' + id, true, 'post', {
+          token: wx.getStorageSync('token'),
         });
       },
 

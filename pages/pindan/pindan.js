@@ -1,8 +1,7 @@
 // pages/pindan/pindan.js
 const WXAPI = require('apifm-wxapi')
-
 const AUTH = require('../../utils/auth')
-
+const {print,print2}  = require("../../utils/pay")
 Page({
 
   /**
@@ -17,7 +16,10 @@ Page({
     shopId: '',
     userInfo: {},
     userId: 0,
-    total:0
+    total: 0,
+    totalVip: 0,
+    showPayPop: false,
+    vipLevel: 0,
   },
 
   /**
@@ -74,7 +76,7 @@ Page({
     return {
       title: '快来和我一起拼单吧！', // 分享标题
       path: '/pages/pindan/pindan?id=' + this.data.pindanInfo.id, // 分享路径（带参数）
-      imageUrl: 'https://gips2.baidu.com/it/u=195724436,3554684702&fm=3028&app=3028&f=JPEG&fmt=auto?w=1280&h=960', // 自定义图片（建议 5:4）
+      imageUrl: 'https://taletape-video-dev.oss-eu-central-1.aliyuncs.com/COFFEE/kc.png', // 自定义图片（建议 5:4）
       // success: (res) => { console.log('转发成功', res) },
       // fail: (res) => { console.log('转发失败', res) }
     };
@@ -121,18 +123,27 @@ Page({
             icon: 'none'
           })
         } else if (res.code == 0) {
+
+          // 查询拼单发起人userLevel
+          WXAPI.userVipLevelById(wx.getStorageSync('token'), res.data.userId).then(res => {
+            this.setData({
+              vipLevel: res.data
+            })
+          })
           let items = res.data.items
           let total = 0
+          let totalVip = 0
           items.forEach(element => {
-           total +=  element.amount * element.goodsNumber
+            total += element.amount * element.goodsNumber
+            totalVip += element.amountVip * element.goodsNumber
           });
           if (items.filter(item => item.userId == this.data.userId).length == 0) {
             // 当前用户没有下单
             console.log('当前用户没有下单')
-            items = [items[0],{
-              goodsInfo:{},
-              userInfo:this.data.userInfo.base
-            },...items.slice(1)]
+            items = [items[0], {
+              goodsInfo: {},
+              userInfo: this.data.userInfo.base
+            }, ...items.slice(1)]
             res.data.items = items
           }
           this.setData({
@@ -142,7 +153,8 @@ Page({
             distance: res.data.shopInfo.distance,
             shopId: res.data.shopInfo.id,
             peisongType: res.data.peisongType,
-            total
+            total,
+            totalVip
           });
         }
       })
@@ -212,16 +224,70 @@ Page({
     }
   },
 
+  openPayPop() {
+    this.setData({
+      showPayPop: true
+    })
+  },
+
+  onClosePayPop() {
+    this.setData({
+      showPayPop: false
+    })
+  },
+
   toPay() {
     const _this = this
     const postData = {
       token: wx.getStorageSync('token'),
       pindanId: this.data.id
     }
-    
+    const goodList = [];
+    for(const item of this.data.pindanInfo.items) {
+
+      const skus = []
+      for(const name of item.goodsPropertyNames.split()) {
+skus.push({
+  optionValueName: name
+})
+      }
+      const goodsInfo = {
+        number: item.goodsNumber,
+              name: item.goodsInfo.name,
+              price: this.data.vipLevel > 0?item.amountVip:item.amount,
+              sku: skus
+    }
+
+    goodList.push(goodsInfo)
+  }
     WXAPI.wxPayPindan(postData).then(res => {
+
       if (res.code == 0) {
         // 发起支付
+        if (res.data.is_pay) {
+          wx.showToast({
+            title: '支付成功'
+          })
+          //打印标签
+          const data = {
+            data: {
+              amountReal: 0,
+              orderNumber: res.data.payOrderId
+            },
+            shopInfo: {
+              id: this.data.shopId,
+              name: this.data.shopName
+            },
+            goodsList: goodList
+          };
+          print(data);
+          print2(data)
+          // 可以跳转到会员卡页面或刷新用户信息
+          setTimeout(() => {
+            wx.navigateBack()
+          }, 1500)
+          return
+        }
         wx.requestPayment({
           timeStamp: res.data.timeStamp,
           nonceStr: res.data.nonceStr,
@@ -229,7 +295,6 @@ Page({
           signType: res.data.signType,
           paySign: res.data.paySign,
           fail: function (aaa) {
-            console.error(aaa)
             wx.showToast({
               title: '支付失败',
               icon: 'none'
@@ -240,7 +305,19 @@ Page({
             wx.showToast({
               title: '支付成功'
             })
-            // 可以跳转到会员卡页面或刷新用户信息
+            const data = {
+              data: {
+                amountReal: res.data.payAmount,
+                orderNumber: res.data.outTradeId
+              },
+              shopInfo: {
+                id: this.data.shopId,
+                name: this.data.shopName
+              },
+              goodsList: goodList
+            };
+            print(data);
+            print2(data)
             setTimeout(() => {
               wx.navigateBack()
             }, 1500)

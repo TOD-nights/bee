@@ -14,8 +14,28 @@ scroll-view{
 .order-item .row{
   display: flex;
   font-size: 32rpx;
+  margin-bottom: 20rpx;
 }
 
+
+.order-item .row:last-child{
+  margin-bottom: 0rpx;
+}
+.date-add{
+  font-size: 24rpx;
+}
+.goods-name{
+  font-size: 28rpx;
+  color: #666;
+}
+
+.properties-name{
+  font-size: 28rpx;
+  color: #666;
+  margin-left: 20rpx;
+  text-align: right;
+  flex: 1;
+}
 .order-item .date-add{
   flex:1;
   text-align: right;
