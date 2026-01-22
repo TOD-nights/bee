@@ -1,0 +1,27 @@
+/* pages/my/pindan/components/my-create.wxss */
+scroll-view{
+  background-color: #efefef;
+  width: 100%;
+  height: calc(100vh - 180rpx);
+}
+.order-item{
+  background-color: white;
+  margin: 20rpx;
+  border-radius: 20rpx;
+  padding: 20rpx;
+}
+
+.order-item .row{
+  display: flex;
+  font-size: 32rpx;
+}
+
+.order-item .date-add{
+  flex:1;
+  text-align: right;
+}
+
+.order-item .amount{
+  color: red;
+  flex:1;
+}

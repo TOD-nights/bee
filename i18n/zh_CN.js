@@ -155,6 +155,7 @@ module.exports = {
     noSelectNumber: '请选择购买数量',
     addCartSuccess: '加入购物车',
     addCartBtn: '加入购物车',
+    pindanBtn: '发起拼单',
     inviteKanJia: '邀请您帮TA砍价',
     inviteKanJiaFriend: '邀请朋友帮忙',
     kanJiaAmount: '成功帮TA砍掉',

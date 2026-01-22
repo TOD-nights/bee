@@ -15,14 +15,14 @@
 </view>
 <view wx:if="{{ !scanDining }}" class="box">
   <view class="shop-name">
-    <view bindtap="selectshop" hover-style="background-color:#179e16;" style="display:inline-block;padding:8px 16px;background-color:#FFD700;color:#000;border-radius:6px;text-align:center;font-size:16px;font-weight:500;">{{shopInfo.name}}</view>
+    <view  hover-style="background-color:#179e16;" style="display:inline-block;padding:8px 16px;background-color:#FFD700;color:#000;border-radius:6px;text-align:center;font-size:16px;font-weight:500;">{{shopInfo.name}}</view>
     <view wx:if="{{ shopInfo.openWaimai && shopInfo.openZiqu }}" class="select">
-      <view class="{{peisongType == 'zq' ? 'on' : 'off'}}" data-type="zq" bindtap="changePeisongType">{{ $t.index.pickup }}</view>
-      <view class="{{peisongType == 'kd' ? 'on' : 'off'}}" data-type="kd" bindtap="changePeisongType">{{ $t.index.Delivery }}</view>
+      <view class="{{peisongType == '1' ? 'on' : 'off'}}" data-type="zq" >{{ $t.index.pickup }}</view>
+      <view class="{{peisongType == '2' ? 'on' : 'off'}}" data-type="kd" >{{ $t.index.Delivery }}</view>
     </view>
   </view>
   <view class="distance-bar">
-    <view class="distance">{{shopInfo.distance}}km</view>
+    <view class="distance">{{shopInfo.distanceStr}}km</view>
     <navigator url="/pages/shop/detail?id={{shopInfo.id}}" hover-class="none">
       <view class="shop-message">
         <view class="message">{{ $t.index.shopDetail }}</view>
@@ -151,12 +151,10 @@
       <van-stepper value="{{ curGoodsMap.number }}" min="{{curGoodsMap.basicInfo.minBuyNumber}}" max="{{ buyNumMax }}" bind:change="goodsStepChange"/>
     </view>
     <view class="add-cart" style="display: flex;">
-      <view  style='flex:1;' size='large'  
-      hover-style="background-color:#179e16;" style="display:inline-block;padding:12px 16px;background-color:#FFD700;color:#000;border-radius:6px;text-align:center;font-size:16px;font-weight:500;"
-      bind:tap="toPindan">{{ $t.goodsDetail.pindanBtn }}</view>
+      <van-button  style='flex:1;' size='large'  color="#e64340" bind:click="toPindan">拼单</van-button>
 
-      <van-button wx:if="{{lijipingtuanbuy}}"  color="#e64340" bind:click="pingtuanbuy">{{ $t.index.pingtuan }}</van-button>
-      <van-button wx:else  style='flex:1; margin-left: 20rpx;' size='large'  color="#e64340" bind:click="addCart2">{{ $t.goodsDetail.addCartBtn }}</van-button>
+      <!-- <van-button wx:if="{{lijipingtuanbuy}}"  color="#e64340" bind:click="pingtuanbuy">{{ $t.index.pingtuan }}</van-button>
+      <van-button wx:else  style='flex:1; margin-left: 20rpx;' size='large'  color="#e64340" bind:click="addCart2">{{ $t.goodsDetail.addCartBtn }}</van-button> -->
     </view>
   </view>
 </van-popup> 
@@ -245,12 +243,3 @@
   </view>
 
 </van-overlay>
-
-
-<block wx:if="{{ scanDining }}">
-  <van-tabbar active="{{ 0 }}" fixed="{{ false }}" inactive-color="#6e6d6b" active-color="#e64340" bind:change="tabbarChange">
-    <van-tabbar-item icon="goods-collect-o">{{ $t.index.order }}</van-tabbar-item>
-    <van-tabbar-item icon="shopping-cart-o">{{ $t.cart.title }}</van-tabbar-item>
-    <van-tabbar-item icon="bill-o">{{ $t.index.ordered }}</van-tabbar-item>
-  </van-tabbar>
-</block>

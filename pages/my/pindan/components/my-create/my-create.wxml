@@ -1,0 +1,31 @@
+<!-- components/my-list/my-list.wxml -->
+<view>
+  <van-tabs active="{{active}}" bind:change='onchange'>
+    <van-tab title='全部'></van-tab>
+    <van-tab title='代付款'></van-tab>
+    <van-tab title='待核销'></van-tab>
+    <van-tab title='已完成'></van-tab>
+  </van-tabs>
+  <scroll-view scroll-y bindscrolltolower="onScrollToLower">
+    <view wx:for="{{ list }}" wx:key="index" wx:for-index="index" class='order-item'
+    data-id='{{item.id}}' data-index='{{index}}' bind:tap="toPay"
+    >
+      <view class="row">
+        <view class='shop-name'>{{item.shopNameZt}}</view>
+        <view class='date-add'>{{item.dateAdd}}</view>
+      </view>
+      <view class="row">
+        <view class='amount'>¥{{item.amount}}</view>
+        <view class='status' wx:if="{{item.status == 0}}">
+          <van-tag type="primary">去支付</van-tag>
+        </view>
+        <view class='status' wx:if="{{item.status == 1}}">
+          <van-tag type="warning">待核销</van-tag>
+        </view>
+        <view class='status' wx:if="{{item.status == 2}}">
+          <van-tag type="success">已完成</van-tag>
+        </view>
+      </view>
+    </view> 
+  </scroll-view>
+</view>

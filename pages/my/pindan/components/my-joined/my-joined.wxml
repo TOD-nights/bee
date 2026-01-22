@@ -1,0 +1,61 @@
+<!-- components/my-list/my-list.wxml -->
+<view>
+  <van-tabs active="{{active}}" bind:change='onchange'>
+    <van-tab title='全部'></van-tab>
+    <van-tab title='代付款'></van-tab>
+    <van-tab title='待核销'></van-tab>
+    <van-tab title='已完成'></van-tab>
+  </van-tabs>
+  <scroll-view scroll-y bindscrolltolower="onScrollToLower">
+    <view wx:for="{{ list }}" wx:key="index" wx:for-index="index" class='order-item'
+    data-id='{{item.id}}' data-index='{{index}}' bind:tap="toShowHx"
+    >
+      <view class="row">
+        <view class='shop-name'>{{item.shopNameZt}}</view>
+        <view class='date-add'>{{item.dateAdd}}</view>
+      </view>
+      <view class="row">
+        <view class='goods-name'>{{item.goodsInfo.name}}</view>
+        <view class='properties-name'>{{item.goodsPropertyNames}}</view>
+      </view>
+      <view class="row">
+        <view class='amount'>¥{{item.amount}} X {{item.goodsNumber}}</view>
+        <view class='status' wx:if="{{item.status == 0}}">
+          <van-tag type="danger">未支付</van-tag>
+        </view>
+        <view class='status' wx:if="{{item.status == 1}}">
+          <van-tag type="warning">待取单({{item.qudanhao}})</van-tag>
+        </view>
+        <view class='status' wx:if="{{item.status == 2}}">
+          <van-tag type="success">已完成</van-tag>
+        </view>
+      </view>
+    </view> 
+  </scroll-view>
+  <van-dialog
+  use-slot
+  title="取餐提醒"
+  show="{{ showQuCan }}"
+  show-cancel-button
+  confirm-button-text='取餐'
+  bind:close="onClose"
+  bind:confirm="onConfirm"
+>
+<view  class='order-item'
+    >
+      <view class="row">
+        <view class='shop-name'>{{selectedItem.shopNameZt}}</view>
+        <view class='date-add'>{{selectedItem.dateAdd}}</view>
+      </view>
+      <view class="row">
+        <view class='goods-name'>{{selectedItem.goodsInfo.name}}</view>
+        <view class='properties-name'>{{selectedItem.goodsPropertyNames}}</view>
+      </view>
+      <view class="row">
+        <view class='amount'>¥{{selectedItem.amount}} X {{selectedItem.goodsNumber}}</view>
+        <view class='qudanhao'>{{selectedItem.qudanhao}}</view>
+      </view>
+
+    </view> 
+</van-dialog>
+</view>

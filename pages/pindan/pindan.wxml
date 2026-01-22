@@ -1,0 +1,98 @@
+<!--pages/pindan/pindan.wxml-->
+<view>
+  <view class="shopinfo-panel">
+    <view class='flex'>
+      <view class="shopname" bind:tap="toSelectShop">{{shopName}}</view>
+      <van-icon name="arrow" bind:tap="toSelectShop" wx:if='{{userId == pindanInfo.userId}}' />
+      <view class="flex-1" bind:tap="toSelectShop" wx:if='{{userId == pindanInfo.userId}}'>
+      </view>
+      <view class="flex-1"></view>
+      <view class="peisong-panel" wx:if='{{userId == pindanInfo.userId}}'>
+        <view class="ziqu {{peisongType==1?'active':''}}" bind:tap="peisongTypeHandler" data-peisongType='1'>自取</view>
+        <view class="waimai {{peisongType==2?'active':''}}" bind:tap="peisongTypeHandler" data-peisongType='2'>外送</view>
+      </view>
+      <view class="peisong-panel-1" wx:else>
+        {{peisongType==1?"自取":"外送"}}
+      </view>
+    </view>
+    <view class="distance">距你{{distance}}公里</view>
+  </view>
+  <view class="shopinfo-panel">
+    <view class="title">快去邀请好友一起拼单吧</view>
+    <view class="yaoqing-panel" wx:if='{{id > 0}}'>
+      <button hover-style="background-color:#179e16;" style="line-height: 80rpx;height: 80rpx;display:inline-block;text-align: center;background-color:#FFD700;color:#000;border-radius:40rpx;text-align:center;font-size:30rpx;font-weight:500;" round open-type='share'>邀请好友</button>
+    </view>
+  </view>
+  <!-- 拼单列表 -->
+  <view class="shopinfo-panel" wx:if='{{id > 0 && pindanInfo.items.length  == 0}}'>
+    <view class="flex">
+      <van-image round width='50' height='50' src='https://taletape-video-dev.oss-eu-central-1.aliyuncs.com/9.8/profile.jpg' />
+      <view class="tag">队长</view>
+      <view class="nickname">李<text>(我)</text></view>
+      <view class="flex-1"></view>
+      <view class='no-order-tip'>还没点单</view>
+    </view>
+    <view class="xiadan-panel">
+      <van-button round type='info' plain size='small'>立即下单</van-button>
+    </view>
+  </view>
+  <view wx:if='{{id > 0 && pindanInfo.items.length > 0}}'>
+    <view class="shopinfo-panel" wx:for='{{pindanInfo.items}}' wx:key='id'>
+      <view class="flex">
+        <van-image round width='50' height='50' src='https://taletape-video-dev.oss-eu-central-1.aliyuncs.com/9.8/profile.jpg' />
+        <view class="tag" wx:if='{{item.userInfo.id == pindanInfo.userId}}'>队长</view>
+        <view class="nickname">{{item.userInfo.nick}}<text wx:if='{{item.userInfo.id == userId}}'>(我)</text></view>
+        <view class="flex-1">
+        </view>
+        <view class='no-order-tip' wx:if='{{!item.goodsId}}'>还没点单</view>
+
+      </view>
+      <view class="xiadan-panel" wx:if='{{!item.goodsId}}'>
+        <van-button round type='info' plain size='small' bind:tap="toCreatePindanItem">立即下单</van-button>
+      </view>
+      <view class="goods-panel" wx:if='{{item.goodsId}}'>
+        <van-image round width='80' height='80' src='{{item.goodsInfo.pic}}' />
+
+        <view class="flex flex-1">
+          <view class='flex-1'>
+            <view class="goods-name">{{item.goodsInfo.name}}</view>
+            <view class="goods-sku">{{item.goodsPropertyNames}}</view>
+          </view>
+          <view class="count">X{{item.goodsNumber}}</view>
+          <view class="price" wx:if='{{vipLevel == 0}}'>¥{{item.amount}}</view>
+          <view class="price" wx:if='{{vipLevel > 0}}'>¥{{item.amountVip}}</view>
+        </view>
+
+      </view>
+    </view>
+  </view>
+  <van-row>
+    <van-col span="{{18}}">
+      <view class='total' wx:if='{{vipLevel == 0}}'>合计: ¥{{total}}</view>
+      <view class='total' wx:if='{{vipLevel > 0}}'>合计: ¥{{totalVip}}</view>
+    </van-col>
+    <van-col span="{{6}}">
+      <view hover-style="background-color:#179e16;" style="display:inline-block;padding:12px 16px;background-color:#FFD700;color:#000;border-radius:6px;text-align:center;font-size:16px;font-weight:500;" type='danger' bind:tap="openPayPop">去支付</view>
+    </van-col>
+  </van-row>
+  <van-popup show="{{ showPayPop }}" bind:close="onClosePayPop" position='bottom' closeable="{{true}}" overlay="{{false}}" custom-style='height: 600rpx;background-color: white;width: 100vw;'>
+    <view class="pay-pop-title">拼单支付</view>
+    <view class="pay-pop-price">
+      <view class="pay-pop-price-title">订单总价:</view>
+      <view class='pay-pop-price-amount' wx:if='{{vipLevel == 0}}'>合计: ¥{{total}}元</view>
+      <view class='pay-pop-price-amount' wx:if='{{vipLevel > 0}}'>合计: ¥{{totalVip}}元</view>
+    </view>
+    <view class="pay-pop-price">
+      <view class="pay-pop-price-title">账户余额:</view>
+      <view class='pay-pop-price-amount'>合计: ¥{{userInfo.balance}}元</view>
+    </view>
+    <view class="pay-pop-price">
+      <view class="pay-pop-price-title">订单支付:</view>
+      <view class='pay-pop-price-amount' wx:if='{{vipLevel == 0}}'>合计: ¥{{userInfo.balance > total?0:total -userInfo.balance }}元</view>
+      <view class='pay-pop-price-amount' wx:if='{{vipLevel > 0}}'>合计: ¥{{userInfo.balance > totalVip?0:totalVip -userInfo.balance }}元</view>
+    </view>
+
+    <view hover-style="background-color:#179e16;" 
+    style="width: 690rpx;margin: 0 auto;display:block;padding:12px 16px;background-color:#FFD700;color:#000;border-radius:6px;text-align:center;font-size:16px;font-weight:500;" type='danger' bind:tap="toPay">支付</view>
+  </van-popup>
+</view>

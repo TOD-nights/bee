@@ -3,239 +3,205 @@ const AUTH = require('../../utils/auth')
 const WXAPI = require('apifm-wxapi')
 Page({
   data: {
-    page: 1,
-    peisongType: 'zq', // zq 自取，kd 配送
-    showCartPop: false, // 是否显示购物车列表
+    pindanInfo: {}, // 拼单详细
+    pindanId: 0,
+    peisongType: '1', // 1 自取，2 配送
     showGoodsDetailPOP: false, // 是否显示商品详情
     showCouponPop: false, // 是否弹出优惠券领取提示
     shopIsOpened: false, // 是否营业
-
-    showPingtuanPop: false,
-    share_goods_id: undefined,
-    share_pingtuan_open_id: undefined,
-    lijipingtuanbuy: false,
-    pingtuan_open_id: undefined,
+    shopInfo: {},
+    refreshShopInfo: false, //是否刷新门店信息,
     menuButtonBoundingClientRect: wx.getMenuButtonBoundingClientRect(),
-  },  
+  },
   onLoad: function (e) {
-
-     // 清除店铺缓存
-  wx.removeStorageSync('shopInfo')
-  wx.removeStorageSync('shopIds')
-  
+    this.setData({
+      pindanId: e.pindanId
+    })
     getApp().initLanguage(this)
-    const _data = {}
-    // 测试拼团入口
-    // e = {
-    //   share_goods_id: 521055,
-    //   share_pingtuan_open_id: 11267
-    // }
-
-    // 测试扫码点餐
-    // shopId=36,id=111,key=Y6RoIT 进行 url编码，3个值分别为 门店id，餐桌id，餐桌密钥
-    // e = {
-    //   scene: 'shopId%3d12879%2cid%3d111%2ckey%3dY6RoIT' 
-    // }
-
-    let mod = 0 // 0 普通模式； 1 扫码点餐模式
-    if (e && e.scene) {
-      const scene = decodeURIComponent(e.scene) // 处理扫码进商品详情页面的逻辑
-      if (scene && scene.split(',').length == 3) {
-        // 扫码点餐
-        const scanDining = {}
-        scene.split(',').forEach(ele => {
-          scanDining[ele.split('=')[0]] = ele.split('=')[1]
-        })
-        wx.setStorageSync('scanDining', scanDining)
-        _data.scanDining = scanDining
-        this.cyTableToken(scanDining.id, scanDining.key)
-        mod = 1
-      } else {
-        wx.removeStorageSync('scanDining')
-      }
-    }
-    if (wx.getStorageSync('scanDining')) {
-      mod = 1
-      _data.scanDining = wx.getStorageSync('scanDining')
-      wx.hideTabBar()
-    }
-    this.setData(_data)
-    if (e.share_goods_id) {
-      this.data.share_goods_id = e.share_goods_id
-      this._showGoodsDetailPOP(e.share_goods_id)
-    }
-    if (e.share_pingtuan_open_id) {
-      this.data.share_pingtuan_open_id = e.share_pingtuan_open_id
-    } else {
-      this._showCouponPop()
-    }
     // 静默式授权注册/登陆
-    if (mod == 0) {
-      AUTH.checkHasLogined().then(isLogin => {
-        if (isLogin) {
+    AUTH.checkHasLogined().then(isLogin => {
+      if (isLogin) {
+        AUTH.bindSeller()
+      } else {
+        AUTH.authorize().then(res => {
           AUTH.bindSeller()
-        } else {
-          AUTH.authorize().then(res => {
-            AUTH.bindSeller()
-          })
-        }
-      })
-    }
-    // 设置标题
-    const mallName = wx.getStorageSync('mallName')
-    if (mallName) {
-      this.setData({
-        mallName
-      })
-    }
-    const isVip = wx.getStorageSync('isVip')
-    this.setData({
-      isVip
-    })
-    
-    APP.configLoadOK = () => {
-      const mallName = wx.getStorageSync('mallName')
-      if (mallName) {
-        wx.setNavigationBarTitle({
-          title: mallName
         })
       }
-    }
-    // 读取默认配送方式
-    let peisongType = wx.getStorageSync('peisongType')
-    if (!peisongType) {
-      peisongType = 'zq'
-      wx.setStorageSync('peisongType', peisongType)
-    }
-    this.setData({
-      peisongType
     })
+
     // 读取最近的门店数据
-    this.categories()    
+    this.loadData()
+    this.categories()
     this.noticeLastOne()
     this.banners()
   },
-  onShow: function(){
-    this.shippingCarInfo()
-    const refreshIndex = wx.getStorageSync('refreshIndex')
-    if (refreshIndex) {
-      this.getshopInfo()
-      wx.removeStorageSync('refreshIndex')
+  onShow: function () {
+    if (this.data.refreshShopInfo) {
+      wx.getLocation({
+        type: 'wgs84', //wgs84 返回 gps 坐标，gcj02 返回可用于 wx.openLocation 的坐标
+        success: (res) => {
+          this.setData({
+            refreshShopInfo: false
+          })
+          const lat = res.latitude
+          const lng = res.longitude
+          WXAPI.shopInfo(this.data.pindanInfo.shopId, lat, lng).then(res => {
+            if (res.code == 0) {
+              res.data.info.distanceStr = Math.round(res.data.info.distance*100)/100.0
+              this.setData({
+                shopInfo: res.data
+              })
+            }
+          })
+
+        },
+      });
     }
   },
-  async cyTableToken(tableId, key) {
-    const res = await WXAPI.cyTableToken(tableId, key)
-    if (res.code != 0) {
-      wx.showModal({
-        confirmText: this.data.$t.common.confirm,
-        cancelText: this.data.$t.common.cancel,
-        content: res.msg,
-        showCancel: false
+  toPindan(){
+    const token = wx.getStorageSync('token')
+    const curGoodsMap = this.data.curGoodsMap
+    const canSubmit = this.skuCanSubmit()
+    const additionCanSubmit = this.additionCanSubmit()
+    if (!canSubmit || !additionCanSubmit) {
+      wx.showToast({
+        title: this.data.$t.goodsDetail.noSelectSku,
+        icon: 'none'
       })
       return
     }
-    wx.hideTabBar()
-    wx.setStorageSync('uid', res.data.uid)
-    wx.setStorageSync('token', res.data.token)
-  },
-  async getshopInfo(){
-    let shopInfo = wx.getStorageSync('shopInfo')
-    if (shopInfo) {
-      this.setData({
-        shopInfo: shopInfo,
-        shopIsOpened: this.checkIsOpened(shopInfo.openingHours)
+    const sku = []
+    if (curGoodsMap.properties) {
+      curGoodsMap.properties.forEach(big => {
+        const small = big.childsCurGoods.find(ele => {
+          return ele.selected
+        })
+        sku.push({
+          optionId: big.id,
+          optionValueId: small.id
+        })
       })
-      const shop_goods_split = wx.getStorageSync('shop_goods_split')
-      if (shop_goods_split == '1') {
-        // 商品需要区分门店
-        wx.setStorageSync('shopIds', shopInfo.id) // 当前选择的门店
-        // 切换店铺时重置分类状态
-        this.resetCategoryStatus()
-        this.getGoodsList()
+    }
+    const goodsAddition = []
+    if (this.data.goodsAddition) {
+      this.data.goodsAddition.forEach(ele => {
+        ele.items.forEach(item => {
+          if (item.active) {
+            goodsAddition.push({
+              id: item.id,
+              pid: item.pid
+            })
+          }
+        })
+      })
+    }
+    const d = {
+      token,
+      goodsId: curGoodsMap.basicInfo.id,
+      number: curGoodsMap.number,
+      sku: sku ,
+      pindanId: this.data.pindanId - 0,
+      addition: goodsAddition && goodsAddition.length > 0 ? JSON.stringify(goodsAddition) : '',
+    }
+    if (this.data.goodsTimesSchedule) {
+      const a = this.data.goodsTimesSchedule.find(ele => ele.active)
+      if (a) {
+        const b = a.items.find(ele => ele.active)
+        if (b) {
+          d.goodsTimesDay = a.day
+          d.goodsTimesItem = b.name
+        }
       }
-      return
     }
+    WXAPI.joinPindan(d).then(res=>{
+     if(res.code == 0){
+      this.hideGoodsDetailPOP()
+      wx.navigateTo({
+        url: '/pages/pindan/pindan?id='+this.data.pindanId,
+      })
+     }else {
+       wx.showToast({
+         title: res.msg,
+         icon: 'none'
+       })
+     }
+    });
+  },
+  getShopInfo() {
     wx.getLocation({
       type: 'wgs84', //wgs84 返回 gps 坐标，gcj02 返回可用于 wx.openLocation 的坐标
       success: (res) => {
-        this.data.latitude = res.latitude
-        this.data.longitude = res.longitude
-        this.fetchShops(res.latitude, res.longitude, '')
-        // ，跳转到店铺列表
-        wx.navigateTo({
-          url: '/pages/shop/select?type=index'
+        this.setData({
+          refreshShopInfo: false
         })
-      },      
+        const lat = res.latitude
+        const lng = res.longitude
+        WXAPI.shopInfo(this.data.pindanInfo.shopId, lat, lng).then(res => {
+          if (res.code == 0) {
+            res.data.info.distanceStr = Math.round(res.data.info.distance*100)/100.0
+            this.setData({
+              shopInfo: res.data.info
+            })
+          }
+        })
+
+      },
       fail: (e) => {
+        console.log(e)
         if (e.errMsg.indexOf('fail auth deny') != -1) {
+
           // 定位权限被拒绝，提供友好提示
           wx.showModal({
             title: this.data.$t.common.tips || '提示',
-            content: '为了给您推荐最近的门店，需要获取您的位置信息',
+            content: '为了给您展示您与门店的距离，需要获取您的位置信息',
             confirmText: this.data.$t.common.confirm || '去开启',
             cancelText: this.data.$t.common.cancel || '暂不开启',
             success: (res) => {
               if (res.confirm) {
-                AUTH.checkAndAuthorize('scope.userLocation')
-                // 用户选择开启定位，跳转到店铺列表
-                wx.navigateTo({
-                  url: '/pages/shop/select?type=index'
+                this.setData({
+                  refreshShopInfo: true
                 })
-
+                AUTH.checkAndAuthorize('scope.userLocation')
               } else {
-                // 用户选择不开启定位，跳转到店铺列表
-                wx.navigateTo({
-                  url: '/pages/shop/select?type=index'
+                this.setData({
+                  refreshShopInfo: false
                 })
               }
+            },
+            fail: () => {
+              this.setData({
+                refreshShopInfo: false
+              })
             }
           })
         } else {
           // 其他定位错误
-          wx.showModal({
-            title: this.data.$t.common.tips || '提示',
-            content: '无法获取您的位置，是否手动选择门店？',
-            confirmText: this.data.$t.common.confirm || '去选择',
-            cancelText: this.data.$t.common.cancel || '取消',
-            success: (res) => {
-              if (res.confirm) {
-                wx.navigateTo({
-                  url: '/pages/shop/select?type=index'
-                })
-              }
-            }
+          wx.showToast({
+            title: '无法获取您的位置',
+            icon: 'none'
+          })
+          this.setData({
+            refreshShopInfo: false
           })
         }
       }
     })
   },
-  async fetchShops(latitude, longitude, kw){
-    const res = await WXAPI.fetchShops({
-      curlatitude: latitude,
-      curlongitude: longitude,
-      nameLike: kw,
-      orderBy: 'distance',  // 按距离排序
-    sortBy: 'asc'        // 升序排列
-    })
-    if (res.code == 0) {
-      res.data.sort((a, b) => parseFloat(a.distance) - parseFloat(b.distance))
-
-      res.data.forEach(ele => {
-        ele.distance = ele.distance.toFixed(1) // 距离保留3位小数
-      })
-      this.setData({
-        shopInfo: res.data[0],
-        shopIsOpened: this.checkIsOpened(res.data[0].openingHours)
-      })
-      wx.setStorageSync('shopInfo', res.data[0])
-      const shop_goods_split = wx.getStorageSync('shop_goods_split')
-      if (shop_goods_split == '1') {
-        // 商品需要区分门店
-        wx.setStorageSync('shopIds', res.data[0].id) // 当前选择的门店
-        this.getGoodsList()
+  loadData() {
+    WXAPI.getPinDanInfoById(this.data.pindanId).then(res => {
+      if (res.code == 0) {
+        this.setData({
+          pindanInfo: res.data,
+          shopInfo: res.data.shopInfo,
+          peisongType: res.data.peisongType
+        });
+        this.getShopInfo();
       }
-    } 
+    })
   },
+
+
+
   async _showCouponPop() {
     const a = wx.getStorageSync('has_pop_coupons')
     if (a) {
@@ -255,16 +221,6 @@ Page({
       showCouponPop: this.data.showCouponPop
     })
   },
-  changePeisongType(e) {
-    const peisongType = e.currentTarget.dataset.type
-    this.setData({
-      peisongType
-    })
-    wx.setStorage({
-      data: peisongType,
-      key: 'peisongType',
-    })
-  },
   // 获取分类
   async categories() {
     const res = await WXAPI.goodsCategory()
@@ -274,33 +230,21 @@ Page({
         icon: 'none'
       })
       return
-    }    
+    }
     // 初始化分类状态，清除之前的标记
     const categories = res.data.map(category => ({
       ...category,
       hasGoods: undefined // 初始状态为undefined，表示未检查
     }))
-    
+
     this.setData({
       page: 1,
       categories: categories,
       categorySelected: categories[0]
     })
-    this.getshopInfo()
-    const shop_goods_split = wx.getStorageSync('shop_goods_split')
-    if (shop_goods_split != '1') {
-      this.getGoodsList()
-    }
   },
   async getGoodsList() {
-    const shop_goods_split = wx.getStorageSync('shop_goods_split')
-    if (shop_goods_split == '1') {
-      // 商品需要区分门店
-      const shopIds = wx.getStorageSync('shopIds') // 当前选择的门店
-      if (!shopIds) {
-        return
-      }
-    }
+
     wx.showLoading({
       title: '',
     })
@@ -330,7 +274,7 @@ Page({
         // 秒杀商品，显示倒计时
         const _now = new Date().getTime()
         ele.dateStartInt = new Date(ele.dateStart.replace(/-/g, '/')).getTime() - _now
-        ele.dateEndInt = new Date(ele.dateEnd.replace(/-/g, '/')).getTime() -_now
+        ele.dateEndInt = new Date(ele.dateEnd.replace(/-/g, '/')).getTime() - _now
       }
     })
     if (this.data.page == 1) {
@@ -349,11 +293,11 @@ Page({
   updateCategoryGoodsStatus() {
     const categories = this.data.categories
     const goods = this.data.goods
-    
+
     if (!categories) {
       return
     }
-    
+
     // 标记当前分类有商品
     const currentCategory = this.data.categorySelected
     if (currentCategory) {
@@ -363,24 +307,12 @@ Page({
         categories[categoryIndex].hasGoods = goods && goods.length > 0
       }
     }
-    
+
     this.setData({
       categories: categories
     })
   },
-  // 重置分类状态
-  resetCategoryStatus() {
-    const categories = this.data.categories
-    if (categories) {
-      const resetCategories = categories.map(category => ({
-        ...category,
-        hasGoods: undefined // 重置为未检查状态
-      }))
-      this.setData({
-        categories: resetCategories
-      })
-    }
-  },
+
   _onReachBottom() {
     this.data.page++
     this.getGoodsList()
@@ -395,67 +327,7 @@ Page({
     })
     this.getGoodsList()
   },
-  async shippingCarInfo() {
-    const res = await WXAPI.shippingCarInfo(wx.getStorageSync('token'))
-    if (res.code == 0) {
-      this.setData({
-        shippingCarInfo: res.data
-      })
-    } else {
-      this.setData({
-        shippingCarInfo: null,
-        showCartPop: false
-      })
-    }
-    this.processBadge()
-  },
-  showCartPop() {
-    if (this.data.scanDining) {
-      // 扫码点餐，前往购物车页面
-      wx.navigateTo({
-        url: '/pages/cart/index',
-      })
-    } else {
-      this.setData({
-        showCartPop: !this.data.showCartPop
-      })
-    }
-  },
-  hideCartPop() {
-    this.setData({
-      showCartPop: false
-    })
-  },
-  async addCart1(e) {
-    const token = wx.getStorageSync('token')
-    const index = e.currentTarget.dataset.idx
-    const item = this.data.goods[index]
-    wx.showLoading({
-      title: '',
-    })
-    let number = item.minBuyNumber // 加入购物车的数量
-    if (this.data.shippingCarInfo && this.data.shippingCarInfo.items) {
-      const goods = this.data.shippingCarInfo.items.find(ele => { return ele.goodsId == item.id})
-      console.log(goods);
-      if (goods) {
-        number = 1
-      }
-    }
-    const res = await WXAPI.shippingCarInfoAddItem(token, item.id, number, [])
-    wx.hideLoading()
-    if (res.code == 2000) {
-      AUTH.login(this)
-      return
-    }
-    if (res.code != 0) {
-      wx.showToast({
-        title: res.msg,
-        icon: 'none'
-      })
-      return
-    }
-    this.shippingCarInfo()
-  },
+
   async skuClick(e) {
     const index1 = e.currentTarget.dataset.idx1
     const index2 = e.currentTarget.dataset.idx2
@@ -499,7 +371,7 @@ Page({
           price = res.data.pingtuanPrice
         } else if (wx.getStorageSync('isVip')) {
           console.log('isVip')
-          price = res.data.vipPrice > 0?res.data.vipPrice:res.data.price
+          price = res.data.vipPrice > 0 ? res.data.vipPrice : res.data.price
         }
         originalPrice = res.data.originalPrice
         totalScoreToPay = res.data.score
@@ -522,7 +394,7 @@ Page({
       this.data.goodsAddition.forEach(big => {
         big.items.forEach(small => {
           if (small.active) {
-            price = (price*100 + small.price*100) / 100
+            price = (price * 100 + small.price * 100) / 100
           }
         })
       })
@@ -594,7 +466,9 @@ Page({
     if (curGoodsMap.basicInfo.hasAddition) {
       this.data.goodsAddition.forEach(ele => {
         if (ele.required) {
-          const a = ele.items.find(item => {return item.active})
+          const a = ele.items.find(item => {
+            return item.active
+          })
           if (!a) {
             canSubmit = false
           }
@@ -603,76 +477,7 @@ Page({
     }
     return canSubmit
   },
-  // 去拼单
-  async toPindan() {
-    const token = wx.getStorageSync('token')
-    const curGoodsMap = this.data.curGoodsMap
-    const canSubmit = this.skuCanSubmit()
-    const additionCanSubmit = this.additionCanSubmit()
-    if (!canSubmit || !additionCanSubmit) {
-      wx.showToast({
-        title: this.data.$t.goodsDetail.noSelectSku,
-        icon: 'none'
-      })
-      return
-    }
-    const sku = []
-    if (curGoodsMap.properties) {
-      curGoodsMap.properties.forEach(big => {
-        const small = big.childsCurGoods.find(ele => {
-          return ele.selected
-        })
-        sku.push({
-          optionId: big.id,
-          optionValueId: small.id
-        })
-      })
-    }
-    const goodsAddition = []
-    if (this.data.goodsAddition) {
-      this.data.goodsAddition.forEach(ele => {
-        ele.items.forEach(item => {
-          if (item.active) {
-            goodsAddition.push({
-              id: item.id,
-              pid: item.pid
-            })
-          }
-        })
-      })
-    }
-    const d = {
-      token,
-      goodsId: curGoodsMap.basicInfo.id,
-      number: curGoodsMap.number,
-      sku: sku ,
-      addition: goodsAddition && goodsAddition.length > 0 ? JSON.stringify(goodsAddition) : '',
-    }
-    if (this.data.goodsTimesSchedule) {
-      const a = this.data.goodsTimesSchedule.find(ele => ele.active)
-      if (a) {
-        const b = a.items.find(ele => ele.active)
-        if (b) {
-          d.goodsTimesDay = a.day
-          d.goodsTimesItem = b.name
-        }
-      }
-    }
-    WXAPI.createPindan(d).then(res=>{
-     if(res.code == 0){
-      this.hideGoodsDetailPOP()
-      wx.navigateTo({
-        url: '/pages/pindan/pindan?id='+res.data+"&shopId=" + this.data.shopInfo.id,
-      })
-     }else {
-       wx.showToast({
-         title: res.msg,
-         icon: 'none'
-       })
-     }
-    });
-    
-  },
+
   async addCart2() {
     const token = wx.getStorageSync('token')
     const curGoodsMap = this.data.curGoodsMap
@@ -923,14 +728,14 @@ Page({
       })
     }
   },
-  onShareAppMessage: function() {
+  onShareAppMessage: function () {
     let uid = wx.getStorageSync('uid')
     if (!uid) {
       uid = ''
     }
     let path = '/pages/index/index?inviter_id=' + uid
     if (this.data.pingtuan_open_id) {
-      path = path + '&share_goods_id=' +  this.data.curGoodsMap.basicInfo.id + '&share_pingtuan_open_id=' +  this.data.pingtuan_open_id
+      path = path + '&share_goods_id=' + this.data.curGoodsMap.basicInfo.id + '&share_pingtuan_open_id=' + this.data.pingtuan_open_id
     }
     return {
       title: '"' + wx.getStorageSync('mallName') + '" ' + wx.getStorageSync('share_profile'),
@@ -972,9 +777,9 @@ Page({
   tapBanner(e) {
     const url = e.currentTarget.dataset.url
     console.log('点击的 banner 链接:', url)
-  
+
     if (!url) return
-  
+
     // 如果是小程序内部路径
     if (url.startsWith('/pages/')) {
       wx.navigateTo({
@@ -991,8 +796,7 @@ Page({
         icon: 'none'
       })
     }
-  }
-  ,
+  },
   checkIsOpened(openingHours) {
     if (!openingHours) {
       return true
@@ -1000,21 +804,23 @@ Page({
     const date = new Date();
     const startTime = openingHours.split('-')[0]
     const endTime = openingHours.split('-')[1]
-    const dangqian=date.toLocaleTimeString('chinese',{hour12:false})
-    
-    const dq=dangqian.split(":")
+    const dangqian = date.toLocaleTimeString('chinese', {
+      hour12: false
+    })
+
+    const dq = dangqian.split(":")
     const a = startTime.split(":")
     const b = endTime.split(":")
 
-    const dqdq=date.setHours(dq[0],dq[1])
-    const aa=date.setHours(a[0],a[1])
-    const bb=date.setHours(b[0],b[1])
+    const dqdq = date.setHours(dq[0], dq[1])
+    const aa = date.setHours(a[0], a[1])
+    const bb = date.setHours(b[0], b[1])
 
-    if (a[0]*1 > b[0]*1) {
+    if (a[0] * 1 > b[0] * 1) {
       // 说明是到第二天
       return !this.checkIsOpened(endTime + '-' + startTime)
     }
-    return aa<dqdq && dqdq<bb
+    return aa < dqdq && dqdq < bb
   },
   yuanjiagoumai() {
     this.setData({
@@ -1098,7 +904,7 @@ Page({
     this.data.share_pingtuan_open_id = null
     this._showGoodsDetailPOP(this.data.curGoodsMap.basicInfo.id)
   },
-  async goodsAddition(goodsId){
+  async goodsAddition(goodsId) {
     const res = await WXAPI.goodsAddition(goodsId)
     if (res.code == 0) {
       this.setData({
@@ -1165,7 +971,9 @@ Page({
     })
   },
   selectshop() {
-    const {id} = this.data.shopInfo;
+    const {
+      id
+    } = this.data.shopInfo;
     wx.navigateTo({
       url: '/pages/shop/select?type=index&id=' + id,
     })

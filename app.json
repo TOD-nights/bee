@@ -32,7 +32,10 @@
     "pages/goods/list",
     "pages/member-card/member-card",
     "pages/my-member-card/my-member-card",
-    "pages/member-card-hx/member-card-hx"
+    "pages/member-card-hx/member-card-hx",
+    "pages/pindan/pindan",
+    "pages/select-prod/select-prod",
+    "pages/my/pindan/pindan"
   ],
   "requiredPrivateInfos": [
     "getLocation",
@@ -118,7 +121,8 @@
     "van-count-down": "@vant/weapp/count-down/index",
     "van-progress": "@vant/weapp/progress/index",
     "van-radio": "@vant/weapp/radio/index",
-    "van-radio-group": "@vant/weapp/radio-group/index"
+    "van-radio-group": "@vant/weapp/radio-group/index",
+    "van-image": "@vant/weapp/image/index"
   },
   "sitemapLocation": "sitemap.json"
 }

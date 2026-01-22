@@ -58,6 +58,7 @@
 	<van-cell icon="clock-o" title="{{ $t.booking.title }}" size="large" is-link url="/pages/booking/index" />-->
 	<van-cell icon="gold-coin-o" title="{{ $t.my.youhuimaidan }}" size="large" is-link url="/pages/youhui-pay/index" />
 	<van-cell icon="orders-o" title="{{ $t.order.title }}" size="large" is-link url="/pages/all-orders/index" />
+  <van-cell icon="notes-o" title="我的拼单" size="large" is-link url="/pages/my/pindan/pindan" />
 	<van-cell icon="location-o" title="{{ $t.ad_index.title }}" size="large" is-link url="/pages/ad/index" />
   <van-cell icon="vip-card-o" title="{{ $t.memberCard.myTitle }}" size="large" is-link url="/pages/my-member-card/my-member-card" />
 	<van-cell icon="vip-card-o" title="{{ $t.memberCard.title }}" size="large" is-link url="/pages/member-card/member-card" />

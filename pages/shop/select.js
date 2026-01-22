@@ -99,6 +99,10 @@ Page({
     if (this.data.type == 'index') {
       wx.setStorageSync('refreshIndex', 1)
     }
+    if (this.data.type == 'pindan') {
+      wx.navigateBack()
+      return;
+    }
     if (this.data.type == 'pay') {
       wx.navigateBack()
     } else {

@@ -30,7 +30,7 @@ function wxpay(type, money, orderId, redirectUrl, data) {
   }
   postData.payName = postData.remark;
   if (postData.nextAction) {
-    postData.nextAction = JSON.stringify(postData.nextAction);  
+    postData.nextAction = JSON.stringify(postData.nextAction);
   }
   WXAPI.wxpay(postData).then(function (res) {
     if (res.code == 0) {
@@ -53,15 +53,15 @@ function wxpay(type, money, orderId, redirectUrl, data) {
           }
         },
         success: function () {
-                //打印     
-                if(data &&data.isPrint ==true){
-                  //打印标签
-                  print(data)
-                  //打印小票
-                  print2(data)
-                }
-                
-     
+          //打印     
+          if (data && data.isPrint == true) {
+            //打印标签
+            print(data)
+            //打印小票
+            print2(data)
+          }
+
+
           // 提示支付成功
           wx.showToast({
             title: $t.asset.success
@@ -79,119 +79,117 @@ function wxpay(type, money, orderId, redirectUrl, data) {
         cancelText: $t.common.cancel,
         content: JSON.stringify(res),
         showCancel: false
-      })      
+      })
     }
   })
 }
+/**
+ * 
+ * @param {*} data 
+ * 打印标签，参数为支付返回的data数据
+ */
+//
+function print(data) {
 
-     //打印标签，参数为支付返回的data数据
-     function    print(data){
-  
-      //芯烨云打印接口
-       let url = 'https://open.xpyun.net/api/openapi/xprinter/printLabel'      
-       //开发者密钥
-       let userKey = 'b2e9014204774a058bc7e8640e36e8ed'
-       //开发者id xu1271669848@gmail.com
-       let userId = 'xu1271669848@gmail.com'
-       let timstamp = Math.trunc(new Date().getTime()/1000) + ""
-       let sign = userId + userKey + timstamp
-        //打印机序列号，店铺id对应打印机序列号
-        let sn = ''
-        //紫金店
-        if(data.shopInfo.id==2){
-          sn = '32817SCU1VAF54B'
-        }//未来店
-        else if (data.shopInfo.id==1){
-          sn = '32EL21088705948'
-        }
-         //塘下店
-         else if (data.shopInfo.id==4){
-          sn = '325Z1VC2ANA044B'
+  //芯烨云打印接口
+  let url = 'https://open.xpyun.net/api/openapi/xprinter/printLabel'
+  //开发者密钥
+  let userKey = 'b2e9014204774a058bc7e8640e36e8ed'
+  //开发者id xu1271669848@gmail.com
+  let userId = 'xu1271669848@gmail.com'
+  let timstamp = Math.trunc(new Date().getTime() / 1000) + ""
+  let sign = userId + userKey + timstamp
+  //打印机序列号，店铺id对应打印机序列号
+  let sn = ''
+  //紫金店
+  if (data.shopInfo.id == 2) {
+    sn = '32817SCU1VAF54B'
+  } //未来店
+  else if (data.shopInfo.id == 1) {
+    sn = '32EL21088705948'
+  }
+  //塘下店
+  else if (data.shopInfo.id == 4) {
+    sn = '325Z1VC2ANA044B'
+  }
+
+  //银泰新
+  else if (data.shopInfo.id == 10) {
+    sn = '32NGYDZZWN9D349'
+  }
+
+
+  //天津
+  else if (data.shopInfo.id == 11) {
+    sn = '32838SJRD48F849'
+  }
+
+  //金田
+  else if (data.shopInfo.id == 12) {
+    sn = '32C5PT83TYA9449'
+  }
+
+  //未来里
+  else if (data.shopInfo.id == 13) {
+    sn = '32JA8NVQDC1074B'
+  }
+
+  //汽车
+  else if (data.shopInfo.id == 14) {
+    sn = '32EVUCUVY0B4848'
+  }
+  //如果没有打印机，则返回
+  if (!sn) {
+    return
+  }
+  //当前日期 时分秒
+  let timeStr = getDate()
+  let content = ''
+
+  for (let i = 0; i < data.goodsList.length; i++) {
+    for (let k = 0; k < data.goodsList[i].number; k++) {
+      content += '<PAGE><SIZE>40,30</SIZE>' +
+        '<TEXT x="8" y="0" w="1" h="1" r="0"># ' + (i + 1) + '/' + data.goodsList.length + ' 总金额:' + data.data.amountReal + '</TEXT>' +
+        '<TEXT x="8" y="24" w="1" h="1" r="0">' + data.goodsList[i].name + '</TEXT>'
+      for (let j = 0; j < data.goodsList[i].sku.length; j++) {
+        content += '<TEXT x="8" y="' + (j + 2) * 24 + '" w="1" h="1" r="0">' + data.goodsList[i].sku[j].optionValueName + '</TEXT>'
       }
-
-       //银泰新
-       else if (data.shopInfo.id==10){
-        sn = '32NGYDZZWN9D349'
-      }
-
-
-      //天津
-      else if (data.shopInfo.id==11){
-        sn = '32838SJRD48F849'
-      }
-
-      //金田
-      else if (data.shopInfo.id==12){
-        sn = '32C5PT83TYA9449'
-      }
-
-      //未来里
-      else if (data.shopInfo.id==13){
-        sn = '32JA8NVQDC1074B'
-      }
-
-      //汽车
-      else if (data.shopInfo.id==14){
-        sn = '32EVUCUVY0B4848'
-      }
-      
-
-
-        //如果没有打印机，则返回
-        if(!sn){
-          return
-        }
-            //当前日期 时分秒
-      let timeStr = getDate()
-      let content = ''
-       
-    for(let i=0;i<data.goodsList.length;i++){
-      for(let k=0;k<data.goodsList[i].number;k++){
-      content+= '<PAGE><SIZE>40,30</SIZE>' + 
-      '<TEXT x="8" y="0" w="1" h="1" r="0"># '+(i+1) +'/' + data.goodsList.length + ' 总金额:'+data.data.amountReal + '</TEXT>'+
-      '<TEXT x="8" y="24" w="1" h="1" r="0">'+ data.goodsList[i].name +'</TEXT>'
-      for(let j=0;j<data.goodsList[i].sku.length;j++){
-        content+='<TEXT x="8" y="' + (j+2)*24 +'" w="1" h="1" r="0">'+ data.goodsList[i].sku[j].optionValueName +'</TEXT>'
-      }
-      content+= '<TEXT x="8" y="'+(data.goodsList[i].sku.length+2)*24 +'" w="1" h="1" r="0">'+'单价: ￥'+data.goodsList[i].price + '</TEXT>'+
-      '<TEXT x="8" y="166" w="1" h="1" r="0">'+ data.data.orderNumber+ '</TEXT>'+ 
-      '<TEXT x="8" y="190" w="1" h="1" r="0">'+ timeStr + '</TEXT>'+ 
-      '<TEXT x="8" y="214" w="1" h="1" r="0">'+ data.shopInfo.name + '</TEXT>' +   '</PAGE>'
+      content += '<TEXT x="8" y="' + (data.goodsList[i].sku.length + 2) * 24 + '" w="1" h="1" r="0">' + '单价: ￥' + data.goodsList[i].price + '</TEXT>' +
+        '<TEXT x="8" y="166" w="1" h="1" r="0">' + data.data.orderNumber + '</TEXT>' +
+        '<TEXT x="8" y="190" w="1" h="1" r="0">' + timeStr + '</TEXT>' +
+        '<TEXT x="8" y="214" w="1" h="1" r="0">' + data.shopInfo.name + '</TEXT>' + '</PAGE>'
 
     }
   }
-      
-
-       //请求参数
-       let param = {
-         user: userId,
-         timestamp: timstamp,
-         sign: util.sha1(sign),
-         sn: sn,
-         content: content
-         }
-          
-          
-     let header = {
-       "Content-Type": "application/json;charset=UTF-8"
-     }
-   
-       wx.request({
-         url: url,
-         data: param,
-         method: "post",
-         header:header,
-         success: res=>{
-           console.log("标签打印返回：",res)
-         }
-        
-         
-       })
+  //请求参数
+  let param = {
+    user: userId,
+    timestamp: timstamp,
+    sign: util.sha1(sign),
+    sn: sn,
+    content: content
+  }
+  let header = {
+    "Content-Type": "application/json;charset=UTF-8"
+  }
+  wx.request({
+    url: url,
+    data: param,
+    method: "post",
+    header: header,
+    success: res => {
+      console.log("标签打印返回：", res)
     }
-      //打印小票，参数为支付返回的data数据
-      async function print2(data) {
-      
-     // >>>>>>>>> 新增代码开始：获取会员卡状态 <<<<<<<<<
+  })
+}
+/**
+ * 
+ * @param {*} data 
+ */
+//打印小票，参数为支付返回的data数据
+async function print2(data) {
+
+  // >>>>>>>>> 新增代码开始：获取会员卡状态 <<<<<<<<<
   let hasCardStr = '否' // 默认显示否
   try {
     // 调用 API 获取会员卡列表
@@ -204,153 +202,151 @@ function wxpay(type, money, orderId, redirectUrl, data) {
     console.error('获取会员卡状态失败', e)
   }
   // >>>>>>>>> 新增代码结束 <<<<<<<<<
-        //芯烨云打印接口
-         let url = 'https://open.xpyun.net/api/openapi/xprinter/print'      
-         //开发者密钥
-         let userKey = 'b2e9014204774a058bc7e8640e36e8ed'
-         //开发者id xu1271669848@gmail.com
-         let userId = 'xu1271669848@gmail.com'
-         let timstamp = Math.trunc(new Date().getTime()/1000) + ""
-         let sign = userId + userKey + timstamp
-          //打印机序列号，店铺id对应打印机序列号
-          let sn = ''
-          //紫金店
-          if(data.shopInfo.id==2){
-            sn = '74Y4LWMD9R9AF4B'
-          }
-          //未来店
-        else if (data.shopInfo.id==1){
-          sn = '742N30GDRND8E4A'
-        }
-        //塘下店
-        else if (data.shopInfo.id==4){
-          sn = '74S8LPEQ3584048'
-        }
-      
+  //芯烨云打印接口
+  let url = 'https://open.xpyun.net/api/openapi/xprinter/print'
+  //开发者密钥
+  let userKey = 'b2e9014204774a058bc7e8640e36e8ed'
+  //开发者id xu1271669848@gmail.com
+  let userId = 'xu1271669848@gmail.com'
+  let timstamp = Math.trunc(new Date().getTime() / 1000) + ""
+  let sign = userId + userKey + timstamp
+  //打印机序列号，店铺id对应打印机序列号
+  let sn = ''
+  //紫金店
+  if (data.shopInfo.id == 2) {
+    sn = '74Y4LWMD9R9AF4B'
+  }
+  //未来店
+  else if (data.shopInfo.id == 1) {
+    sn = '742N30GDRND8E4A'
+  }
+  //塘下店
+  else if (data.shopInfo.id == 4) {
+    sn = '74S8LPEQ3584048'
+  }
 
-        //丽阳门 钟楼
-        else if (data.shopInfo.id==5){
-          sn = '742TDCUUEG52448'
-        }
 
-        //银泰
-        else if (data.shopInfo.id==6){
-          sn = '746YPYC2M938048'
-        }
-        //金汇店
-        else if (data.shopInfo.id==7){
-          sn = '746M3WQ7371EB4B'
-        }
-        //小转盘店
-        else if (data.shopInfo.id==8){
-          sn = ''
-        }
+  //丽阳门 钟楼
+  else if (data.shopInfo.id == 5) {
+    sn = '742TDCUUEG52448'
+  }
 
-          //义乌
-          else if (data.shopInfo.id==9){
-            sn = '74Q47U9U2NE334A'
-          }
+  //银泰
+  else if (data.shopInfo.id == 6) {
+    sn = '746YPYC2M938048'
+  }
+  //金汇店
+  else if (data.shopInfo.id == 7) {
+    sn = '746M3WQ7371EB4B'
+  }
+  //小转盘店
+  else if (data.shopInfo.id == 8) {
+    sn = ''
+  }
 
-        //银泰
-        else if (data.shopInfo.id==10){
-          sn = '74M60R5MB165A4B'
-        }
+  //义乌
+  else if (data.shopInfo.id == 9) {
+    sn = '74Q47U9U2NE334A'
+  }
 
-        //天津
-        else if (data.shopInfo.id==11){
-          sn = '44PNT1XFVHD8549'
-        }
+  //银泰
+  else if (data.shopInfo.id == 10) {
+    sn = '74M60R5MB165A4B'
+  }
 
-        //金田
-        else if (data.shopInfo.id==12){
-          sn = '74UCT9NHQ03F048'
-        }
+  //天津
+  else if (data.shopInfo.id == 11) {
+    sn = '44PNT1XFVHD8549'
+  }
 
-         //未来里
-         else if (data.shopInfo.id==13){
-          sn = '746YPYC2M938048'
-        }
+  //金田
+  else if (data.shopInfo.id == 12) {
+    sn = '74UCT9NHQ03F048'
+  }
 
-        //汽车
-        else if (data.shopInfo.id==14){
-          sn = '744905VQE26ED4A'
-        }
-  
-          //如果没有打印机，则返回
-          if(!sn){
-            return
-          }
-              //当前日期 时分秒
-        let timeStr = getDate()
-        let content = '<CB>9.8 COFFEE<BR><BR><BR></CB>' +'<TABLE col="22,3,7" w=1 h=1 b=0 lh=68> '
-         
-        for(let i=0;i<data.goodsList.length;i++){
-          content+=  '<tr>'+ data.goodsList[i].name +'<td>' + data.goodsList[i].number +'<td>' + data.goodsList[i].price + '元</tr>'
-          content+='<tr>|'
-          for(let j=0;j<data.goodsList[i].sku.length;j++){
-            content+=data.goodsList[i].sku[j].optionValueName + '|' 
-          }
-          content+='<td> <td> </tr>'
-        }
-        content+='</TABLE>'
-        content+='<R>合计：'+ data.data.amountReal+'元<BR></R><BR>'
-  
-        content+= '<L>下单时间: '+ timeStr + '<BR>'+ 
-        '订单编号: '+ data.data.orderNumber + '<BR>' +
-        '专享卡用户: ' + hasCardStr + '<BR>' +  
-        '用户电话: '+ data.mobile + '<BR>' 
-        if(data.peisongType =='pszq'){
-          content+= '用户地址: '+ data.address + '<BR>' 
-        }
-        content+=  '门店名称: ' + data.shopInfo.name +'<BR>'+
-        '备注: ' + data.remark +'<BR>'
-        content+= '</L>' 
-        
-  
-         //请求参数
-         let param = {
-           user: userId,
-           timestamp: timstamp,
-           sign: util.sha1(sign),
-           sn: sn,
-           content: content
-           }
-            
-            
-       let header = {
-         "Content-Type": "application/json;charset=UTF-8"
-       }
-     
-         wx.request({
-           url: url,
-           data: param,
-           method: "post",
-           header:header,
-           success: res=>{
-             console.log("小票打印返回：",res)
-           }
-          
-           
-         })
-      }
-       //获取当前年月日时分秒，打印时间
-       function getDate(){
-  var now = new Date();
-var year = now.getFullYear(); // 年
-var month = now.getMonth() + 1; // 月
-var day = now.getDate(); // 日
-var hour = now.getHours(); // 时
-var minute = now.getMinutes(); // 分
-var second = now.getSeconds(); // 秒
+  //未来里
+  else if (data.shopInfo.id == 13) {
+    sn = '746YPYC2M938048'
+  }
 
-// 格式化输出
-var timeString = year + "-" + (month < 10 ? "0" + month : month) + "-" + (day < 10 ? "0" + day : day) + " " + (hour < 10 ? "0" + hour : hour) + ":" + (minute < 10 ? "0" + minute : minute) + ":" + (second < 10 ? "0" + second : second);
-return timeString
+  //汽车
+  else if (data.shopInfo.id == 14) {
+    sn = '744905VQE26ED4A'
+  }
 
+  //如果没有打印机，则返回
+  if (!sn) {
+    return
+  }
+  //当前日期 时分秒
+  let timeStr = getDate()
+  let content = '<CB>9.8 COFFEE<BR><BR><BR></CB>' + '<TABLE col="22,3,7" w=1 h=1 b=0 lh=68> '
+
+  for (let i = 0; i < data.goodsList.length; i++) {
+    content += '<tr>' + data.goodsList[i].name + '<td>' + data.goodsList[i].number + '<td>' + data.goodsList[i].price + '元</tr>'
+    content += '<tr>|'
+    for (let j = 0; j < data.goodsList[i].sku.length; j++) {
+      content += data.goodsList[i].sku[j].optionValueName + '|'
+    }
+    content += '<td> <td> </tr>'
+  }
+  content += '</TABLE>'
+  content += '<R>合计：' + data.data.amountReal + '元<BR></R><BR>'
+
+  content += '<L>下单时间: ' + timeStr + '<BR>' +
+    '订单编号: ' + data.data.orderNumber + '<BR>' +
+    '周年卡用户: ' + hasCardStr + '<BR>' +
+    '用户电话: ' + data.mobile + '<BR>'
+  if (data.peisongType == 'pszq') {
+    content += '用户地址: ' + data.address + '<BR>'
+  }
+  content += '门店名称: ' + data.shopInfo.name + '<BR>' +
+    '备注: ' + data.remark + '<BR>'
+  content += '</L>'
+
+
+  //请求参数
+  let param = {
+    user: userId,
+    timestamp: timstamp,
+    sign: util.sha1(sign),
+    sn: sn,
+    content: content
+  }
+
+
+  let header = {
+    "Content-Type": "application/json;charset=UTF-8"
+  }
+
+  wx.request({
+    url: url,
+    data: param,
+    method: "post",
+    header: header,
+    success: res => {
+      console.log("小票打印返回：", res)
+    }
+
+
+  })
 }
+//获取当前年月日时分秒，打印时间
+function getDate() {
+  var now = new Date();
+  var year = now.getFullYear(); // 年
+  var month = now.getMonth() + 1; // 月
+  var day = now.getDate(); // 日
+  var hour = now.getHours(); // 时
+  var minute = now.getMinutes(); // 分
+  var second = now.getSeconds(); // 秒
 
-
-
+  // 格式化输出
+  var timeString = year + "-" + (month < 10 ? "0" + month : month) + "-" + (day < 10 ? "0" + day : day) + " " + (hour < 10 ? "0" + hour : hour) + ":" + (minute < 10 ? "0" + minute : minute) + ":" + (second < 10 ? "0" + second : second);
+  return timeString
+}
 module.exports = {
-  wxpay: wxpay
+  wxpay: wxpay,
+  print,
+  print2
 }
