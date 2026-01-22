@@ -1,7 +1,10 @@
 // pages/pindan/pindan.js
 const WXAPI = require('apifm-wxapi')
 const AUTH = require('../../utils/auth')
-const {print,print2}  = require("../../utils/pay")
+const {
+  print,
+  print2
+} = require("../../utils/pay")
 Page({
 
   /**
@@ -243,23 +246,23 @@ Page({
       pindanId: this.data.id
     }
     const goodList = [];
-    for(const item of this.data.pindanInfo.items) {
+    for (const item of this.data.pindanInfo.items) {
 
       const skus = []
-      for(const name of item.goodsPropertyNames.split()) {
-skus.push({
-  optionValueName: name
-})
+      for (const name of item.goodsPropertyNames.split()) {
+        skus.push({
+          optionValueName: name
+        })
       }
       const goodsInfo = {
         number: item.goodsNumber,
-              name: item.goodsInfo.name,
-              price: this.data.vipLevel > 0?item.amountVip:item.amount,
-              sku: skus
-    }
+        name: item.goodsInfo.name,
+        price: this.data.vipLevel > 0 ? item.amountVip : item.amount,
+        sku: skus
+      }
 
-    goodList.push(goodsInfo)
-  }
+      goodList.push(goodsInfo)
+    }
     WXAPI.wxPayPindan(postData).then(res => {
 
       if (res.code == 0) {
@@ -271,7 +274,7 @@ skus.push({
           //打印标签
           const data = {
             data: {
-              amountReal: 0,
+              amountReal: _this.data.vipLevel == 0?_this.data.total:_this.data.totalVip,
               orderNumber: res.data.payOrderId
             },
             shopInfo: {
@@ -307,12 +310,13 @@ skus.push({
             })
             const data = {
               data: {
-                amountReal: res.data.payAmount,
+                amountReal: _this.data.vipLevel == 0?_this.data.total:_this.data.totalVip,
+
                 orderNumber: res.data.outTradeId
               },
               shopInfo: {
-                id: this.data.shopId,
-                name: this.data.shopName
+                id: _this.data.shopId,
+                name: _this.data.shopName
               },
               goodsList: goodList
             };
